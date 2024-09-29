@@ -27,18 +27,42 @@
         /// </summary>
         private void InitializeComponent()
         {
+            button1 = new Button();
             SuspendLayout();
+            // 
+            // button1
+            // 
+            button1.Location = new Point(31, 28);
+            button1.Name = "button1";
+            button1.Size = new Size(102, 31);
+            button1.TabIndex = 0;
+            button1.Text = "button1";
+            button1.UseVisualStyleBackColor = true;
+
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(9F, 21F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1073, 583);
+            Controls.Add(button1);
             Name = "Form1";
             Text = "Init";
             ResumeLayout(false);
         }
 
+        private Button button1;
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            // Aquí va el código que se ejecutará cuando el botón sea clicado
+            MessageBox.Show("¡Botón presionado!");
+        }
+
+
         #endregion
+
+        
     }
 }
