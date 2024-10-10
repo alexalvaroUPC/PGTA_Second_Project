@@ -56,8 +56,14 @@
 
         private void button1_Click(object sender, EventArgs e)
         {
-            // Aquí va el código que se ejecutará cuando el botón sea clicado
-            MessageBox.Show("¡Botón presionado!");
+            //Seleccion de fichero a abrir
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Archivos binarios asterix(*.ast)|*.ast";
+            openFileDialog.ShowDialog();
+            //StreamReader R = new StreamReader(openFileDialog.FileName);
+            //Lectura y almacenamiento de todos los bytes del fichero en totalBytes
+            AsterixFile readFile = new AsterixFile();
+            readFile.byteOperations(openFileDialog.FileName);
         }
 
 
