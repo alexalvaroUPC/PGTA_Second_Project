@@ -28,8 +28,8 @@ namespace PGTA_Second_Project
                 this.itemList.Add(new message048(dataItem1, dataItem2, dataItem3));
                 i = i + dataLength;
                 k = k + 1;
-                return this.itemList
             }
+            return this.itemList;
         }
     }
 }
