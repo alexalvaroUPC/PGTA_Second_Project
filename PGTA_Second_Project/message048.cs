@@ -46,5 +46,10 @@ namespace PGTA_Second_Project
             }
             return bitArray;
         }
+
+        public int hex2dec(string hexValue)
+        {
+            return Convert.ToInt32(hexValue, 16);
+        }
     }
 }
