@@ -74,6 +74,11 @@ namespace PGTA_Second_Project
             }
             return bitArray;
         }
+
+        public int hex2dec(string hexValue)
+        {
+            return Convert.ToInt32(hexValue, 16);
+        }
         public string timeFinder(int octet1, int octet2, int octet3)
         {
             int[] bits1 = dec2bin(octet1, 8);
