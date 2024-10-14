@@ -81,23 +81,9 @@ namespace PGTA_Second_Project
         }
         public string timeFinder(int octet1, int octet2, int octet3)
         {
-            int[] bits1 = dec2bin(octet1, 8);
-            int[] bits2 = dec2bin(octet2, 8);
-            int[] bits3 = dec2bin(octet3, 8);
-            int[] fullbits = new int[24];
             double foundTime = 0;
-            for (int i = 0; i < bits1.Length; i++)
-            {
-                fullbits[i] = bits1[i];
-            }
-            for (int i = bits1.Length; i < bits1.Length+bits2.Length; i++)
-            {
-                fullbits[i] = bits2[i-bits1.Length];
-            }
-            for (int i = bits1.Length + bits2.Length; i < bits1.Length + bits2.Length + bits3.Length; i++)
-            {
-                fullbits[i] = bits3[i - (bits1.Length + bits2.Length)];
-            }
+            int fullnumber = (octet1 << 16) | (octet2 << 8) | octet3;
+            int[] fullbits = dec2bin(fullnumber, 24);
             for (int i = 0; i < 24; i++)
             {
                 if (fullbits[i] != 0)

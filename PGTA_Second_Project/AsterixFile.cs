@@ -21,7 +21,7 @@ namespace PGTA_Second_Project
                 List<byte> FSPEC = new List<byte>();
                 List<byte> messageBytes = new List<byte>();
 
-                int dataLength = totalBytes[i + 1] + totalBytes[i + 2];
+                int dataLength = (totalBytes[i + 1]<<8) | (totalBytes[i + 2]);
 
                 FSPEC.Add(totalBytes[i + 3]);
                 int messageStart = 4;
