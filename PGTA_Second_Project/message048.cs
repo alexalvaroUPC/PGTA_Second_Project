@@ -13,6 +13,19 @@ namespace PGTA_Second_Project
         private string SAC;
         private string SIC;
         private string timeOfDay;
+        //020 variables
+        private bool Purity = false;
+        private string TYP;
+        private string SIM;
+        private string RDP;
+        private string SPI;
+        private string RAB;
+        private string TST;
+        private string ERR;
+        private string XPP;
+        private string ME;
+        private string MI;
+        private string FOE_FRI;
 
         public message048(int length, List<byte> FSPEC, List<byte> fullMessage)
         {
@@ -20,7 +33,7 @@ namespace PGTA_Second_Project
             this.message = fullMessage;
             int[] arrayFSPEC1 = dec2bin(FSPEC[0], 8);
             int byteCount = 0;
-            if (arrayFSPEC1[0] == 1)
+            if (arrayFSPEC1[0] == 1) 
             {
                 this.SAC = Convert.ToString(fullMessage[byteCount]);
                 this.SIC = Convert.ToString(fullMessage[byteCount+1]);
@@ -33,7 +46,8 @@ namespace PGTA_Second_Project
             }
             if (arrayFSPEC1[2] == 1)
             {
-
+                int count = this.targetReport(fullMessage[byteCount], fullMessage[byteCount+1]);
+                byteCount = byteCount + count;
             }
             if (arrayFSPEC1[3] == 1)
             {
@@ -96,6 +110,199 @@ namespace PGTA_Second_Project
             double seconds = foundTime-3600*hours-60*minutes;
             string timeHHMMSS = $"{ hours } : {minutes} : {seconds}";
             return timeHHMMSS;
+        }
+
+        public int targetReport(int octet1, int octet2)
+        {
+            int count = 1;
+            int[] array1 = this.dec2bin((int)octet1,8);
+            //Check the first three bits to know the type of detection
+            if (array1[0] == 0)
+            {
+                if (array1[1] == 0)
+                {
+                    if (array1[2] == 0)
+                    {
+                        //No detection
+                        this.TYP = "NO DETECTION";
+                        this.Purity = true;
+                    }
+                    else
+                    {
+                        //Single PSR detection
+                        this.TYP = "PSR";
+                        this.Purity = true;
+                    }
+                }
+                else 
+                { 
+                    if (array1[2]==0)
+                    {
+                        //Single SSR detection
+                        this.TYP = "SSR";
+                        this.Purity = true;
+                    }
+                    else
+                    {
+                        //SSR + PSR detection
+                        this.TYP = "SSR+PSR";
+                        this.Purity = true;
+                    }
+                }
+            }
+            else 
+            { 
+                if (array1[1] == 0)
+                {
+                    if (array1[2] == 0)
+                    {
+                        //Single ModeS All-call
+                        this.TYP = "SINGLE ModeS ALL-CALL";
+                    }
+                    else
+                    {
+                        //Single ModeS Roll-call
+                        this.TYP = "SINGLE ModeS ROLL-CALL";
+                    }
+                }
+                else 
+                {
+                    if (array1[2] == 0)
+                    {
+                        //ModeS All-Call + PSR
+                        this.TYP = "ModeS ALL-CALL + PSR";
+                        this.Purity = true;
+                    }
+                    else
+                    {
+                        //Mode S Roll-Call + PSR
+                        this.TYP = "ModeS ROLL-CALL + PSR";
+                        this.Purity = true;
+                    }
+                }
+            }
+            if (array1[3] == 0)
+            {
+                //Actual target report
+                this.SIM = "ACTUAL TARGET REPORT";
+            }
+            else
+            {
+                //Simulated target report
+                this.SIM = "SIMULATED TARGET REPORT";
+            }
+            if (array1[4]==0)
+            {
+                //Report from RDP chain 1
+                this.RDP = "REPORT FROM RDP CHAIN 1";
+            }
+            else
+            {
+                //Report from RDP chain 2
+                this.RDP = "REPORT FROM RDP CHAIN 2";
+            }
+            if (array1[5] == 0)
+            {
+                //No SPI
+                this.SPI = "ABSENCE OF SPI";
+            }
+            else
+            {
+                //Special Position ID
+                this.SPI = "SPI";
+            }
+            if (array1[6] == 0)
+            {
+                //Report from a/c transponder
+                this.RAB = "REPORT FROM A/C TRANSPONDER";
+            }
+            else
+            {
+                //Report from field monitor (fixed transponder)
+                this.RAB = "REPORT FROM FIELD MONITOR (FIXED TRANSPONDER)";
+            }
+            if (array1[7] == 1)
+            {
+                count++;
+                int[] array2 = this.dec2bin((int)octet1, 8);
+                if (array2[0] == 0)
+                {
+                    //Real target report
+                    this.TST = "REAL TARGET REPORT";
+                }
+                else
+                {
+                    //Test target report
+                    this.TST = "TEST TARGET REPORT";
+                }
+                if (array2[1] == 0)
+                {
+                    //No extended range
+                    this.ERR = "NO EXTENDED RANGE";
+                }
+                else
+                {
+                    //Report from RDP chain 2
+                    this.RDP = "EXTENDED RANGE PRESENT";
+                }
+                if (array2[2] == 0)
+                {
+                    //No X-Pulse present
+                    this.XPP = "NO X-PULSE PRESENT";
+                }
+                else
+                {
+                    //X-pulse present
+                    this.XPP = "X-PULSE PRESENT";
+                }
+                if (array2[3] == 0)
+                {
+                    //No military emergency
+                    this.ME = "NO MILITARY EMERGENCY";
+                }
+                else
+                {
+                    //Military emergency
+                    this.ME = "MILITARY EMERGENCY";
+                }
+                if (array2[4] == 0)
+                {
+                    //No military ID
+                    this.MI = "NO MILITARY ID";
+                }
+                else
+                {
+                    //Military ID
+                    this.ME = "MILITARY ID";
+                }
+                if (array2[5] == 0 & array2[6] == 0)
+                {
+                    //No mode 4 interrogation
+                    this.FOE_FRI = "NO MODE 4 INTERROGATION";
+                }
+                else if(array2[5] == 0 & array2[6] == 1)
+                {
+                    //Friendly target
+                    this.FOE_FRI = "FRIENDLY TARGET";
+                }
+                else if (array2[5] == 1 & array2[6] == 0)
+                {
+                    //Unknown target
+                    this.FOE_FRI = "UNKNOWN TARGET";
+                }
+                else if (array2[5] == 1 & array2[6] == 1)
+                {
+                    //No reply
+                    this.FOE_FRI = "NO REPLY";
+                }
+                return count;
+
+            }
+            else
+            {
+                return count;
+            }
+                
         }
     }
 }
