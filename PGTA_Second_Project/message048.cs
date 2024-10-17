@@ -32,6 +32,9 @@ namespace PGTA_Second_Project
         private string mode3G;
         private string mode3L;
         private string mode3squawk;
+        private string flightLevel;
+        private string V090;
+        private string G090;
 
         public message048(int length, List<byte> FSPEC, List<byte> fullMessage)
         {
@@ -69,7 +72,8 @@ namespace PGTA_Second_Project
             }
             if (arrayFSPEC1[5] == 1)
             {
-
+                this.flightLevel = getFightLevel(fullMessage[byteCount], fullMessage[byteCount + 1]);
+                byteCount = byteCount + 2;
             }
             if (arrayFSPEC1[6] == 1)
             {
@@ -111,7 +115,6 @@ namespace PGTA_Second_Project
             return decimalNum;
 
         }
-
         public int hex2dec(string hexValue)
         {
             return Convert.ToInt32(hexValue, 16);
@@ -128,7 +131,6 @@ namespace PGTA_Second_Project
             string timeHHMMSS = $"{ hours } : {minutes} : {seconds}";
             return timeHHMMSS;
         }
-
         public int targetReport(int octet1, int octet2)
         {
             int count = 1;
@@ -321,7 +323,6 @@ namespace PGTA_Second_Project
             }
                 
         }
-
         public string getRHO(int octet1, int octet2)
         {
             double foundRHO = 0;
@@ -333,7 +334,6 @@ namespace PGTA_Second_Project
             string RHO = Convert.ToString(foundRHO);
             return RHO;
         }
-
         public string getTHETA(int octet1, int octet2)
         {
             double foundTHETA = 0;
@@ -345,7 +345,7 @@ namespace PGTA_Second_Project
             string THETA = Convert.ToString(foundTHETA);
             return THETA;
         }
-       public string mode3AOctal(int octet1, int octet2)
+        public string mode3AOctal(int octet1, int octet2)
         {
             int fullnumber = (octet1<<8) | octet2;
             int[] fullbits = dec2bin(fullnumber, 16);
@@ -357,7 +357,7 @@ namespace PGTA_Second_Project
             }
             if (fullbits[1] == 1)
             {
-                this.mode3G = "Garbled";
+                this.mode3G = "Garbled code";
             }
             if (fullbits[2] == 1)
             {
@@ -373,6 +373,29 @@ namespace PGTA_Second_Project
             }
             return squawk;
 
+        }
+        public string getFightLevel(int octet1, int octet2)
+        {
+            int fullNumber = (octet1 << 8) | octet2;
+            int[] fullBits = dec2bin(fullNumber, 16);
+
+            this.V090 = "Validated";
+            this.G090 = "Default";
+
+            if (fullBits[0] == 1)
+            {
+                this.mode3V = "Not validated";
+            }
+            if (fullBits[1] == 1)
+            {
+                this.mode3G = "Garbled code";
+            }
+
+            int[] foundFlightLevel = fullBits.Skip(2).ToArray();
+            double foundFlightLevelDouble = bin2dec(foundFlightLevel)/4;
+
+            string flightLevel = Convert.ToString(foundFlightLevelDouble);
+            return flightLevel;
         }
        
     }
