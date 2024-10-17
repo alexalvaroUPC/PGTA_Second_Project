@@ -47,7 +47,7 @@ namespace PGTA_Second_Project
                 this.RHO = getRHO(fullMessage[byteCount], fullMessage[byteCount + 1]);
                 byteCount = byteCount + 2;
                 this.THETA = getTHETA(fullMessage[byteCount], fullMessage[byteCount + 1]);
-                byteCount++;
+                byteCount = byteCount + 2;
             }
             if (arrayFSPEC1[4] == 1)
             {
@@ -143,8 +143,11 @@ namespace PGTA_Second_Project
         {
             int fullnumber = (octet1<<8) | octet2;
             int[] fullbits = dec2bin(fullnumber, 16);
+            this.mode3V = "Validated";
+            this.mode3G = "Default";
+            this.mode3L = "Derived from reply";
             if (fullbits[0] == 1) {
-                this.mode3V = "Validated";
+                this.mode3V = "Not validated";
             }
             if (fullbits[1] == 1)
             {
