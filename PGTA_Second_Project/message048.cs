@@ -13,6 +13,8 @@ namespace PGTA_Second_Project
         private string SAC;
         private string SIC;
         private string timeOfDay;
+        private string RHO;
+        private string THETA;
 
         public message048(int length, List<byte> FSPEC, List<byte> fullMessage)
         {
@@ -37,7 +39,11 @@ namespace PGTA_Second_Project
             }
             if (arrayFSPEC1[3] == 1)
             {
-                
+                byteCount = byteCount + 1;
+                this.RHO = getRHO(fullMessage[byteCount], fullMessage[byteCount + 1]);
+                byteCount = byteCount + 2;
+                this.THETA = getTHETA(fullMessage[byteCount], fullMessage[byteCount + 1]);
+                byteCount++;
             }
             if (arrayFSPEC1[4] == 1)
             {
@@ -96,6 +102,40 @@ namespace PGTA_Second_Project
             double seconds = foundTime-3600*hours-60*minutes;
             string timeHHMMSS = $"{ hours } : {minutes} : {seconds}";
             return timeHHMMSS;
+        }
+
+        public string getRHO(int octet1, int octet2)
+        {
+            double foundRHO = 0;
+            int fullNumber = (octet1 << 8) | octet2;
+            int[] fullBits = dec2bin(fullNumber, 16);
+            for (int i = 0; i < 16; i++)
+            {
+                if (fullBits[i] != 0)
+                {
+                    foundRHO = foundRHO + Math.Pow(2, 15 - i) * 1 / 256;
+                }
+            }
+
+            string RHO = Convert.ToString(foundRHO);
+            return RHO;
+        }
+
+        public string getTHETA(int octet1, int octet2)
+        {
+            double foundTHETA = 0;
+            int fullNumber = (octet1 << 8) | octet2;
+            int[] fullBits = dec2bin(fullNumber, 16);
+            for (int i = 0; i < 16; i++)
+            {
+                if (fullBits[i] != 0)
+                {
+                    foundTHETA = foundTHETA + Math.Pow(2, 15 - i)*(360/Math.Pow(2, 16));
+                }
+            }
+
+            string THETA = Convert.ToString(foundTHETA);
+            return THETA;
         }
     }
 }
