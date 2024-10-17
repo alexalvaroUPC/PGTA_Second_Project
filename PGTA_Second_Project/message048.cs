@@ -72,7 +72,7 @@ namespace PGTA_Second_Project
             }
             if (arrayFSPEC1[5] == 1)
             {
-                this.flightLevel = getFightLevel(fullMessage[byteCount], fullMessage[byteCount + 1]);
+                this.flightLevel = getFlightLevel(fullMessage[byteCount], fullMessage[byteCount + 1]);
                 byteCount = byteCount + 2;
             }
             if (arrayFSPEC1[6] == 1)
@@ -374,7 +374,7 @@ namespace PGTA_Second_Project
             return squawk;
 
         }
-        public string getFightLevel(int octet1, int octet2)
+        public string getFlightLevel(int octet1, int octet2)
         {
             int fullNumber = (octet1 << 8) | octet2;
             int[] fullBits = dec2bin(fullNumber, 16);
