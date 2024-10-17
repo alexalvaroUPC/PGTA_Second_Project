@@ -51,53 +51,154 @@ namespace PGTA_Second_Project
             this.length = length;
             this.message = fullMessage;
             int[] arrayFSPEC1 = dec2bin(FSPEC[0], 8);
+
             int byteCount = 0;
-            if (arrayFSPEC1[0] == 1) 
+            if (arrayFSPEC1[0] == 1) //Data Source Identifier
             {
                 this.SAC = Convert.ToString(fullMessage[byteCount]);
                 this.SIC = Convert.ToString(fullMessage[byteCount+1]);
                 byteCount = byteCount + 2;
             }
-            if (arrayFSPEC1[1] == 1)
+            if (arrayFSPEC1[1] == 1) //Time of day
             {
                 this.timeOfDay = timeFinder(fullMessage[byteCount], fullMessage[byteCount+1], fullMessage[byteCount+2]);
                 byteCount = byteCount + 3;
             }
-            if (arrayFSPEC1[2] == 1)
+            if (arrayFSPEC1[2] == 1) //Type and Properties of the Target Report and Target Capabilities
             {
                 int count = this.targetReport(fullMessage[byteCount], fullMessage[byteCount+1]);
                 byteCount = byteCount + count;
             }
-            if (arrayFSPEC1[3] == 1)
+            if (arrayFSPEC1[3] == 1) //Measured Position in Slant Polar Coordinates
             {
                 this.RHO = getRHO(fullMessage[byteCount], fullMessage[byteCount + 1]);
                 byteCount = byteCount + 2;
                 this.THETA = getTHETA(fullMessage[byteCount], fullMessage[byteCount + 1]);
                 byteCount = byteCount + 2;
             }
-            if (arrayFSPEC1[4] == 1)
+            if (arrayFSPEC1[4] == 1) //Mode-3/A Code in Octal Representation
             {
                 this.mode3squawk = mode3AOctal(fullMessage[byteCount], fullMessage[byteCount + 1]);
                 byteCount = byteCount + 2;
             }
-            if (arrayFSPEC1[5] == 1)
+            if (arrayFSPEC1[5] == 1) //Flight Level in Binary Representation
             {
                 this.flightLevel = getFlightLevel(fullMessage[byteCount], fullMessage[byteCount + 1]);
                 byteCount = byteCount + 2;
             }
-            if (arrayFSPEC1[6] == 1)
+            if (arrayFSPEC1[6] == 1) //Radial Plot Characteristics
             {
                 int count = this.radarPlot(fullMessage[byteCount], fullMessage[byteCount + 1], 
                     fullMessage[byteCount + 2], fullMessage[byteCount + 3], fullMessage[byteCount + 4],
                     fullMessage[byteCount + 5], fullMessage[byteCount + 6], fullMessage[byteCount + 7]);
                 byteCount = byteCount + count;
             }
-            if (arrayFSPEC1[7] == 1)
+            if (arrayFSPEC1[7] == 1) //Field Extension Indicator
             {
-                int[] arrayFSPEC2 = dec2bin(FSPEC[1], 8);
+                /*
+                int[] arrayFSPEC2 = dec2bin(FSPEC[1], 8);   
+                if (arrayFSPEC2[0] == 1) //Aircraft Address
+               {
+
+               }
+               if (arrayFSPEC2[1] == 1) //Aircraft ID
+               {
+
+               }
+               if (arrayFSPEC2[2] == 1) //Mode S MB Data
+               {
+
+               }
+               if (arrayFSPEC2[3] == 1) //Track Number
+               {
+
+               }
+               if (arrayFSPEC2[4] == 1) //Calculated Poisition in Cartesian Coordinates
+                {
+
+               }
+               if (arrayFSPEC2[5] == 1) //Calculated Track Velocity in Polar Coordinates
+               {
+
+               }
+               if (arrayFSPEC2[6] == 1) //Track Status
+               {
+
+               }
+               if (arrayFSPEC2[7] == 1) //Field Extension Indicator
+                {
+                    int[] arrayFSPEC3 = dec2bin(FSPEC[2], 8);
+                    if (arrayFSPEC3[0] == 1) //Track Quality
+                    {
+
+                    }
+                    if (arrayFSPEC3[1] == 1) //Warning/Error Conditions/Target Classification
+                    {
+
+                    }
+                    if (arrayFSPEC3[2] == 1) //Mode-3/A Code Confidence Indicator
+                    {
+
+                    }
+                    if (arrayFSPEC3[3] == 1) //Mode-C Code and Confidence Indicator
+                    {
+
+                    }
+                    if (arrayFSPEC3[4] == 1) //Height Measured by 3D Radar
+                    {
+
+                    }
+                    if (arrayFSPEC3[5] == 1) //Radial Doppler Speed
+                    {
+
+                    }
+                    if (arrayFSPEC3[6] == 1) //Communications/ACAS Capability and Flight Status
+                    {
+
+                    }
+                    if (arrayFSPEC3[7] == 1) //Field Extension Indicator
+                    {
+                        int[] arrayFSPEC4 = dec2bin(FSPEC[3], 8);
+                        if (arrayFSPEC4[0] == 1) //ACAS Resolution Advisory Report
+                        {
+
+                        }
+                        if (arrayFSPEC4[1] == 1) //Mode-1 Code in Octal Representation
+                        { 
+
+                        }
+                        if (arrayFSPEC4[2] == 1) //Mode-2 Code in Octal Representation
+                        {
+
+                        }
+                        if (arrayFSPEC4[3] == 1) //Mode-1 Code Confidence Indicator
+                        {
+
+                        }
+                        if (arrayFSPEC4[4] == 1) //Mode-2 Code Confidence Indicator
+                        {
+
+                        }
+                        if (arrayFSPEC4[5] == 1) //Special Purpose Field
+                        {
+
+                        }
+                        if (arrayFSPEC4[6] == 1) //Reserved Expansion Field
+                        {
+
+                        }
+                        if (arrayFSPEC4[7] == 1) //Field Extension Indicator
+                        {
+
+                        }
+                    }
+                }
+                */
             }
             return;
         }
+
+
         public int[] dec2bin(int decimalNum, int bitNumber)
         {
             int[] bitArray = new int[bitNumber];
@@ -115,6 +216,8 @@ namespace PGTA_Second_Project
             }
             return bitArray;
         }
+
+
         public double bin2dec(int[] bits) {
             int count = bits.Length;
             double decimalNum = 0;
@@ -128,10 +231,13 @@ namespace PGTA_Second_Project
             return decimalNum;
 
         }
+
+
         public int hex2dec(string hexValue)
         {
             return Convert.ToInt32(hexValue, 16);
         }
+
 
         public int[] twosComplement(int[] a)
         {
@@ -156,7 +262,7 @@ namespace PGTA_Second_Project
             return a;
         }
 
-            public string timeFinder(int octet1, int octet2, int octet3)
+        public string timeFinder(int octet1, int octet2, int octet3)
         {
             double foundTime = 0;
             int fullnumber = (octet1 << 16) | (octet2 << 8) | octet3;
@@ -436,7 +542,7 @@ namespace PGTA_Second_Project
         }
 
         public int radarPlot(int octet1, int octet2, int octet3,
-    int octet4, int octet5, int octet6, int octet7, int octet8)
+            int octet4, int octet5, int octet6, int octet7, int octet8)
         {
             int count = 1;
             int[] array1 = dec2bin((int)octet1, 8);
