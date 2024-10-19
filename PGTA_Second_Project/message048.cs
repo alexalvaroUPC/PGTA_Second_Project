@@ -35,6 +35,16 @@ namespace PGTA_Second_Project
         private string flightLevel;
         private string V090;
         private string G090;
+        //130 variables
+        private string SRL;
+        private string SRR;
+        private string SAM;
+        private string PRL;
+        private string PAM;
+        private string RPD;
+        private string APD;
+
+
 
         public message048(int length, List<byte> FSPEC, List<byte> fullMessage)
         {
@@ -77,7 +87,10 @@ namespace PGTA_Second_Project
             }
             if (arrayFSPEC1[6] == 1)
             {
-
+                int count = this.radarPlot(fullMessage[byteCount], fullMessage[byteCount + 1], 
+                    fullMessage[byteCount + 2], fullMessage[byteCount + 3], fullMessage[byteCount + 4],
+                    fullMessage[byteCount + 5], fullMessage[byteCount + 6], fullMessage[byteCount + 7]);
+                byteCount = byteCount + count;
             }
             if (arrayFSPEC1[7] == 1)
             {
@@ -119,7 +132,31 @@ namespace PGTA_Second_Project
         {
             return Convert.ToInt32(hexValue, 16);
         }
-        public string timeFinder(int octet1, int octet2, int octet3)
+
+        public int[] twosComplement(int[] a)
+        {
+            // Invertir los bits
+            for (int i = 0; i < a.Length; i++)
+            {
+                a[i] = a[i] == 0 ? 1 : 0;
+            }
+            // Sumar 1 al resultado
+            for (int i = a.Length - 1; i >= 0; i--)
+            {
+                if (a[i] == 0)
+                {
+                    a[i] = 1;
+                    break;
+                }
+                else
+                {
+                    a[i] = 0;
+                }
+            }
+            return a;
+        }
+
+            public string timeFinder(int octet1, int octet2, int octet3)
         {
             double foundTime = 0;
             int fullnumber = (octet1 << 16) | (octet2 << 8) | octet3;
@@ -397,6 +434,85 @@ namespace PGTA_Second_Project
             string flightLevel = Convert.ToString(foundFlightLevelDouble);
             return flightLevel;
         }
-       
+
+        public int radarPlot(int octet1, int octet2, int octet3,
+    int octet4, int octet5, int octet6, int octet7, int octet8)
+        {
+            int count = 1;
+            int[] array1 = dec2bin((int)octet1, 8);
+            if (array1[0] == 1) //SRL
+            {
+                count++;
+                string srl = Convert.ToString((double)octet2 * 0.044) + "dg";
+                this.SRL = srl;
+
+            }
+            if (array1[1] == 1) //SRR
+            {
+                count++;
+                string srr = Convert.ToString((double)octet3);
+                this.SRR = srr;
+
+            }
+            if (array1[2] == 1) //SAM
+            {
+                count++;
+                if ((byte)octet4 < 128)
+                {
+                    this.SAM = Convert.ToString(octet4) + "dBm";
+                }
+                else
+                {
+                    this.SAM = Convert.ToString(-bin2dec(twosComplement(dec2bin((int)octet4, 8)))) + "dBm";
+
+                }
+
+            }
+            if (array1[3] == 1) //PRL
+            {
+                count++;
+                string prl = Convert.ToString((double)octet5 * 0.044) + "dg";
+                this.PRL = prl;
+            }
+            if (array1[4] == 1) //PAM
+            {
+                count++;
+                if ((byte)octet6 < 128)
+                {
+                    this.PAM = Convert.ToString(octet6) + "dBm";
+                }
+                else
+                {
+                    this.PAM = Convert.ToString(-bin2dec(twosComplement(dec2bin((int)octet6, 8)))) + "dBm";
+
+                }
+
+            }
+            if (array1[5] == 1) //RPD
+            {
+                count++;
+                if ((byte)octet7 < 128)
+                {
+                    // this.RPD = Convert.ToString(Decimal.Round(Convert.ToDecimal((double)octet7 * 1.0 / 256.0), 3))+"NM";
+                }
+                else
+                {
+
+                    // this.RPD = Convert.ToString(Decimal.Round(Convert.ToDecimal((double)octet7 * 1.0 / 256.0), 3)) + "NM";
+                }
+
+            }
+            if (array1[6] == 1) //APD
+            {
+                count++;
+                if ((byte)octet7 < 128)
+                {
+
+                }
+            }
+            return count;
+
+        }
+
     }
 }
