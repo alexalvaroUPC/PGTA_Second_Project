@@ -47,8 +47,8 @@ namespace PGTA_Second_Project
         private string APD = string.Empty;
         private string cartesianX= string.Empty;
         private string cartesianY = string.Empty;
-
-
+        private string groundSpeedKT = string.Empty;
+        private string Heading = string.Empty;
 
         public message048(int length, List<byte> FSPEC, List<byte> fullMessage)
         {
@@ -129,12 +129,14 @@ namespace PGTA_Second_Project
                 }
                if (arrayFSPEC2[4] == 1) //Calculated Poisition in Cartesian Coordinates
                {
-                    calculateCartesianPosition(fullMessage[byteCount], fullMessage[byteCount + 1],
+                    calculatedCartesianPosition(fullMessage[byteCount], fullMessage[byteCount + 1],
                         fullMessage[byteCount + 2], fullMessage[byteCount + 3]);
                     byteCount = byteCount + 4;
                 }
                if (arrayFSPEC2[5] == 1) //Calculated Track Velocity in Polar Coordinates
                {
+                    calculatedVelocityPolar(fullMessage[byteCount], fullMessage[byteCount + 1],
+                        fullMessage[byteCount + 2], fullMessage[byteCount + 3]);
                     byteCount = byteCount + 4;
                 }
                if (arrayFSPEC2[6] == 1) //Track Status
@@ -721,7 +723,7 @@ namespace PGTA_Second_Project
             this.trackNum = Convert.ToString(fullNumber);
         }
 
-        public void calculateCartesianPosition(int octet1, int octet2, int octet3, int octet4)
+        public void calculatedCartesianPosition(int octet1, int octet2, int octet3, int octet4)
         {
             // Combine the first two octets into a single 16-bit integer for the X coordinate
             int x = (octet1 << 8) | octet2;
@@ -735,6 +737,22 @@ namespace PGTA_Second_Project
             // Store the coordinates as strings
             this.cartesianX = x.ToString();
             this.cartesianY = y.ToString();
+        }
+        public void calculateVelocityPolar(int octet1, int octet2, int octet3, int octet4)
+        {
+            // Combine the first two octets into a single 16-bit integer for the ground speed
+            int groundSpeedRaw = (octet1 << 8) | octet2;
+            // Combine the next two octets into a single 16-bit integer for the heading
+            int headingRaw = (octet3 << 8) | octet4;
+
+            // Convert the raw ground speed to knots (assuming a conversion factor of 0.22)
+            double groundSpeedKnots = Math.Round(groundSpeedRaw * 0.22, 4);
+            // Convert the raw heading to degrees (assuming a full circle is 2^16 units)
+            double headingDegrees = Math.Round(headingRaw * (360.0 / Math.Pow(2.0, 16.0)), 4);
+
+            // Store the ground speed and heading as strings
+            this.groundSpeedKT = groundSpeedKnots.ToString();
+            this.Heading = headingDegrees.ToString();
         }
 
     }
