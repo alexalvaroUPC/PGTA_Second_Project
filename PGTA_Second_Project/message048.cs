@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing.Text;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,39 +11,38 @@ namespace PGTA_Second_Project
     {
         private int length;
         private List<byte> message;
-        private string SAC;
-        private string SIC;
-        private string timeOfDay;
-        //020 variables
+        private string SAC = string.Empty;
+        private string SIC = string.Empty;
+        private string timeOfDay = string.Empty;
+        private string acAddress = string.Empty;
         private bool Purity = false;
-        private string TYP;
-        private string SIM;
-        private string RDP;
-        private string SPI;
-        private string RAB;
-        private string TST;
-        private string ERR;
-        private string XPP;
-        private string ME;
-        private string MI;
-        private string FOE_FRI;
-        private string RHO;
-        private string THETA;
-        private string mode3V;
-        private string mode3G;
-        private string mode3L;
-        private string mode3squawk;
-        private string flightLevel;
-        private string V090;
-        private string G090;
-        //130 variables
-        private string SRL;
-        private string SRR;
-        private string SAM;
-        private string PRL;
-        private string PAM;
-        private string RPD;
-        private string APD;
+        private string TYP = string.Empty;
+        private string SIM = string.Empty;
+        private string RDP = string.Empty;
+        private string SPI = string.Empty;
+        private string RAB = string.Empty;
+        private string TST = string.Empty;
+        private string ERR = string.Empty;
+        private string XPP = string.Empty;
+        private string ME = string.Empty;
+        private string MI = string.Empty;
+        private string FOE_FRI = string.Empty;
+        private string RHO = string.Empty;
+        private string THETA = string.Empty;
+        private string mode3V = string.Empty;
+        private string mode3G = string.Empty;
+        private string mode3L = string.Empty;
+        private string mode3squawk = string.Empty;
+        private string flightLevel = string.Empty;
+        private string V090 = string.Empty;
+        private string G090 = string.Empty;
+        private string SRL = string.Empty;
+        private string SRR = string.Empty;
+        private string SAM = string.Empty;
+        private string PRL = string.Empty;
+        private string PAM = string.Empty;
+        private string RPD = string.Empty;
+        private string APD = string.Empty;
 
 
 
@@ -95,105 +95,112 @@ namespace PGTA_Second_Project
             }
             if (arrayFSPEC1[7] == 1) //Field Extension Indicator
             {
-                /*
-                int[] arrayFSPEC2 = dec2bin(FSPEC[1], 8);   
-                if (arrayFSPEC2[0] == 1) //Aircraft Address
+                
+               int[] arrayFSPEC2 = dec2bin(FSPEC[1], 8);   
+               if (arrayFSPEC2[0] == 1) //Aircraft Address
                {
-
-               }
+                    aircraftAddress(fullMessage[byteCount], fullMessage[byteCount +1], fullMessage[byteCount+2]);
+                    byteCount = byteCount + 3;
+                }
                if (arrayFSPEC2[1] == 1) //Aircraft ID
                {
-
-               }
+                    byteCount = byteCount + 6;
+                }
                if (arrayFSPEC2[2] == 1) //Mode S MB Data
                {
-
-               }
-               if (arrayFSPEC2[3] == 1) //Track Number
+                    //1+8*n length, function must return the length of the message
+                    //byteCount = byteCount + count;
+                }
+                if (arrayFSPEC2[3] == 1) //Track Number
                {
-
-               }
+                    byteCount = byteCount + 2;
+                }
                if (arrayFSPEC2[4] == 1) //Calculated Poisition in Cartesian Coordinates
-                {
-
-               }
+               {
+                    byteCount = byteCount + 4;
+                }
                if (arrayFSPEC2[5] == 1) //Calculated Track Velocity in Polar Coordinates
                {
-
-               }
+                    byteCount = byteCount + 4;
+                }
                if (arrayFSPEC2[6] == 1) //Track Status
                {
-
-               }
-               if (arrayFSPEC2[7] == 1) //Field Extension Indicator
-                {
+                    //1+ length, function must return the length of the message
+                    //byteCount = byteCount + count;
+                }
+                if (arrayFSPEC2[7] == 1) //Field Extension Indicator
+               {
                     int[] arrayFSPEC3 = dec2bin(FSPEC[2], 8);
                     if (arrayFSPEC3[0] == 1) //Track Quality
                     {
-
+                        byteCount = byteCount + 4;
                     }
                     if (arrayFSPEC3[1] == 1) //Warning/Error Conditions/Target Classification
                     {
-
+                        //1+ length, function must return the length of the message
+                        //byteCount = byteCount + count;
                     }
                     if (arrayFSPEC3[2] == 1) //Mode-3/A Code Confidence Indicator
                     {
-
+                        byteCount = byteCount + 2;
                     }
                     if (arrayFSPEC3[3] == 1) //Mode-C Code and Confidence Indicator
                     {
-
+                        byteCount = byteCount + 4;
                     }
                     if (arrayFSPEC3[4] == 1) //Height Measured by 3D Radar
                     {
-
+                        byteCount = byteCount + 2;
                     }
                     if (arrayFSPEC3[5] == 1) //Radial Doppler Speed
                     {
-
+                        //1+ length, function must return the length of the message
+                        //byteCount = byteCount + count;
                     }
                     if (arrayFSPEC3[6] == 1) //Communications/ACAS Capability and Flight Status
                     {
-
+                        byteCount = byteCount + 2;
                     }
                     if (arrayFSPEC3[7] == 1) //Field Extension Indicator
                     {
                         int[] arrayFSPEC4 = dec2bin(FSPEC[3], 8);
                         if (arrayFSPEC4[0] == 1) //ACAS Resolution Advisory Report
                         {
-
+                            byteCount = byteCount + 7;
                         }
                         if (arrayFSPEC4[1] == 1) //Mode-1 Code in Octal Representation
-                        { 
-
+                        {
+                            byteCount = byteCount + 1;
                         }
                         if (arrayFSPEC4[2] == 1) //Mode-2 Code in Octal Representation
                         {
-
+                            byteCount = byteCount + 2;
                         }
                         if (arrayFSPEC4[3] == 1) //Mode-1 Code Confidence Indicator
                         {
-
+                            byteCount = byteCount + 1;
                         }
                         if (arrayFSPEC4[4] == 1) //Mode-2 Code Confidence Indicator
                         {
-
+                            byteCount = byteCount + 2;
                         }
                         if (arrayFSPEC4[5] == 1) //Special Purpose Field
                         {
-
+                            //1+1+ length, function must return the length of the message
+                            //byteCount = byteCount + count;
                         }
                         if (arrayFSPEC4[6] == 1) //Reserved Expansion Field
                         {
-
+                            //1+1+ length, function must return the length of the message
+                            //byteCount = byteCount + count;
                         }
                         if (arrayFSPEC4[7] == 1) //Field Extension Indicator
                         {
-
+                            //n.a
                         }
                     }
-                }
-                */
+               }
+                
             }
             return;
         }
@@ -237,6 +244,8 @@ namespace PGTA_Second_Project
         {
             return Convert.ToInt32(hexValue, 16);
         }
+
+        
 
 
         public int[] twosComplement(int[] a)
@@ -506,7 +515,7 @@ namespace PGTA_Second_Project
             {
                 this.mode3L = "Not extracted during last scan";
             }
-            string squawk = null;
+            string squawk = string.Empty;
             for (int i = 4; i < 16; i+=3) {
                 int[] squawkBits = new int[3];
                 squawkBits[0] = fullbits[i];
@@ -621,6 +630,21 @@ namespace PGTA_Second_Project
             }
             return count;
 
+        }
+        public void aircraftAddress(int octet1, int octet2, int octet3)
+        {
+            StringBuilder addressBuilder = new StringBuilder(6);
+
+            void AppendHex(int octet)
+            {
+                addressBuilder.Append(octet.ToString("X2"));
+            }
+
+            AppendHex(octet1);
+            AppendHex(octet2);
+            AppendHex(octet3);
+
+            this.acAddress = addressBuilder.ToString();
         }
 
     }
