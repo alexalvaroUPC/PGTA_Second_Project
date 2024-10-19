@@ -49,6 +49,15 @@ namespace PGTA_Second_Project
         private string cartesianY = string.Empty;
         private string groundSpeedKT = string.Empty;
         private string Heading = string.Empty;
+        private string CNF = string.Empty;
+        private string RAD = string.Empty;
+        private string DOU = string.Empty;
+        private string MAH = string.Empty;
+        private string CDM = string.Empty;
+        private string TRE = string.Empty;
+        private string GHO = string.Empty;
+        private string SUP = string.Empty;
+        private string TCC = string.Empty;
 
         public message048(int length, List<byte> FSPEC, List<byte> fullMessage)
         {
@@ -141,8 +150,9 @@ namespace PGTA_Second_Project
                 }
                if (arrayFSPEC2[6] == 1) //Track Status
                {
+                    int count = trackStatus(fullMessage[byteCount], fullMessage[byteCount + 1]);
                     //1+ length, function must return the length of the message
-                    //byteCount = byteCount + count;
+                    byteCount = byteCount + count;
                 }
                 if (arrayFSPEC2[7] == 1) //Field Extension Indicator
                {
@@ -754,6 +764,44 @@ namespace PGTA_Second_Project
             this.groundSpeedKT = groundSpeedKnots.ToString();
             this.Heading = headingDegrees.ToString();
         }
+        public int trackStatus(int octet1, int octet2)
+        {
+            // Convert octet1 to a binary array
+            int[] numArray1 = this.dec2bin(octet1, 8);
+
+            // Extract bit 8 for CNF
+            this.CNF = numArray1[0] != 1 ? "CONFIRMED TRACK" : "TENTATIVE TRACK";
+
+            // Extract bits 7-6 for RAD
+            this.RAD = numArray1[1] != 1 ? (numArray1[2] != 1 ? "COMBINED" : "PSR") : (numArray1[2] != 1 ? "SSR/MODE S" : "INVALID");
+
+            // Extract bit 5 for DOU
+            this.DOU = numArray1[3] != 1 ? "NORMAL CONFIDENCE" : "LOW CONFIDENCE";
+
+            // Extract bit 4 for MAH
+            this.MAH = numArray1[4] != 1 ? "NO HORIZONTAL MANEUVER SENSED" : "HORIZONTAL MANEUVER SENSED";
+
+            // Extract bits 3-2 for CDM
+            this.CDM = numArray1[5] != 1 ? (numArray1[6] != 1 ? "MAINTAINING" : "CLIMBING") : (numArray1[6] != 1 ? "DESCENDING" : "UNKNOWN");
+
+            // Check if the second octet is used
+            if (numArray1[7] == 1)
+            {
+                // Convert octet2 to a binary array
+                int[] numArray2 = this.dec2bin(octet2, 8);
+
+                // Extract each bit from the second octet and assign to the corresponding flags
+                this.TRE = numArray2[0] != 1 ? "TRACK ALIVE" : "LAST REPORT";
+                this.GHO = numArray2[1] != 1 ? "TRUE TARGET" : "GHOST TARGET";
+                this.SUP = numArray2[2] != 1 ? "NO" : "YES";
+                this.TCC = numArray2[3] != 1 ? "SLANT RANGE CORRECTION" : "TRACKING IN RADAR PLANE";
+
+                return 2; // Both octets are used
+            }
+
+            return 1; // Only the first octet is used
+        }
+
 
     }
 }
