@@ -45,6 +45,8 @@ namespace PGTA_Second_Project
         private string PAM = string.Empty;
         private string RPD = string.Empty;
         private string APD = string.Empty;
+        private string cartesianX= string.Empty;
+        private string cartesianY = string.Empty;
 
 
 
@@ -127,6 +129,8 @@ namespace PGTA_Second_Project
                 }
                if (arrayFSPEC2[4] == 1) //Calculated Poisition in Cartesian Coordinates
                {
+                    calculateCartesianPosition(fullMessage[byteCount], fullMessage[byteCount + 1],
+                        fullMessage[byteCount + 2], fullMessage[byteCount + 3]);
                     byteCount = byteCount + 4;
                 }
                if (arrayFSPEC2[5] == 1) //Calculated Track Velocity in Polar Coordinates
@@ -715,6 +719,22 @@ namespace PGTA_Second_Project
         {
             int fullNumber = (octet1 << 8) | octet2;
             this.trackNum = Convert.ToString(fullNumber);
+        }
+
+        public void calculateCartesianPosition(int octet1, int octet2, int octet3, int octet4)
+        {
+            // Combine the first two octets into a single 16-bit integer for the X coordinate
+            int x = (octet1 << 8) | octet2;
+            // Combine the next two octets into a single 16-bit integer for the Y coordinate
+            int y = (octet3 << 8) | octet4;
+
+            // Convert from two's complement if necessary
+            if ((x & 0x8000) != 0) x -= 0x10000;
+            if ((y & 0x8000) != 0) y -= 0x10000;
+
+            // Store the coordinates as strings
+            this.cartesianX = x.ToString();
+            this.cartesianY = y.ToString();
         }
 
     }
