@@ -493,12 +493,11 @@ namespace PGTA_Second_Project
                 count++;
                 if ((byte)octet7 < 128)
                 {
-                    // this.RPD = Convert.ToString(Decimal.Round(Convert.ToDecimal((double)octet7 * 1.0 / 256.0), 3))+"NM";
+                    this.RPD = Convert.ToString(Decimal.Round(Convert.ToDecimal((double)octet7 * 1.0 / 256.0), 3))+"NM";
                 }
                 else
                 {
-
-                    // this.RPD = Convert.ToString(Decimal.Round(Convert.ToDecimal((double)octet7 * 1.0 / 256.0), 3)) + "NM";
+                    this.RPD = Convert.ToString(Decimal.Round(Convert.ToDecimal((double) -this.bin2dec(this.twosComplement(this.dec2bin((int)octet7, 8)))* 1.0 / 256.0), 3)) + "NM";
                 }
 
             }
@@ -507,7 +506,11 @@ namespace PGTA_Second_Project
                 count++;
                 if ((byte)octet7 < 128)
                 {
-
+                    this.APD = Convert.ToString(Decimal.Round(Convert.ToDecimal((double)octet8 * 0.02197265625), 3)) + "dg";
+                }
+                else
+                {
+                    this.APD = Convert.ToString(Decimal.Round(Convert.ToDecimal((double)-this.bin2dec(this.twosComplement(this.dec2bin((int)octet8, 8))) * 0.02197265625), 3)) + "dg";
                 }
             }
             return count;
