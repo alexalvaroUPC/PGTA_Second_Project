@@ -15,6 +15,7 @@ namespace PGTA_Second_Project
         private string SIC = string.Empty;
         private string timeOfDay = string.Empty;
         private string acAddress = string.Empty;
+        private string trackNum = string.Empty;
         private string acID = string.Empty;
         private bool Purity = false;
         private string TYP = string.Empty;
@@ -67,7 +68,7 @@ namespace PGTA_Second_Project
             }
             if (arrayFSPEC1[2] == 1) //Type and Properties of the Target Report and Target Capabilities
             {
-                int count = this.targetReport(fullMessage[byteCount], fullMessage[byteCount+1]);
+                int count = targetReport(fullMessage[byteCount], fullMessage[byteCount+1]);
                 byteCount = byteCount + count;
             }
             if (arrayFSPEC1[3] == 1) //Measured Position in Slant Polar Coordinates
@@ -89,7 +90,7 @@ namespace PGTA_Second_Project
             }
             if (arrayFSPEC1[6] == 1) //Radial Plot Characteristics
             {
-                int count = this.radarPlot(fullMessage[byteCount], fullMessage[byteCount + 1], 
+                int count = radarPlot(fullMessage[byteCount], fullMessage[byteCount + 1], 
                     fullMessage[byteCount + 2], fullMessage[byteCount + 3], fullMessage[byteCount + 4],
                     fullMessage[byteCount + 5], fullMessage[byteCount + 6], fullMessage[byteCount + 7]);
                 byteCount = byteCount + count;
@@ -111,11 +112,17 @@ namespace PGTA_Second_Project
                 }
                if (arrayFSPEC2[2] == 1) //Mode S MB Data
                {
+                    /*
+                    int count = ModeSMB(fullMessage[byteCount], fullMessage[byteCount + 1],
+                    fullMessage[byteCount + 2], fullMessage[byteCount + 3], fullMessage[byteCount + 4],
+                    fullMessage[byteCount + 5], fullMessage[byteCount + 6], fullMessage[byteCount + 7]);
                     //1+8*n length, function must return the length of the message
-                    //byteCount = byteCount + count;
+                    byteCount = byteCount + count;
+                    */
                 }
                 if (arrayFSPEC2[3] == 1) //Track Number
                {
+                    trackNumber(fullMessage[byteCount], fullMessage[byteCount + 1]);
                     byteCount = byteCount + 2;
                 }
                if (arrayFSPEC2[4] == 1) //Calculated Poisition in Cartesian Coordinates
@@ -651,7 +658,7 @@ namespace PGTA_Second_Project
         {
             // Combine all octets into a single bit array
             int[] bitArray = new int[48];
-            int[] octets = { octet1, octet2, octet3, octet4, octet5, octet6 };
+            int[] octets = {octet1, octet2, octet3, octet4, octet5, octet6};
             for (int i = 0; i < 6; i++)
             {
                 int[] bits = dec2bin(octets[i], 8);
@@ -696,7 +703,19 @@ namespace PGTA_Second_Project
                 return '?';
             }
         }
+        /*
+        public int ModeSMB(int octet1, int octet2, int octet3, int octet4, int octet5, int octet6, int octet7, int octet8)
+        {
+            int count = 1;
+            return count;
+        }
+        */
 
+        public void trackNumber(int octet1, int octet2)
+        {
+            int fullNumber = (octet1 << 8) | octet2;
+            this.trackNum = Convert.ToString(fullNumber);
+        }
 
     }
 }
