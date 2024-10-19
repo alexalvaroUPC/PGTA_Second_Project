@@ -738,7 +738,7 @@ namespace PGTA_Second_Project
             this.cartesianX = x.ToString();
             this.cartesianY = y.ToString();
         }
-        public void calculateVelocityPolar(int octet1, int octet2, int octet3, int octet4)
+        public void calculatedVelocityPolar(int octet1, int octet2, int octet3, int octet4)
         {
             // Combine the first two octets into a single 16-bit integer for the ground speed
             int groundSpeedRaw = (octet1 << 8) | octet2;
