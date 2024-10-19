@@ -15,6 +15,7 @@ namespace PGTA_Second_Project
         private string SIC = string.Empty;
         private string timeOfDay = string.Empty;
         private string acAddress = string.Empty;
+        private string acID = string.Empty;
         private bool Purity = false;
         private string TYP = string.Empty;
         private string SIM = string.Empty;
@@ -104,6 +105,8 @@ namespace PGTA_Second_Project
                 }
                if (arrayFSPEC2[1] == 1) //Aircraft ID
                {
+                    aircraftID(fullMessage[byteCount], fullMessage[byteCount + 1], fullMessage[byteCount + 2],
+                        fullMessage[byteCount + 3], fullMessage[byteCount + 4], fullMessage[byteCount + 5]);
                     byteCount = byteCount + 6;
                 }
                if (arrayFSPEC2[2] == 1) //Mode S MB Data
@@ -244,9 +247,6 @@ namespace PGTA_Second_Project
         {
             return Convert.ToInt32(hexValue, 16);
         }
-
-        
-
 
         public int[] twosComplement(int[] a)
         {
@@ -646,6 +646,57 @@ namespace PGTA_Second_Project
 
             this.acAddress = addressBuilder.ToString();
         }
+
+        public void aircraftID(int octet1, int octet2, int octet3, int octet4, int octet5, int octet6)
+        {
+            // Combine all octets into a single bit array
+            int[] bitArray = new int[48];
+            int[] octets = { octet1, octet2, octet3, octet4, octet5, octet6 };
+            for (int i = 0; i < 6; i++)
+            {
+                int[] bits = dec2bin(octets[i], 8);
+                Array.Copy(bits, 0, bitArray, i * 8, 8);
+            }
+
+            // Decode each 6-bit segment into a character
+            StringBuilder aircraftIDBuilder = new StringBuilder(8);
+            for (int i = 0; i < 8; i++)
+            {
+                int[] charBits = new int[6];
+                Array.Copy(bitArray, i * 6, charBits, 0, 6);
+                int charValue = (int)bin2dec(charBits);
+                char decodedChar = DecodeChar(charValue);
+                aircraftIDBuilder.Append(decodedChar);
+            }
+
+            // Set the aircraft ID
+            this.acID = aircraftIDBuilder.ToString();
+        }
+
+        private char DecodeChar(int value)
+        {
+            if (value >= 1 && value <= 26)
+            {
+                // A-Z
+                return (char)('A' + value - 1);
+            }
+            else if (value >= 48 && value <= 57)
+            {
+                // 0-9
+                return (char)('0' + value - 48);
+            }
+            else if (value == 32)
+            {
+                // Space
+                return ' ';
+            }
+            else
+            {
+                // Invalid character
+                return '?';
+            }
+        }
+
 
     }
 }
