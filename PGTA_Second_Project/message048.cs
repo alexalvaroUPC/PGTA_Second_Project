@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Drawing.Text;
 using System.Linq;
 using System.Text;
@@ -18,6 +19,7 @@ namespace PGTA_Second_Project
         private string trackNum = string.Empty;
         private string acID = string.Empty;
         private bool Purity = false;
+        private bool Grounded = false;
         private string TYP = string.Empty;
         private string SIM = string.Empty;
         private string RDP = string.Empty;
@@ -58,6 +60,28 @@ namespace PGTA_Second_Project
         private string GHO = string.Empty;
         private string SUP = string.Empty;
         private string TCC = string.Empty;
+        private string BDS = string.Empty;
+        private string MCP_FCU = string.Empty;
+        private string FMS = string.Empty;
+        private string barometricPressureSetting = string.Empty;
+        private string rollAngle = string.Empty;
+        private string trueTrackAngle = string.Empty;
+        private string groundSpeed = string.Empty;
+        private string trueAirspeed = string.Empty;
+        private string magneticHeading = string.Empty;
+        private string IAS = string.Empty;
+        private string machNumber = string.Empty;
+        private string barometricAltitudeRate = string.Empty;
+        private string inertialVerticalVelocity = string.Empty;
+        private string heightMeasured3DRadar = string.Empty;
+        private string COM = string.Empty;
+        private string STAT = string.Empty;
+        private string SI = string.Empty;
+        private string MSSC = string.Empty;
+        private string ARC = string.Empty;
+        private string AIC = string.Empty;
+        private string B1A = string.Empty;
+        private string B1B = string.Empty;
 
         public message048(int length, List<byte> FSPEC, List<byte> fullMessage)
         {
@@ -159,11 +183,14 @@ namespace PGTA_Second_Project
                     int[] arrayFSPEC3 = dec2bin(FSPEC[2], 8);
                     if (arrayFSPEC3[0] == 1) //Track Quality
                     {
+                        // Data Item not accounted for
                         byteCount = byteCount + 4;
                     }
                     if (arrayFSPEC3[1] == 1) //Warning/Error Conditions/Target Classification
                     {
+                        // Data Item not accounted for, but must decode amount of octets
                         //1+ length, function must return the length of the message
+                        //int count = length030(fullMessage[byteCount], fullMessage[byteCount + 1]);
                         //byteCount = byteCount + count;
                     }
                     if (arrayFSPEC3[2] == 1) //Mode-3/A Code Confidence Indicator
@@ -176,6 +203,7 @@ namespace PGTA_Second_Project
                     }
                     if (arrayFSPEC3[4] == 1) //Height Measured by 3D Radar
                     {
+                        heightMeas3DRadar(fullMessage[byteCount], fullMessage[byteCount + 1]);
                         byteCount = byteCount + 2;
                     }
                     if (arrayFSPEC3[5] == 1) //Radial Doppler Speed
@@ -185,6 +213,7 @@ namespace PGTA_Second_Project
                     }
                     if (arrayFSPEC3[6] == 1) //Communications/ACAS Capability and Flight Status
                     {
+                        commsACASCapabilityandFlightStatus(fullMessage[byteCount], fullMessage[byteCount + 1]);
                         byteCount = byteCount + 2;
                     }
                     if (arrayFSPEC3[7] == 1) //Field Extension Indicator
@@ -306,6 +335,7 @@ namespace PGTA_Second_Project
             string timeHHMMSS = $"{ hours } : {minutes} : {seconds}";
             return timeHHMMSS;
         }
+
         public int targetReport(int octet1, int octet2)
         {
             int count = 1;
@@ -602,7 +632,6 @@ namespace PGTA_Second_Project
                 else
                 {
                     this.SAM = Convert.ToString(-bin2dec(twosComplement(dec2bin((int)octet4, 8)))) + "dBm";
-
                 }
 
             }
@@ -622,7 +651,6 @@ namespace PGTA_Second_Project
                 else
                 {
                     this.PAM = Convert.ToString(-bin2dec(twosComplement(dec2bin((int)octet6, 8)))) + "dBm";
-
                 }
 
             }
@@ -662,7 +690,6 @@ namespace PGTA_Second_Project
             {
                 addressBuilder.Append(octet.ToString("X2"));
             }
-
             AppendHex(octet1);
             AppendHex(octet2);
             AppendHex(octet3);
@@ -719,13 +746,14 @@ namespace PGTA_Second_Project
                 return '?';
             }
         }
-        /*
+
+        
         public int ModeSMB(int octet1, int octet2, int octet3, int octet4, int octet5, int octet6, int octet7, int octet8)
         {
             int count = 1;
             return count;
         }
-        */
+        
 
         public void trackNumber(int octet1, int octet2)
         {
@@ -802,6 +830,179 @@ namespace PGTA_Second_Project
             return 1; // Only the first octet is used
         }
 
+        public void heightMeas3DRadar(int octet1, int octet2)
+        {
+            int combined = (octet1 << 8) | octet2;
 
+            // Extract the lower 14 bits (ignore the top 2 bits)
+            int height = combined & 0x3FFF;
+
+            // Check if the value is negative (two's complement)
+            if ((height & 0x2000) != 0) // Check if the 14th bit is set
+            {
+                // Convert to negative value using two's complement
+                height = height - 0x4000;
+            }
+
+            // Convert the height to feet
+            double heightFeet = height * 25;
+            this.heightMeasured3DRadar = heightFeet.ToString();
+        }
+        private void commsACASCapabilityandFlightStatus(int octet1, int octet2)
+        {
+            int combined = (octet1 << 8) | octet2;
+            int[] combinedarray = dec2bin(combined, 16);
+
+            if (combinedarray[0] == 0)
+            {
+                if (combinedarray[1] == 0)
+                {
+                    if (combinedarray[2] == 0)
+                    {
+                        this.COM = "NO COMMS CAPABILITY";
+                    }
+                    else
+                    {
+                        this.COM = "COMM. A AND COMM. B CAPABILITY";
+                    }
+                }
+                else
+                {
+                    if (combinedarray[2] == 0)
+                    {
+                        this.COM = "COMM. A, COMM. B CAPABILITY AND UPLINK ELM";
+                    }
+                    else
+                    {
+                        this.COM = "COMM. A, COMM. B CAPABILITY, UPLINK ELM AND DOWNLINK ELM";
+                    }
+                }
+            }
+            else
+            {
+                if (combinedarray[1] == 0 || combinedarray[2] == 0)
+                {
+                    this.COM = "LEVEL 5 TRANSPONDER CAPABILITIES";
+                }
+            }
+
+            if (combinedarray[3] == 0)
+            {
+                if (combinedarray[4] == 0)
+                {
+                    if (combinedarray[5] == 0)
+                    {
+                        this.STAT = "NO ALERT, NO SPI, AC AIRBORNE";
+                    }
+                    else
+                    {
+                        this.STAT = "NO ALERT, NO SPI, AC GROUNDED";
+                        this.Grounded = true;
+                    }
+                }
+                else
+                {
+                    if (combinedarray[4] == 0)
+                    {
+                        this.STAT = "ALERT, NO SPI, AC AIRBORNE";
+                    }
+                    else
+                    {
+                        this.STAT = "ALERT, NO SPI, AC GROUNDED";
+                        this.Grounded = true;
+                    }
+                }
+            }
+            else
+            {
+                if (combinedarray[4] == 0)
+                {
+                    if (combinedarray[5] == 0)
+                    {
+                        this.STAT = "ALERT, SPI, AC AIRBORNE OR GROUNDED";
+                    }
+                    else
+                    {
+                        this.STAT = "NO ALERT, SPI, AC AIRBORNE OR GROUNDED";
+                    }
+                }
+                else
+                {
+                    if (combinedarray[5] == 0)
+                    {
+                        this.STAT = "NOT ASSIGNED";
+                    }
+                    else
+                    {
+                        this.STAT = "UNKNOWN";
+                    }
+                }
+            }
+
+            if (combinedarray[6] == 0)
+            {
+                this.SI = "SI CODE CAPABILITY";
+            }
+            else
+            {
+                this.SI = "II CODE CAPABILITY";
+            }
+
+            if (combinedarray[8] == 0)
+            {
+                this.MSSC = "YES";
+            }
+            else
+            {
+                this.MSSC = "NO";
+            }
+
+            if (combinedarray[9] == 0)
+            {
+                this.ARC = "100 FT RES";
+            }
+            else
+            {
+                this.ARC = "25 FT RES";
+            }
+
+            if (combinedarray[10] == 0)
+            {
+                this.AIC = "NO";
+            }
+            else
+            {
+                this.AIC = "YES";
+            }
+
+            if (combinedarray[11] == 0)
+            {
+                this.B1A = "BDS 1,0 bit16=0";
+            }
+            else
+            {
+                this.B1A = "BDS 1,0 bit16=1";
+            }
+
+            if (combinedarray[12] == 0)
+            {
+                if (combinedarray[13] == 0)
+                {
+                    if (combinedarray[14] == 0)
+                    {
+                        if (combinedarray[15] == 0)
+                            this.B1B = "BDS 1,0 bits 37/40=0000";
+                        else
+                            this.B1B = "BDS 1,0 bits 37/40=0001";
+                    }
+                    else
+                        this.B1B = combinedarray[15] != 0 ? "BDS 1,0 bits 37/40=0011" : "BDS 1,0 bits 37/40=0010";
+                }
+                else
+                    this.B1B = combinedarray[14] != 0 ? (combinedarray[15] != 0 ? "BDS 1,0 bits 37/40=0111" : "BDS 1,0 bits 37/40=0110") : (combinedarray[15] != 0 ? "BDS 1,0 bits 37/40=0101" : "BDS 1,0 bits 37/40=0100");
+            }
+            else
+                this.B1B = combinedarray[13] != 0 ? (combinedarray[14] != 0 ? (combinedarray[15] != 0 ? "BDS 1,0 bits 37/40=1111" : "BDS 1,0 bits 37/40=1110") : (combinedarray[15] != 0 ? "BDS 1,0 bits 37/40=1101" : "BDS 1,0 bits 37/40=1100")) : (combinedarray[14] != 0 ? (combinedarray[15] != 0 ? "BDS 1,0 bits 37/40=1011" : "BDS 1,0 bits 37/40=1010") : (combinedarray[15] != 0 ? "BDS 1,0 bits 37/40=1001" : "BDS 1,0 bits 37/40=1000"));
+        }
     }
 }
