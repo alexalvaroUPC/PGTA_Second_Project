@@ -10,78 +10,78 @@ namespace PGTA_Second_Project
 {
     public class message048
     {
-        private int length;
-        private List<byte> message;
-        private string SAC = string.Empty;
-        private string SIC = string.Empty;
-        private string timeOfDay = string.Empty;
-        private string acAddress = string.Empty;
-        private string trackNum = string.Empty;
-        private string acID = string.Empty;
-        private bool Purity = false;
-        private bool Grounded = false;
-        private string TYP = string.Empty;
-        private string SIM = string.Empty;
-        private string RDP = string.Empty;
-        private string SPI = string.Empty;
-        private string RAB = string.Empty;
-        private string TST = string.Empty;
-        private string ERR = string.Empty;
-        private string XPP = string.Empty;
-        private string ME = string.Empty;
-        private string MI = string.Empty;
-        private string FOE_FRI = string.Empty;
-        private string RHO = string.Empty;
-        private string THETA = string.Empty;
-        private string mode3V = string.Empty;
-        private string mode3G = string.Empty;
-        private string mode3L = string.Empty;
-        private string mode3squawk = string.Empty;
-        private string flightLevel = string.Empty;
-        private string V090 = string.Empty;
-        private string G090 = string.Empty;
-        private string SRL = string.Empty;
-        private string SRR = string.Empty;
-        private string SAM = string.Empty;
-        private string PRL = string.Empty;
-        private string PAM = string.Empty;
-        private string RPD = string.Empty;
-        private string APD = string.Empty;
-        private string cartesianX= string.Empty;
-        private string cartesianY = string.Empty;
-        private string groundSpeedKT = string.Empty;
-        private string Heading = string.Empty;
-        private string CNF = string.Empty;
-        private string RAD = string.Empty;
-        private string DOU = string.Empty;
-        private string MAH = string.Empty;
-        private string CDM = string.Empty;
-        private string TRE = string.Empty;
-        private string GHO = string.Empty;
-        private string SUP = string.Empty;
-        private string TCC = string.Empty;
-        private string BDS = string.Empty;
-        private string MCP_FCU = string.Empty;
-        private string FMS = string.Empty;
-        private string barometricPressureSetting = string.Empty;
-        private string rollAngle = string.Empty;
-        private string trueTrackAngle = string.Empty;
-        private string groundSpeed = string.Empty;
-        private string trueAirspeed = string.Empty;
-        private string magneticHeading = string.Empty;
-        private string IAS = string.Empty;
-        private string machNumber = string.Empty;
-        private string barometricAltitudeRate = string.Empty;
-        private string inertialVerticalVelocity = string.Empty;
-        private string heightMeasured3DRadar = string.Empty;
-        private string COM = string.Empty;
-        private string STAT = string.Empty;
-        private string SI = string.Empty;
-        private string MSSC = string.Empty;
-        private string ARC = string.Empty;
-        private string AIC = string.Empty;
-        private string B1A = string.Empty;
-        private string B1B = string.Empty;
+        public int length;
+        public List<byte> message;
+        public string SAC = string.Empty;
+        public string SIC = string.Empty;
+        public string timeOfDay = string.Empty;
+        public string acAddress = string.Empty;
+        public string trackNum = string.Empty;
+        public string acID = string.Empty;
+        public bool Purity = false;
+        public bool Grounded = false;
+        public string TYP = string.Empty;
+        public string SIM = string.Empty;
+        public string RDP = string.Empty;
+        public string SPI = string.Empty;
+        public string RAB = string.Empty;
+        public string TST = string.Empty;
+        public string ERR = string.Empty;
+        public string XPP = string.Empty;
+        public string ME = string.Empty;
+        public string MI = string.Empty;
+        public string FOE_FRI = string.Empty;
+        public string RHO = string.Empty;
+        public string THETA = string.Empty;
+        public string mode3V = string.Empty;
+        public string mode3G = string.Empty;
+        public string mode3L = string.Empty;
+        public string mode3squawk = string.Empty;
+        public string flightLevel = string.Empty;
+        public string V090 = string.Empty;
+        public string G090 = string.Empty;
+        public string SRL = string.Empty;
+        public string SRR = string.Empty;
+        public string SAM = string.Empty;
+        public string PRL = string.Empty;
+        public string PAM = string.Empty;
+        public string RPD = string.Empty;
+        public string APD = string.Empty;
+        public string cartesianX= string.Empty;
+        public string cartesianY = string.Empty;
+        public string groundSpeedKT = string.Empty;
+        public string Heading = string.Empty;
+        public string CNF = string.Empty;
+        public string RAD = string.Empty;
+        public string DOU = string.Empty;
+        public string MAH = string.Empty;
+        public string CDM = string.Empty;
+        public string TRE = string.Empty;
+        public string GHO = string.Empty;
+        public string SUP = string.Empty;
+        public string TCC = string.Empty;
+        public string BDS = string.Empty;
+        public string MCP_FCU = string.Empty;
+        public string FMS = string.Empty;
+        public string barometricPressureSetting = string.Empty;
+        public string rollAngle = string.Empty;
+        public string trueTrackAngle = string.Empty;
+        public string groundSpeed = string.Empty;
+        public string trueAirspeed = string.Empty;
+        public string magneticHeading = string.Empty;
+        public string IAS = string.Empty;
+        public string machNumber = string.Empty;
+        public string barometricAltitudeRate = string.Empty;
+        public string inertialVerticalVelocity = string.Empty;
+        public string heightMeasured3DRadar = string.Empty;
+        public string COM = string.Empty;
+        public string STAT = string.Empty;
+        public string SI = string.Empty;
+        public string MSSC = string.Empty;
+        public string ARC = string.Empty;
+        public string AIC = string.Empty;
+        public string B1A = string.Empty;
+        public string B1B = string.Empty;
 
         public message048(int length, List<byte> FSPEC, List<byte> fullMessage)
         {
@@ -174,9 +174,9 @@ namespace PGTA_Second_Project
                 }
                if (arrayFSPEC2[6] == 1) //Track Status
                {
-                    int count = trackStatus(fullMessage[byteCount], fullMessage[byteCount + 1]);
+                    //int count = trackStatus(fullMessage[byteCount], fullMessage[byteCount + 1]);
                     //1+ length, function must return the length of the message
-                    byteCount = byteCount + count;
+                    //byteCount = byteCount + count;
                 }
                 if (arrayFSPEC2[7] == 1) //Field Extension Indicator
                {
@@ -329,10 +329,8 @@ namespace PGTA_Second_Project
             int fullnumber = (octet1 << 16) | (octet2 << 8) | octet3;
             int[] fullbits = dec2bin(fullnumber, 24);
             foundTime = bin2dec(fullbits) / 128;
-            int hours = (int)Math.Floor(foundTime / 3600);
-            int minutes = (int)Math.Floor(foundTime/60 - 60*hours);
-            double seconds = foundTime-3600*hours-60*minutes;
-            string timeHHMMSS = $"{ hours } : {minutes} : {seconds}";
+            TimeSpan formalTime = TimeSpan.FromSeconds(foundTime);
+            string timeHHMMSS = formalTime.ToString(@"hh\:mm\:ss\:fff");
             return timeHHMMSS;
         }
 

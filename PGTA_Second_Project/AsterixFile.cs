@@ -8,7 +8,9 @@ namespace PGTA_Second_Project
 {
     public class AsterixFile
     {
-        List<message048> itemList = new List<message048>();
+        private List<message048> itemList = new List<message048>();
+
+        public List<message048> get048List() { return itemList; }
         public List<message048> byteOperations(string fullFile)
         {
             

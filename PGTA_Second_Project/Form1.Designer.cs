@@ -32,21 +32,22 @@
             // 
             // button1
             // 
-            button1.Location = new Point(31, 28);
+            button1.Location = new Point(620, 411);
+            button1.Margin = new Padding(4, 4, 4, 4);
             button1.Name = "button1";
-            button1.Size = new Size(102, 31);
+            button1.Size = new Size(136, 44);
             button1.TabIndex = 0;
-            button1.Text = "button1";
+            button1.Text = "Select file";
             button1.UseVisualStyleBackColor = true;
-
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            button1.Click += button1_Click;
             // 
             // Form1
             // 
-            AutoScaleDimensions = new SizeF(9F, 21F);
+            AutoScaleDimensions = new SizeF(12F, 30F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1073, 583);
+            ClientSize = new Size(1431, 833);
             Controls.Add(button1);
+            Margin = new Padding(4, 4, 4, 4);
             Name = "Form1";
             Text = "Init";
             ResumeLayout(false);
@@ -64,6 +65,9 @@
             //Lectura y almacenamiento de todos los bytes del fichero en totalBytes
             AsterixFile readFile = new AsterixFile();
             readFile.byteOperations(openFileDialog.FileName);
+            Form2 F2 = new Form2();
+            F2.setMessageList(readFile.get048List());
+            F2.ShowDialog();
         }
 
 
