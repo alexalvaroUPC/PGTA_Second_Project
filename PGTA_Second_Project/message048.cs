@@ -12,83 +12,83 @@ namespace PGTA_Second_Project
     {
         private int length;
         private List<byte> message;
-        private string SAC = string.Empty;
-        private string SIC = string.Empty;
-        private string timeOfDay = string.Empty;
-        private string acAddress = string.Empty;
-        private string trackNum = string.Empty;
-        private string acID = string.Empty;
+        private string SAC = "N/A";
+        private string SIC = "N/A";
+        private string timeOfDay = "N/A";
+        private string acAddress = "N/A";
+        private string trackNum = "N/A";
+        private string acID = "N/A";
         private bool Purity = false;
         private bool Grounded = false;
-        private string TYP = string.Empty;
-        private string SIM = string.Empty;
-        private string RDP = string.Empty;
-        private string SPI = string.Empty;
-        private string RAB = string.Empty;
-        private string TST = string.Empty;
-        private string ERR = string.Empty;
-        private string XPP = string.Empty;
-        private string ME = string.Empty;
-        private string MI = string.Empty;
-        private string FOE_FRI = string.Empty;
-        private string RHO = string.Empty;
-        private string THETA = string.Empty;
-        private string mode3V = string.Empty;
-        private string mode3G = string.Empty;
-        private string mode3L = string.Empty;
-        private string mode3squawk = string.Empty;
-        private string flightLevel = string.Empty;
-        private string V090 = string.Empty;
-        private string G090 = string.Empty;
-        private string SRL = string.Empty;
-        private string SRR = string.Empty;
-        private string SAM = string.Empty;
-        private string PRL = string.Empty;
-        private string PAM = string.Empty;
-        private string RPD = string.Empty;
-        private string APD = string.Empty;
-        private string cartesianX= string.Empty;
-        private string cartesianY = string.Empty;
-        private string groundSpeedKT = string.Empty;
-        private string Heading = string.Empty;
-        private string CNF = string.Empty;
-        private string RAD = string.Empty;
-        private string DOU = string.Empty;
-        private string MAH = string.Empty;
-        private string CDM = string.Empty;
-        private string TRE = string.Empty;
-        private string GHO = string.Empty;
-        private string SUP = string.Empty;
-        private string TCC = string.Empty;
-        private string BDS = string.Empty;
-        private string MCP_FCU = string.Empty;
-        private string FMS = string.Empty;
-        private string barometricPressureSetting = string.Empty;
-        private string rollAngle = string.Empty;
-        private string trueTrackAngle = string.Empty;
-        private string groundSpeed = string.Empty;
-        private string trueAirspeed = string.Empty;
-        private string magneticHeading = string.Empty;
-        private string IAS = string.Empty;
-        private string machNumber = string.Empty;
-        private string barometricAltitudeRate = string.Empty;
-        private string inertialVerticalVelocity = string.Empty;
-        private string heightMeasured3DRadar = string.Empty;
-        private string COM = string.Empty;
-        private string STAT = string.Empty;
-        private string SI = string.Empty;
-        private string MSSC = string.Empty;
-        private string ARC = string.Empty;
-        private string AIC = string.Empty;
-        private string B1A = string.Empty;
-        private string B1B = string.Empty;
+        private bool Fixed = false;
+        private string TYP = "N/A";
+        private string SIM = "N/A";
+        private string RDP = "N/A";
+        private string SPI = "N/A";
+        private string RAB = "N/A";
+        private string TST = "N/A";
+        private string ERR = "N/A";
+        private string XPP = "N/A";
+        private string ME = "N/A";
+        private string MI = "N/A";
+        private string FOE_FRI = "N/A";
+        private string RHO = "N/A";
+        private string THETA = "N/A";
+        private string mode3V = "N/A";
+        private string mode3G = "N/A";
+        private string mode3L = "N/A";
+        private string mode3squawk = "N/A";
+        private string flightLevel = "N/A";
+        private string V090 = "N/A";
+        private string G090 = "N/A";
+        private string SRL = "N/A";
+        private string SRR = "N/A";
+        private string SAM = "N/A";
+        private string PRL = "N/A";
+        private string PAM = "N/A";
+        private string RPD = "N/A";
+        private string APD = "N/A";
+        private string cartesianX = "N/A";
+        private string cartesianY = "N/A";
+        private string groundSpeedKT = "N/A";
+        private string Heading = "N/A";
+        private string CNF = "N/A";
+        private string RAD = "N/A";
+        private string DOU = "N/A";
+        private string MAH = "N/A";
+        private string CDM = "N/A";
+        private string TRE = "N/A";
+        private string GHO = "N/A";
+        private string SUP = "N/A";
+        private string TCC = "N/A";
+        private string BDS = "N/A";
+        private string MCP_FCU = "N/A";
+        private string FMS = "N/A";
+        private string barometricPressureSetting = "N/A";
+        private string rollAngle = "N/A";
+        private string trueTrackAngle = "N/A";
+        private string groundSpeed = "N/A";
+        private string trueAirspeed = "N/A";
+        private string magneticHeading = "N/A";
+        private string IAS = "N/A";
+        private string machNumber = "N/A";
+        private string barometricAltitudeRate = "N/A";
+        private string inertialVerticalVelocity = "N/A";
+        private string heightMeasured3DRadar = "N/A";
+        private string COM = "N/A";
+        private string STAT = "N/A";
+        private string SI = "N/A";
+        private string MSSC = "N/A";
+        private string ARC = "N/A";
+        private string AIC = "N/A";
+        private string B1A = "N/A";
+        private string B1B = "N/A";
 
         public message048(int length, List<byte> FSPEC, List<byte> fullMessage)
         {
             this.length = length;
             this.message = fullMessage;
             int[] arrayFSPEC1 = dec2bin(FSPEC[0], 8);
-
             int byteCount = 0;
             if (arrayFSPEC1[0] == 1) //Data Source Identifier
             {
@@ -132,7 +132,6 @@ namespace PGTA_Second_Project
             }
             if (arrayFSPEC1[7] == 1) //Field Extension Indicator
             {
-                
                int[] arrayFSPEC2 = dec2bin(FSPEC[1], 8);   
                if (arrayFSPEC2[0] == 1) //Aircraft Address
                {
@@ -147,20 +146,30 @@ namespace PGTA_Second_Project
                 }
                if (arrayFSPEC2[2] == 1) //Mode S MB Data
                {
-                    /*
-                    int count = ModeSMB(fullMessage[byteCount], fullMessage[byteCount + 1],
-                    fullMessage[byteCount + 2], fullMessage[byteCount + 3], fullMessage[byteCount + 4],
-                    fullMessage[byteCount + 5], fullMessage[byteCount + 6], fullMessage[byteCount + 7]);
-                    //1+8*n length, function must return the length of the message
-                    byteCount = byteCount + count;
-                    */
+                    int repetitionFactor = fullMessage[byteCount];
+                    byteCount++;
+                    for (int i = 0; i < repetitionFactor; i++)
+                    {
+                        int octet1 = fullMessage[byteCount];
+                        int octet2 = fullMessage[byteCount + 1];
+                        int octet3 = fullMessage[byteCount + 2];
+                        int octet4 = fullMessage[byteCount + 3];
+                        int octet5 = fullMessage[byteCount + 4];
+                        int octet6 = fullMessage[byteCount + 5];
+                        int octet7 = fullMessage[byteCount + 6];
+                        int octet8 = fullMessage[byteCount + 7];
+
+                        // Code to be executed for each iteration
+                        byteCount = byteCount + 8;
+                    }
+                    
                 }
-                if (arrayFSPEC2[3] == 1) //Track Number
+               if (arrayFSPEC2[3] == 1) //Track Number
                {
                     trackNumber(fullMessage[byteCount], fullMessage[byteCount + 1]);
                     byteCount = byteCount + 2;
                 }
-               if (arrayFSPEC2[4] == 1) //Calculated Poisition in Cartesian Coordinates
+               if (arrayFSPEC2[4] == 1) //Calculated Position in Cartesian Coordinates
                {
                     calculatedCartesianPosition(fullMessage[byteCount], fullMessage[byteCount + 1],
                         fullMessage[byteCount + 2], fullMessage[byteCount + 3]);
@@ -178,7 +187,7 @@ namespace PGTA_Second_Project
                     //1+ length, function must return the length of the message
                     byteCount = byteCount + count;
                 }
-                if (arrayFSPEC2[7] == 1) //Field Extension Indicator
+               if (arrayFSPEC2[7] == 1) //Field Extension Indicator
                {
                     int[] arrayFSPEC3 = dec2bin(FSPEC[2], 8);
                     if (arrayFSPEC3[0] == 1) //Track Quality
@@ -255,11 +264,9 @@ namespace PGTA_Second_Project
                         }
                     }
                }
-                
             }
             return;
         }
-
 
         public int[] dec2bin(int decimalNum, int bitNumber)
         {
@@ -279,7 +286,6 @@ namespace PGTA_Second_Project
             return bitArray;
         }
 
-
         public double bin2dec(int[] bits) {
             int count = bits.Length;
             double decimalNum = 0;
@@ -293,7 +299,6 @@ namespace PGTA_Second_Project
             return decimalNum;
 
         }
-
 
         public int hex2dec(string hexValue)
         {
@@ -528,6 +533,7 @@ namespace PGTA_Second_Project
             }
                 
         }
+
         public string getRHO(int octet1, int octet2)
         {
             double foundRHO = 0;
@@ -539,6 +545,7 @@ namespace PGTA_Second_Project
             string RHO = Convert.ToString(foundRHO);
             return RHO;
         }
+
         public string getTHETA(int octet1, int octet2)
         {
             double foundTHETA = 0;
@@ -550,6 +557,7 @@ namespace PGTA_Second_Project
             string THETA = Convert.ToString(foundTHETA);
             return THETA;
         }
+
         public string mode3AOctal(int octet1, int octet2)
         {
             int fullnumber = (octet1<<8) | octet2;
@@ -579,6 +587,7 @@ namespace PGTA_Second_Project
             return squawk;
 
         }
+
         public string getFlightLevel(int octet1, int octet2)
         {
             int fullNumber = (octet1 << 8) | octet2;
@@ -682,6 +691,7 @@ namespace PGTA_Second_Project
             return count;
 
         }
+
         public void aircraftAddress(int octet1, int octet2, int octet3)
         {
             StringBuilder addressBuilder = new StringBuilder(6);
@@ -747,14 +757,12 @@ namespace PGTA_Second_Project
             }
         }
 
-        
         public int ModeSMB(int octet1, int octet2, int octet3, int octet4, int octet5, int octet6, int octet7, int octet8)
         {
             int count = 1;
             return count;
         }
         
-
         public void trackNumber(int octet1, int octet2)
         {
             int fullNumber = (octet1 << 8) | octet2;
@@ -776,6 +784,7 @@ namespace PGTA_Second_Project
             this.cartesianX = x.ToString();
             this.cartesianY = y.ToString();
         }
+
         public void calculatedVelocityPolar(int octet1, int octet2, int octet3, int octet4)
         {
             // Combine the first two octets into a single 16-bit integer for the ground speed
@@ -792,6 +801,7 @@ namespace PGTA_Second_Project
             this.groundSpeedKT = groundSpeedKnots.ToString();
             this.Heading = headingDegrees.ToString();
         }
+
         public int trackStatus(int octet1, int octet2)
         {
             // Convert octet1 to a binary array
@@ -848,6 +858,7 @@ namespace PGTA_Second_Project
             double heightFeet = height * 25;
             this.heightMeasured3DRadar = heightFeet.ToString();
         }
+
         private void commsACASCapabilityandFlightStatus(int octet1, int octet2)
         {
             int combined = (octet1 << 8) | octet2;
