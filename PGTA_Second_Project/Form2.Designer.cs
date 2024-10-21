@@ -30,6 +30,7 @@
         {
             tableLayoutPanel1 = new TableLayoutPanel();
             button1 = new Button();
+            button2 = new Button();
             SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -58,11 +59,22 @@
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
             // 
+            // button2
+            // 
+            button2.Location = new Point(1246, 546);
+            button2.Name = "button2";
+            button2.Size = new Size(242, 100);
+            button2.TabIndex = 2;
+            button2.Text = "Access to simulator";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
+            // 
             // Form2
             // 
             AutoScaleDimensions = new SizeF(12F, 30F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1639, 752);
+            Controls.Add(button2);
             Controls.Add(button1);
             Controls.Add(tableLayoutPanel1);
             Name = "Form2";
@@ -74,5 +86,6 @@
 
         private TableLayoutPanel tableLayoutPanel1;
         private Button button1;
+        private Button button2;
     }
 }

@@ -7,10 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using CsvHelper;
 using System.Globalization;
 using System.IO;
-using CsvHelper.Configuration;
+using GMap.NET;
 namespace PGTA_Second_Project
 {
     public partial class Form2 : Form
@@ -30,13 +29,13 @@ namespace PGTA_Second_Project
             fileSaver.Filter = "Archivo CSV (*.csv) | *.csv";
             fileSaver.ShowDialog();
             int csvStatus = csvExport(fileSaver.FileName);
-            
+
         }
         public int csvExport(string path)
         {
             using (var writer = new StreamWriter(path))
             {
-                string delimiter = ",";
+                string delimiter = ";";
                 string columnHeaders = "SAC" + delimiter + "SIC" + delimiter + "TIME" + delimiter + "TIME(s)" + delimiter +
                     "LAT" + delimiter + "LON" + delimiter + "H" + delimiter + "TYP_020" + delimiter + "SIM_020" + delimiter +
                     "RDP_020" + delimiter + "SPI_020" + delimiter + "RAB_020" + delimiter + "TST_020" + delimiter + "ERR_020" + delimiter +
@@ -52,24 +51,36 @@ namespace PGTA_Second_Project
                     "CDM_170" + delimiter + "TRE_170" + delimiter + "GHO_170" + delimiter + "SUP_170" + delimiter + "TCC_170" + delimiter +
                     "HEIGHT" + delimiter + "COM_230" + delimiter + "STAT_230" + delimiter + "SI_230" + delimiter + "MSCC_230" + delimiter +
                     "ARC_230" + delimiter + "AIC_230" + delimiter + "B1A_230" + delimiter + "B1B_230";
-                    ;
+                ;
                 writer.WriteLine(columnHeaders);
-                
+
                 for (int i = 0; i < this.message048s.Count; i++)
                 {
                     message048 curMes = this.message048s[i];
                     string timeSeconds = toSeconds(curMes.timeOfDay);
-                    string line = curMes.SAC + delimiter + curMes.SIC + delimiter + curMes.timeOfDay+ delimiter + timeSeconds;
+                    string line = curMes.SAC + delimiter + curMes.SIC + delimiter + curMes.timeOfDay + delimiter + timeSeconds;
                     writer.WriteLine(line);
                 }
             }
-                
+
             return 0;
         }
         private string toSeconds(string timeHHMMSS)
         {
             DateTime dt = DateTime.ParseExact(timeHHMMSS, "hh:mm:ss:fff", CultureInfo.InvariantCulture);
             return Convert.ToString(Convert.ToInt32(dt.TimeOfDay.TotalSeconds));
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Form3 F3 = new Form3();
+            F3.setData(this.message048s);
+            F3.ShowDialog();
+        }
+
+        private void gMapControl1_Load(object sender, EventArgs e)
+        {
+            
         }
     }
 }

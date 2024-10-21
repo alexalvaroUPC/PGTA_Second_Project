@@ -191,9 +191,18 @@ namespace PGTA_Second_Project
                 }
                if (arrayFSPEC2[6] == 1) //Track Status
                {
-                    //int count = trackStatus(fullMessage[byteCount], fullMessage[byteCount + 1]);
+                    List<byte> usedOctets = new List<byte>();
+                    usedOctets.Add(fullMessage[byteCount]);
+                    for (int k = byteCount+1; k < fullMessage.Count; k++)
+                    {
+                        if (fullMessage[k]%2 == 1)
+                        {
+                            usedOctets.Add(fullMessage[k]);
+                        }
+                    }
+                    int count = trackStatus(usedOctets);
                     //1+ length, function must return the length of the message
-                    //byteCount = byteCount + count;
+                    byteCount = byteCount + count;
                 }
                if (arrayFSPEC2[7] == 1) //Field Extension Indicator
                {
@@ -205,10 +214,14 @@ namespace PGTA_Second_Project
                     }
                     if (arrayFSPEC3[1] == 1) //Warning/Error Conditions/Target Classification
                     {
-                        // Data Item not accounted for, but must decode amount of octets
-                        //1+ length, function must return the length of the message
-                        //int count = length030(fullMessage[byteCount], fullMessage[byteCount + 1]);
-                        //byteCount = byteCount + count;
+                        for (int k = byteCount; k < fullMessage.Count(); k++)
+                        {
+                            byteCount++;
+                            if (fullMessage[k] % 2 != 1)
+                            {
+                                break;
+                            }
+                        }
                     }
                     if (arrayFSPEC3[2] == 1) //Mode-3/A Code Confidence Indicator
                     {
@@ -235,6 +248,8 @@ namespace PGTA_Second_Project
                     }
                     if (arrayFSPEC3[7] == 1) //Field Extension Indicator
                     {
+                        //DUE TO READING BYTES FROM FRONT TO BACK, ONCE WE REACH THE POINT WHERE FUTURE OCTETS ARE NOT NEEDED, WE DON'T NEED TO COUNT ANYMORE
+                        /*
                         int[] arrayFSPEC4 = dec2bin(FSPEC[3], 8);
                         if (arrayFSPEC4[0] == 1) //ACAS Resolution Advisory Report
                         {
@@ -270,6 +285,7 @@ namespace PGTA_Second_Project
                         {
                             //n.a
                         }
+                        */
                     }
                }
             }
@@ -808,8 +824,10 @@ namespace PGTA_Second_Project
             this.Heading = headingDegrees.ToString();
         }
 
-        public int trackStatus(int octet1, int octet2)
+        public int trackStatus(List<byte> validOctets)
         {
+            int octet1 = validOctets[0];
+
             // Convert octet1 to a binary array
             int[] numArray1 = this.dec2bin(octet1, 8);
 
@@ -831,6 +849,7 @@ namespace PGTA_Second_Project
             // Check if the second octet is used
             if (numArray1[7] == 1)
             {
+                int octet2 = validOctets[1];
                 // Convert octet2 to a binary array
                 int[] numArray2 = this.dec2bin(octet2, 8);
 
