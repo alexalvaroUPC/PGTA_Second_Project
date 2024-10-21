@@ -191,9 +191,9 @@ namespace PGTA_Second_Project
                 }
                if (arrayFSPEC2[6] == 1) //Track Status
                {
-                    int count = trackStatus(fullMessage[byteCount], fullMessage[byteCount + 1]);
+                    //int count = trackStatus(fullMessage[byteCount], fullMessage[byteCount + 1]);
                     //1+ length, function must return the length of the message
-                    byteCount = byteCount + count;
+                    //byteCount = byteCount + count;
                 }
                if (arrayFSPEC2[7] == 1) //Field Extension Indicator
                {
@@ -1022,7 +1022,7 @@ namespace PGTA_Second_Project
                 this.B1B = combinedarray[13] != 0 ? (combinedarray[14] != 0 ? (combinedarray[15] != 0 ? "BDS 1,0 bits 37/40=1111" : "BDS 1,0 bits 37/40=1110") : (combinedarray[15] != 0 ? "BDS 1,0 bits 37/40=1101" : "BDS 1,0 bits 37/40=1100")) : (combinedarray[14] != 0 ? (combinedarray[15] != 0 ? "BDS 1,0 bits 37/40=1011" : "BDS 1,0 bits 37/40=1010") : (combinedarray[15] != 0 ? "BDS 1,0 bits 37/40=1001" : "BDS 1,0 bits 37/40=1000"));
         }
 
-        private void modeSMBdecoding(List<byte[]> data)
+        private void modeSMBdecoding(List<byte> data)
         {
 
         }
