@@ -12,77 +12,77 @@ namespace PGTA_Second_Project
     {
         private int length;
         private List<byte> message;
-        private string SAC = "N/A";
-        private string SIC = "N/A";
-        private string timeOfDay = "N/A";
-        private string acAddress = "N/A";
-        private string trackNum = "N/A";
-        private string acID = "N/A";
-        private bool Purity = false;
-        private bool Grounded = false;
-        private bool Fixed = false;
-        private string TYP = "N/A";
-        private string SIM = "N/A";
-        private string RDP = "N/A";
-        private string SPI = "N/A";
-        private string RAB = "N/A";
-        private string TST = "N/A";
-        private string ERR = "N/A";
-        private string XPP = "N/A";
-        private string ME = "N/A";
-        private string MI = "N/A";
-        private string FOE_FRI = "N/A";
-        private string RHO = "N/A";
-        private string THETA = "N/A";
-        private string mode3V = "N/A";
-        private string mode3G = "N/A";
-        private string mode3L = "N/A";
-        private string mode3squawk = "N/A";
-        private string flightLevel = "N/A";
-        private string V090 = "N/A";
-        private string G090 = "N/A";
-        private string SRL = "N/A";
-        private string SRR = "N/A";
-        private string SAM = "N/A";
-        private string PRL = "N/A";
-        private string PAM = "N/A";
-        private string RPD = "N/A";
-        private string APD = "N/A";
-        private string cartesianX = "N/A";
-        private string cartesianY = "N/A";
-        private string groundSpeedKT = "N/A";
-        private string Heading = "N/A";
-        private string CNF = "N/A";
-        private string RAD = "N/A";
-        private string DOU = "N/A";
-        private string MAH = "N/A";
-        private string CDM = "N/A";
-        private string TRE = "N/A";
-        private string GHO = "N/A";
-        private string SUP = "N/A";
-        private string TCC = "N/A";
-        private string BDS = "N/A";
-        private string MCP_FCU = "N/A";
-        private string FMS = "N/A";
-        private string barometricPressureSetting = "N/A";
-        private string rollAngle = "N/A";
-        private string trueTrackAngle = "N/A";
-        private string groundSpeed = "N/A";
-        private string trueAirspeed = "N/A";
-        private string magneticHeading = "N/A";
-        private string IAS = "N/A";
-        private string machNumber = "N/A";
-        private string barometricAltitudeRate = "N/A";
-        private string inertialVerticalVelocity = "N/A";
-        private string heightMeasured3DRadar = "N/A";
-        private string COM = "N/A";
-        private string STAT = "N/A";
-        private string SI = "N/A";
-        private string MSSC = "N/A";
-        private string ARC = "N/A";
-        private string AIC = "N/A";
-        private string B1A = "N/A";
-        private string B1B = "N/A";
+        public string SAC = "N/A";
+        public string SIC = "N/A";
+        public string timeOfDay = "N/A";
+        public string acAddress = "N/A";
+        public string trackNum = "N/A";
+        public string acID = "N/A";
+        public bool Purity = false;
+        public bool Grounded = false;
+        public bool Fixed = false;
+        public string TYP = "N/A";
+        public string SIM = "N/A";
+        public string RDP = "N/A";
+        public string SPI = "N/A";
+        public string RAB = "N/A";
+        public string TST = "N/A";
+        public string ERR = "N/A";
+        public string XPP = "N/A";
+        public string ME = "N/A";
+        public string MI = "N/A";
+        public string FOE_FRI = "N/A";
+        public string RHO = "N/A";
+        public string THETA = "N/A";
+        public string mode3V = "N/A";
+        public string mode3G = "N/A";
+        public string mode3L = "N/A";
+        public string mode3squawk = "N/A";
+        public string flightLevel = "N/A";
+        public string V090 = "N/A";
+        public string G090 = "N/A";
+        public string SRL = "N/A";
+        public string SRR = "N/A";
+        public string SAM = "N/A";
+        public string PRL = "N/A";
+        public string PAM = "N/A";
+        public string RPD = "N/A";
+        public string APD = "N/A";
+        public string cartesianX = "N/A";
+        public string cartesianY = "N/A";
+        public string groundSpeedKT = "N/A";
+        public string Heading = "N/A";
+        public string CNF = "N/A";
+        public string RAD = "N/A";
+        public string DOU = "N/A";
+        public string MAH = "N/A";
+        public string CDM = "N/A";
+        public string TRE = "N/A";
+        public string GHO = "N/A";
+        public string SUP = "N/A";
+        public string TCC = "N/A";
+        public string BDS = "N/A";
+        public string MCP_FCU = "N/A";
+        public string FMS = "N/A";
+        public string barometricPressureSetting = "N/A";
+        public string rollAngle = "N/A";
+        public string trueTrackAngle = "N/A";
+        public string groundSpeed = "N/A";
+        public string trueAirspeed = "N/A";
+        public string magneticHeading = "N/A";
+        public string IAS = "N/A";
+        public string machNumber = "N/A";
+        public string barometricAltitudeRate = "N/A";
+        public string inertialVerticalVelocity = "N/A";
+        public string heightMeasured3DRadar = "N/A";
+        public string COM = "N/A";
+        public string STAT = "N/A";
+        public string SI = "N/A";
+        public string MSSC = "N/A";
+        public string ARC = "N/A";
+        public string AIC = "N/A";
+        public string B1A = "N/A";
+        public string B1B = "N/A";
 
         public message048(int length, List<byte> FSPEC, List<byte> fullMessage)
         {
@@ -147,9 +147,11 @@ namespace PGTA_Second_Project
                if (arrayFSPEC2[2] == 1) //Mode S MB Data
                {
                     int repetitionFactor = fullMessage[byteCount];
+                    List <byte> usedOctets = new List <byte>();
                     byteCount++;
                     for (int i = 0; i < repetitionFactor; i++)
                     {
+                        /*
                         int octet1 = fullMessage[byteCount];
                         int octet2 = fullMessage[byteCount + 1];
                         int octet3 = fullMessage[byteCount + 2];
@@ -158,10 +160,16 @@ namespace PGTA_Second_Project
                         int octet6 = fullMessage[byteCount + 5];
                         int octet7 = fullMessage[byteCount + 6];
                         int octet8 = fullMessage[byteCount + 7];
-
+                        */
+                        for (int j = 0; j < 8; j++)
+                        {
+                            usedOctets.Add(fullMessage[byteCount + j]);
+                            byteCount++;
+                        }
                         // Code to be executed for each iteration
-                        byteCount = byteCount + 8;
+                        //byteCount = byteCount + 8;
                     }
+                    modeSMBdecoding(usedOctets); //byteCount is already uptaded in loop
                     
                 }
                if (arrayFSPEC2[3] == 1) //Track Number
@@ -1012,6 +1020,11 @@ namespace PGTA_Second_Project
             }
             else
                 this.B1B = combinedarray[13] != 0 ? (combinedarray[14] != 0 ? (combinedarray[15] != 0 ? "BDS 1,0 bits 37/40=1111" : "BDS 1,0 bits 37/40=1110") : (combinedarray[15] != 0 ? "BDS 1,0 bits 37/40=1101" : "BDS 1,0 bits 37/40=1100")) : (combinedarray[14] != 0 ? (combinedarray[15] != 0 ? "BDS 1,0 bits 37/40=1011" : "BDS 1,0 bits 37/40=1010") : (combinedarray[15] != 0 ? "BDS 1,0 bits 37/40=1001" : "BDS 1,0 bits 37/40=1000"));
+        }
+
+        private void modeSMBdecoding(List<byte[]> data)
+        {
+
         }
     }
 }
