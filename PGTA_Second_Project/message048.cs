@@ -15,6 +15,7 @@ namespace PGTA_Second_Project
         public string SAC = "N/A";
         public string SIC = "N/A";
         public string timeOfDay = "N/A";
+        public int timeInSeconds;
         public string acAddress = "N/A";
         public string trackNum = "N/A";
         public string acID = "N/A";
@@ -358,6 +359,7 @@ namespace PGTA_Second_Project
             int fullnumber = (octet1 << 16) | (octet2 << 8) | octet3;
             int[] fullbits = dec2bin(fullnumber, 24);
             foundTime = bin2dec(fullbits) / 128;
+            this.timeInSeconds = (int) foundTime;
             TimeSpan formalTime = TimeSpan.FromSeconds(foundTime);
             string timeHHMMSS = formalTime.ToString(@"hh\:mm\:ss\:fff");
             return timeHHMMSS;

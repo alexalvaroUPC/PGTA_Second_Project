@@ -28,7 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             gMapControl1 = new GMap.NET.WindowsForms.GMapControl();
+            timer1 = new System.Windows.Forms.Timer(components);
+            button1 = new Button();
             SuspendLayout();
             // 
             // gMapControl1
@@ -58,11 +61,27 @@
             gMapControl1.Zoom = 2D;
             gMapControl1.Load += gMapControl1_Load;
             // 
+            // timer1
+            // 
+            timer1.Interval = 1000;
+            timer1.Tick += timer1_Tick;
+            // 
+            // button1
+            // 
+            button1.Location = new Point(1518, 156);
+            button1.Name = "button1";
+            button1.Size = new Size(155, 58);
+            button1.TabIndex = 1;
+            button1.Text = "Start";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
+            // 
             // Form3
             // 
             AutoScaleDimensions = new SizeF(12F, 30F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1576, 903);
+            ClientSize = new Size(1700, 903);
+            Controls.Add(button1);
             Controls.Add(gMapControl1);
             Name = "Form3";
             Text = "Form3";
@@ -72,5 +91,7 @@
         #endregion
 
         private GMap.NET.WindowsForms.GMapControl gMapControl1;
+        private System.Windows.Forms.Timer timer1;
+        private Button button1;
     }
 }

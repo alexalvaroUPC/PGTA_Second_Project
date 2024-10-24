@@ -57,18 +57,12 @@ namespace PGTA_Second_Project
                 for (int i = 0; i < this.message048s.Count; i++)
                 {
                     message048 curMes = this.message048s[i];
-                    string timeSeconds = toSeconds(curMes.timeOfDay);
-                    string line = curMes.SAC + delimiter + curMes.SIC + delimiter + curMes.timeOfDay + delimiter + timeSeconds;
+                    string line = curMes.SAC + delimiter + curMes.SIC + delimiter + curMes.timeOfDay + delimiter + Convert.ToString(curMes.timeInSeconds);
                     writer.WriteLine(line);
                 }
             }
 
             return 0;
-        }
-        private string toSeconds(string timeHHMMSS)
-        {
-            DateTime dt = DateTime.ParseExact(timeHHMMSS, "hh:mm:ss:fff", CultureInfo.InvariantCulture);
-            return Convert.ToString(Convert.ToInt32(dt.TimeOfDay.TotalSeconds));
         }
 
         private void button2_Click(object sender, EventArgs e)
