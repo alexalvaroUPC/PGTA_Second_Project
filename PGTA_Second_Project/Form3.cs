@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GMap.NET;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -23,8 +24,10 @@ namespace PGTA_Second_Project
         {
             gMapControl1.MapProvider = GMap.NET.MapProviders.BingMapProvider.Instance;
             GMap.NET.GMaps.Instance.Mode = GMap.NET.AccessMode.ServerOnly;
-            gMapControl1.SetPositionByKeywords("World");
+            gMapControl1.Position = new PointLatLng(41.297, 2.078);
+            gMapControl1.MinZoom = 8;
             gMapControl1.Zoom = 15;
+            gMapControl1.MaxZoom = 20;
         }
     }
 }
