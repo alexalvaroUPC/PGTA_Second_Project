@@ -57,7 +57,8 @@ namespace PGTA_Second_Project
                 for (int i = 0; i < this.message048s.Count; i++)
                 {
                     message048 curMes = this.message048s[i];
-                    string line = curMes.SAC + delimiter + curMes.SIC + delimiter + curMes.timeOfDay + delimiter + Convert.ToString(curMes.timeInSeconds);
+                    string line = curMes.SAC + delimiter + curMes.SIC + delimiter + curMes.timeOfDay + delimiter + Convert.ToString(curMes.timeInSeconds)
+                        + delimiter + curMes.LAT + delimiter + curMes.LON + delimiter + curMes.geodesicHeight;
                     writer.WriteLine(line);
                 }
             }

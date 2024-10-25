@@ -22,6 +22,9 @@ namespace PGTA_Second_Project
         public bool Purity = false;
         public bool Grounded = false;
         public bool Fixed = false;
+        public string LAT = "N/A";
+        public string LON = "N/A";
+        public string geodesicHeight = "N/A";
         public string TYP = "N/A";
         public string SIM = "N/A";
         public string RDP = "N/A";
@@ -113,6 +116,7 @@ namespace PGTA_Second_Project
                 byteCount = byteCount + 2;
                 this.THETA = getTHETA(fullMessage[byteCount], fullMessage[byteCount + 1]);
                 byteCount = byteCount + 2;
+               
             }
             if (arrayFSPEC1[4] == 1) //Mode-3/A Code in Octal Representation
             {
@@ -290,6 +294,16 @@ namespace PGTA_Second_Project
                     }
                }
             }
+            double height = 370 * 0.3048 * 100.0;
+            geoStuff coordinates = new geoStuff(Convert.ToDouble(this.RHO)*1852, Convert.ToDouble(this.THETA), height);
+            coordinates.radarSpherical2radarCartesian();
+            coordinates.getRadarGeocentric();
+            coordinates.radarCartesian2geocentric();
+            coordinates.targetGeocentric2targetGeodesic();
+            this.LAT = Convert.ToString(coordinates.getLatitude());
+            this.LON = Convert.ToString(coordinates.getLongitude());
+            this.geodesicHeight = Convert.ToString(coordinates.getGeodesicHeight());
+
             return;
         }
 
