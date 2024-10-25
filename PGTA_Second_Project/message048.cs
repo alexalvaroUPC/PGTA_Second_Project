@@ -294,7 +294,14 @@ namespace PGTA_Second_Project
                     }
                }
             }
-            double height = 370 * 0.3048 * 100.0;
+            double height = 0.0;
+            if (this.flightLevel != "N/A")
+            { 
+                if (Convert.ToDouble(this.flightLevel) > 0.0)
+                {
+                    height = Convert.ToDouble(this.flightLevel) * 0.3048 * 100.0;
+                }
+            }
             geoStuff coordinates = new geoStuff(Convert.ToDouble(this.RHO)*1852, Convert.ToDouble(this.THETA), height);
             coordinates.radarSpherical2radarCartesian();
             coordinates.getRadarGeocentric();
@@ -642,10 +649,16 @@ namespace PGTA_Second_Project
             {
                 this.mode3G = "Garbled code";
             }
-
             int[] foundFlightLevel = fullBits.Skip(2).ToArray();
-            double foundFlightLevelDouble = bin2dec(foundFlightLevel)/4;
-
+            double foundFlightLevelDouble;
+            if (fullBits[2] == 1)
+            {
+                foundFlightLevelDouble = -bin2dec(twosComplement(foundFlightLevel)) / 4;
+            }
+            else
+            {
+                foundFlightLevelDouble = bin2dec(foundFlightLevel) / 4;
+            }
             string flightLevel = Convert.ToString(foundFlightLevelDouble);
             return flightLevel;
         }

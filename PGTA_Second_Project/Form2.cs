@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.Globalization;
 using System.IO;
 using GMap.NET;
+using System.Diagnostics;
 namespace PGTA_Second_Project
 {
     public partial class Form2 : Form
@@ -58,7 +59,11 @@ namespace PGTA_Second_Project
                 {
                     message048 curMes = this.message048s[i];
                     string line = curMes.SAC + delimiter + curMes.SIC + delimiter + curMes.timeOfDay + delimiter + Convert.ToString(curMes.timeInSeconds)
-                        + delimiter + curMes.LAT + delimiter + curMes.LON + delimiter + curMes.geodesicHeight;
+                        + delimiter + curMes.LAT + delimiter + curMes.LON + delimiter + curMes.geodesicHeight + delimiter + curMes.TYP + delimiter + curMes.SIM +
+                        delimiter + curMes.RDP + delimiter + curMes.SPI + delimiter + curMes.RAB + delimiter + curMes.TST + delimiter + curMes.ERR + delimiter + curMes.XPP +
+                        delimiter + curMes.ME + delimiter + curMes.MI + delimiter + curMes.FOE_FRI + delimiter + curMes.RHO + delimiter + curMes.THETA + delimiter + 
+                        curMes.mode3V + delimiter + curMes.mode3G + delimiter + curMes.mode3squawk + delimiter + curMes.V090 + delimiter + curMes.G090 + delimiter +
+                        curMes.flightLevel;
                     writer.WriteLine(line);
                 }
             }
