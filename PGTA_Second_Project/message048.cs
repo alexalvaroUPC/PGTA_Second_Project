@@ -169,7 +169,7 @@ namespace PGTA_Second_Project
                         // Code to be executed for each iteration
                         //byteCount = byteCount + 8;
                     }
-                    modeSMBdecoding(usedOctets); //byteCount is already uptaded in loop
+                    modeSMBdecoding(usedOctets); //byteCount is already updated in loop
                     
                 }
                if (arrayFSPEC2[3] == 1) //Track Number
@@ -1045,5 +1045,19 @@ namespace PGTA_Second_Project
         {
 
         }
+
+        private void BDS4_0()
+        {
+
+        }
+        private void BDS5_0()
+        {
+
+        }
+        private void BDS6_0()
+        {
+
+        }
+
     }
 }

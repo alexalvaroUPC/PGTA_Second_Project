@@ -9,6 +9,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="GeneralMatrix_v2.cs" />
+    <Compile Remove="GeoUtils.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="GMap.NET.WinForms" Version="2.1.7" />
   </ItemGroup>
 
