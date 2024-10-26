@@ -65,18 +65,38 @@ namespace PGTA_Second_Project
         public string GHO = "N/A";
         public string SUP = "N/A";
         public string TCC = "N/A";
-        public string BDS = "N/A";
-        public string MCP_FCU = "N/A";
-        public string FMS = "N/A";
-        public string barometricPressureSetting = "N/A";
+        public string BDS = string.Empty;
+        public string mcp_fcu_Status = "N/A";
+        public string mcp_fcu_SelectedAltitude = "N/A";
+        public string fms_Status = "N/A";
+        public string fms_SelectedAltitude = "N/A";
+        public string bp_Status = "N/A";
+        public string bp = "N/A";
+        public string mcp_fcu_Mode = "N/A";
+        public string vnavMode = "N/A";
+        public string altHoldMode = "N/A";
+        public string approachMode = "N/A";
+        public string targetAltitudeStatus = "N/A";
+        public string targetAltitudeSource = "N/A";
+        public string rollAngleStatus = "N/A";
         public string rollAngle = "N/A";
+        public string trueTrackAngleStatus = "N/A";
         public string trueTrackAngle = "N/A";
+        public string groundSpeedStatus = "N/A";
         public string groundSpeed = "N/A";
+        public string trackAngleRateStatus = "N/A";
+        public string trackAngleRate = "N/A";
+        public string trueAirspeedStatus = "N/A";
         public string trueAirspeed = "N/A";
+        public string magneticHeadingStatus = "N/A";
         public string magneticHeading = "N/A";
-        public string IAS = "N/A";
+        public string indicatedAirspeedStatus = "N/A";
+        public string indicatedAirspeed = "N/A";
+        public string machNumberStatus = "N/A";
         public string machNumber = "N/A";
+        public string barometricAltitudeRateStatus = "N/A";
         public string barometricAltitudeRate = "N/A";
+        public string inertialVerticalVelocityStatus = "N/A";
         public string inertialVerticalVelocity = "N/A";
         public string heightMeasured3DRadar = "N/A";
         public string COM = "N/A";
@@ -87,6 +107,9 @@ namespace PGTA_Second_Project
         public string AIC = "N/A";
         public string B1A = "N/A";
         public string B1B = "N/A";
+        private int[] mcpBits = new int[12]; // bits 2-13
+        private int[] fmsBits = new int[12]; // bits 15-26
+        private int[] bpBits = new int[12];  // bits 28-39
 
         public message048(int length, List<byte> FSPEC, List<byte> fullMessage)
         {
@@ -1072,19 +1095,177 @@ namespace PGTA_Second_Project
 
         private void modeSMBdecoding(List<byte> data)
         {
-
+            for (int i = 0; i < data.Count; i += 8)
+            {
+                int octet1 = data[i];
+                int[] octet1bits = dec2bin(octet1, 8);
+                int octet2 = data[i + 1];
+                int[] octet2bits = dec2bin(octet2, 8);
+                int octet3 = data[i + 2];
+                int[] octet3bits = dec2bin(octet3, 8);
+                int octet4 = data[i + 3];
+                int[] octet4bits = dec2bin(octet4, 8);
+                int octet5 = data[i + 4];
+                int[] octet5bits = dec2bin(octet5, 8);
+                int octet6 = data[i + 5];
+                int[] octet6bits = dec2bin(octet6, 8);
+                int octet7 = data[i + 6];
+                int[] octet7bits = dec2bin(octet7, 8);
+                int octet8 = data[i + 7];
+                int[] BDSdatabits = octet1bits.Concat(octet2bits).Concat(octet3bits)
+                                              .Concat(octet4bits).Concat(octet5bits)
+                                              .Concat(octet6bits).Concat(octet7bits)
+                                              .ToArray();
+                int[] octet8bits = dec2bin(octet8, 8);
+                int[] octet8bits1 = octet8bits.Take(4).ToArray();
+                double BDS1 = bin2dec(octet8bits1);
+                int[] octet8bits2 = octet8bits.Skip(4).Take(4).ToArray();
+                double BDS2 = bin2dec(octet8bits2);
+                this.BDS += "BDS: " + Convert.ToString(BDS2) + "," + Convert.ToString(BDS1) + "\n";
+                if(BDS1 == 4 || BDS2 == 0)
+                    BDS4_0(BDSdatabits);
+                if(BDS1 == 5 || BDS2 == 0)
+                    BDS5_0(BDSdatabits);
+                if(BDS1 == 6 || BDS2 == 0)
+                    BDS6_0(BDSdatabits);
+            }
         }
 
-        private void BDS4_0()
+        private void BDS4_0(int[] databits)
         {
+            this.mcp_fcu_Status = Convert.ToString(databits[0]);
+            this.fms_Status = Convert.ToString(databits[13]);
+            this.bp_Status = Convert.ToString(databits[26]);
+            this.mcp_fcu_Mode = Convert.ToString(databits[47]);
+            this.vnavMode = Convert.ToString(databits[48]);
+            this.altHoldMode = Convert.ToString(databits[49]);
+            this.approachMode = Convert.ToString(databits[50]);
+            this.targetAltitudeStatus = Convert.ToString(databits[53]);
+
+            if (databits[54] == 0)
+            {
+                if(databits[55] == 0)
+                {
+                    this.targetAltitudeSource = "Unknown";
+                }
+                else
+                {
+                    this.targetAltitudeSource = "A/C altitude";
+                }
+            }
+            else
+            {
+                if(databits[55] == 0)
+                {
+                    this.targetAltitudeSource = "FCU/MCP selected alt";
+                }
+                else
+                {
+                    this.targetAltitudeSource = "FMS selected alt";
+                }
+            }
+            int[] mcpBits = new int[12]; // bits 2-13
+            int[] fmsBits = new int[12]; // bits 15-26
+            int[] bpBits = new int[12];  // bits 28-39
+            for(int i=1; i<13; ++i)
+            {
+                mcpBits[i - 1] = databits[i];
+                fmsBits[i - 1] = databits[i + 13];
+                bpBits[i - 1] = databits[i + 26];
+            }
+            this.mcp_fcu_SelectedAltitude = Convert.ToString(bin2dec(mcpBits)*16);
+            this.fms_SelectedAltitude = Convert.ToString(bin2dec(fmsBits) * 16);
+            if (databits[26] == 0)
+                this.bp = "NV";
+            else
+                this.bp = Convert.ToString(bin2dec(bpBits) * 0.1 + 800.0);
 
         }
-        private void BDS5_0()
+        private void BDS5_0(int[] databits)
         {
+            this.rollAngleStatus = Convert.ToString(databits[0]);
+            this.trueTrackAngleStatus = Convert.ToString(databits[11]);
+            this.groundSpeedStatus = Convert.ToString(databits[23]);
+            this.trackAngleRateStatus = Convert.ToString(databits[34]);
+            this.trueAirspeedStatus = Convert.ToString(databits[45]);
+            int[] rollAngleBits = new int[9]; // bits 9-11
+            int[] trueTrackAngleBits = new int[10]; // bits 14-23
+            int[] groundSpeedBits = new int[10];  // bits 25-34
+            int[] trackAngleRateBits = new int[9]; // bits 37-45
+            int[] trueAirspeedBits = new int[10]; // bits 47-56
+            for (int i = 1; i < 10; ++i)
+            {
+                rollAngleBits[i - 1] = databits[i+1];
+                trackAngleRateBits[i - 1] = databits[i + 35];
+            }
+            for (int i = 1; i < 11; ++i)
+            {
+                trueTrackAngleBits[i - 1] = databits[i + 12];
+                groundSpeedBits[i - 1] = databits[i + 23];
+                trueAirspeedBits[i - 1] = databits[i + 45];
+            }
+            this.groundSpeed = Convert.ToString((double)this.bin2dec(groundSpeedBits) * 1024.0 / 512.0);
+            this.trueAirspeed = Convert.ToString(bin2dec(trueAirspeedBits) * 2);
+            
+            if (databits[1] == 1)
+                this.rollAngle = Convert.ToString(Decimal.Round(Convert.ToDecimal((double)-bin2dec(twosComplement(rollAngleBits)) * 45.0 / 256.0), 3));
+            else
+                this.rollAngle = Convert.ToString(Decimal.Round(Convert.ToDecimal((double)bin2dec(rollAngleBits) * 45.0 / 256.0), 3));
+
+            if (databits[12] == 1)
+                this.trueTrackAngle = Convert.ToString(Decimal.Round(Convert.ToDecimal((double)-bin2dec(twosComplement(rollAngleBits)) * 90.0 / 512.0), 3));
+            else
+                this.trueTrackAngle = Convert.ToString(Decimal.Round(Convert.ToDecimal((double)bin2dec(rollAngleBits) * 45.0 / 256.0), 3));
+
+            if (databits[35] == 1)
+                this.trackAngleRate = Convert.ToString(Decimal.Round(Convert.ToDecimal((double)-bin2dec(twosComplement(rollAngleBits)) * 8.0 / 256.0), 3));
+            else
+                this.trackAngleRate = Convert.ToString(Decimal.Round(Convert.ToDecimal((double)bin2dec(rollAngleBits) * 8.0 / 256.0), 3));
 
         }
-        private void BDS6_0()
+        private void BDS6_0(int[] databits)
         {
+            this.magneticHeadingStatus = Convert.ToString(databits[0]);
+            this.indicatedAirspeedStatus = Convert.ToString(databits[12]);
+            this.machNumberStatus = Convert.ToString(databits[23]);
+            this.barometricAltitudeRateStatus = Convert.ToString(databits[34]);
+            this.inertialVerticalVelocityStatus = Convert.ToString(databits[45]);
+
+            int[] magneticHeadingBits = new int[10]; // bits 3-12
+            int[] indicatedAirspeedBits = new int[10]; // bits 14-23
+            int[] machNumberBits = new int[10];  // bits 25-34
+            int[] barometricAltitudeRateBits = new int[9]; // bits 37-45
+            int[] inertialVerticalVelocityBits = new int[9]; // bits 42-56
+
+            for (int i = 1; i < 10; ++i)
+            {
+                barometricAltitudeRateBits[i - 1] = databits[i + 35];
+                inertialVerticalVelocityBits[i - 1] = databits[i + 46];
+            }
+            for (int i = 1; i < 11; ++i)
+            {
+                magneticHeadingBits[i - 1] = databits[i+1];
+                indicatedAirspeedBits[i - 1] = databits[i + 12];
+                machNumberBits[i - 1] = databits[i + 23];
+            }
+
+            this.indicatedAirspeed = Convert.ToString((double)bin2dec(indicatedAirspeedBits));
+            this.machNumber = Convert.ToString((double)bin2dec(machNumberBits) * 2.048 / 512.0);
+
+            if (databits[1] == 1)
+                this.magneticHeading = Convert.ToString(Decimal.Round(Convert.ToDecimal((double)-bin2dec(twosComplement(magneticHeadingBits)) * 90.0 / 512.0), 6));
+            else
+                this.magneticHeading = Convert.ToString(Decimal.Round(Convert.ToDecimal((double)bin2dec(magneticHeadingBits) * 90.0 / 512.0), 6));
+
+            if (databits[35] == 1)
+                this.barometricAltitudeRate = Convert.ToString(-bin2dec(twosComplement(magneticHeadingBits)) * 32);
+            else
+                this.barometricAltitudeRate = Convert.ToString(bin2dec(magneticHeadingBits) * 32);
+
+            if(databits[46] == 1)
+                this.inertialVerticalVelocity = Convert.ToString(-bin2dec(twosComplement(magneticHeadingBits)) * 32);
+            else
+                this.inertialVerticalVelocity = Convert.ToString(bin2dec(magneticHeadingBits) * 32);
 
         }
 
