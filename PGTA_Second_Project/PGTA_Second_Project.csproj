@@ -9,11 +9,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="GeneralMatrix_v2.cs" />
-    <Compile Remove="GeoUtils.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <PackageReference Include="Accord" Version="3.8.0" />
+    <PackageReference Include="Accord.Math" Version="3.8.0" />
     <PackageReference Include="GMap.NET.WinForms" Version="2.1.7" />
   </ItemGroup>
 

@@ -15,12 +15,16 @@ namespace PGTA_Second_Project
         public string SAC = "N/A";
         public string SIC = "N/A";
         public string timeOfDay = "N/A";
+        public int timeInSeconds;
         public string acAddress = "N/A";
         public string trackNum = "N/A";
         public string acID = "N/A";
         public bool Purity = false;
         public bool Grounded = false;
         public bool Fixed = false;
+        public string LAT = "N/A";
+        public string LON = "N/A";
+        public string geodesicHeight = "N/A";
         public string TYP = "N/A";
         public string SIM = "N/A";
         public string RDP = "N/A";
@@ -112,6 +116,7 @@ namespace PGTA_Second_Project
                 byteCount = byteCount + 2;
                 this.THETA = getTHETA(fullMessage[byteCount], fullMessage[byteCount + 1]);
                 byteCount = byteCount + 2;
+               
             }
             if (arrayFSPEC1[4] == 1) //Mode-3/A Code in Octal Representation
             {
@@ -289,6 +294,23 @@ namespace PGTA_Second_Project
                     }
                }
             }
+            double height = 0.0;
+            if (this.flightLevel != "N/A")
+            { 
+                if (Convert.ToDouble(this.flightLevel) > 0.0)
+                {
+                    height = Convert.ToDouble(this.flightLevel) * 0.3048 * 100.0;
+                }
+            }
+            geoStuff coordinates = new geoStuff(Convert.ToDouble(this.RHO)*1852, Convert.ToDouble(this.THETA), height);
+            coordinates.radarSpherical2radarCartesian();
+            coordinates.getRadarGeocentric();
+            coordinates.radarCartesian2geocentric();
+            coordinates.targetGeocentric2targetGeodesic();
+            this.LAT = Convert.ToString(coordinates.getLatitude());
+            this.LON = Convert.ToString(coordinates.getLongitude());
+            this.geodesicHeight = Convert.ToString(coordinates.getGeodesicHeight());
+
             return;
         }
 
@@ -358,6 +380,7 @@ namespace PGTA_Second_Project
             int fullnumber = (octet1 << 16) | (octet2 << 8) | octet3;
             int[] fullbits = dec2bin(fullnumber, 24);
             foundTime = bin2dec(fullbits) / 128;
+            this.timeInSeconds = (int) foundTime;
             TimeSpan formalTime = TimeSpan.FromSeconds(foundTime);
             string timeHHMMSS = formalTime.ToString(@"hh\:mm\:ss\:fff");
             return timeHHMMSS;
@@ -626,10 +649,16 @@ namespace PGTA_Second_Project
             {
                 this.mode3G = "Garbled code";
             }
-
             int[] foundFlightLevel = fullBits.Skip(2).ToArray();
-            double foundFlightLevelDouble = bin2dec(foundFlightLevel)/4;
-
+            double foundFlightLevelDouble;
+            if (fullBits[2] == 1)
+            {
+                foundFlightLevelDouble = -bin2dec(twosComplement(foundFlightLevel)) / 4;
+            }
+            else
+            {
+                foundFlightLevelDouble = bin2dec(foundFlightLevel) / 4;
+            }
             string flightLevel = Convert.ToString(foundFlightLevelDouble);
             return flightLevel;
         }
