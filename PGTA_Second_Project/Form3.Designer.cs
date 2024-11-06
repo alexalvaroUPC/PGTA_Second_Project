@@ -32,6 +32,12 @@
             gMapControl1 = new GMap.NET.WindowsForms.GMapControl();
             timer1 = new System.Windows.Forms.Timer(components);
             button1 = new Button();
+            numericUpDown1 = new NumericUpDown();
+            label1 = new Label();
+            button2 = new Button();
+            button3 = new Button();
+            button4 = new Button();
+            ((System.ComponentModel.ISupportInitialize)numericUpDown1).BeginInit();
             SuspendLayout();
             // 
             // gMapControl1
@@ -56,7 +62,7 @@
             gMapControl1.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
             gMapControl1.SelectedAreaFillColor = Color.FromArgb(33, 65, 105, 225);
             gMapControl1.ShowTileGridLines = false;
-            gMapControl1.Size = new Size(1402, 785);
+            gMapControl1.Size = new Size(1920, 1080);
             gMapControl1.TabIndex = 0;
             gMapControl1.Zoom = 2D;
             gMapControl1.Load += gMapControl1_Load;
@@ -68,7 +74,7 @@
             // 
             // button1
             // 
-            button1.Location = new Point(1518, 156);
+            button1.Location = new Point(198, 0);
             button1.Name = "button1";
             button1.Size = new Size(155, 58);
             button1.TabIndex = 1;
@@ -76,16 +82,74 @@
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
             // 
+            // numericUpDown1
+            // 
+            numericUpDown1.Location = new Point(698, 12);
+            numericUpDown1.Minimum = new decimal(new int[] { 1, 0, 0, 65536 });
+            numericUpDown1.Name = "numericUpDown1";
+            numericUpDown1.Size = new Size(77, 35);
+            numericUpDown1.TabIndex = 2;
+            numericUpDown1.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            numericUpDown1.ValueChanged += numericUpDown1_ValueChanged;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(799, 14);
+            label1.Name = "label1";
+            label1.Size = new Size(172, 30);
+            label1.TabIndex = 3;
+            label1.Text = "Simulation speed";
+            // 
+            // button2
+            // 
+            button2.Location = new Point(375, 9);
+            button2.Name = "button2";
+            button2.Size = new Size(116, 41);
+            button2.TabIndex = 4;
+            button2.Text = "Stop";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
+            // 
+            // button3
+            // 
+            button3.Location = new Point(1084, 10);
+            button3.Name = "button3";
+            button3.Size = new Size(175, 40);
+            button3.TabIndex = 5;
+            button3.Text = "Step forward";
+            button3.UseVisualStyleBackColor = true;
+            button3.Click += button3_Click;
+            // 
+            // button4
+            // 
+            button4.Location = new Point(1274, 12);
+            button4.Name = "button4";
+            button4.Size = new Size(169, 34);
+            button4.TabIndex = 6;
+            button4.Text = "Step back";
+            button4.UseVisualStyleBackColor = true;
+            button4.Click += button4_Click;
+            // 
             // Form3
             // 
             AutoScaleDimensions = new SizeF(12F, 30F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1700, 903);
+            ClientSize = new Size(1896, 1016);
+            Controls.Add(button4);
+            Controls.Add(button3);
+            Controls.Add(button2);
+            Controls.Add(label1);
+            Controls.Add(numericUpDown1);
             Controls.Add(button1);
             Controls.Add(gMapControl1);
             Name = "Form3";
             Text = "Form3";
+            WindowState = FormWindowState.Maximized;
+            Load += Form3_Load;
+            ((System.ComponentModel.ISupportInitialize)numericUpDown1).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -93,5 +157,10 @@
         private GMap.NET.WindowsForms.GMapControl gMapControl1;
         private System.Windows.Forms.Timer timer1;
         private Button button1;
+        private NumericUpDown numericUpDown1;
+        private Label label1;
+        private Button button2;
+        private Button button3;
+        private Button button4;
     }
 }
