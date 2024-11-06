@@ -324,6 +324,10 @@ namespace PGTA_Second_Project
                 {
                     height = Convert.ToDouble(this.flightLevel) * 0.3048 * 100.0;
                 }
+                else
+                {
+                    this.Grounded = true;
+                }
             }
             geoStuff coordinates = new geoStuff(Convert.ToDouble(this.RHO)*1852, Convert.ToDouble(this.THETA), height);
             coordinates.radarSpherical2radarCartesian();

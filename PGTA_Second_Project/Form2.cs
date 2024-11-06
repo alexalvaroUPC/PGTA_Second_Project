@@ -16,6 +16,7 @@ namespace PGTA_Second_Project
     public partial class Form2 : Form
     {
         private List<message048> message048s;
+        private List<message048> wantedData;
         public Form2()
         {
             InitializeComponent();
@@ -23,16 +24,42 @@ namespace PGTA_Second_Project
         public void setMessageList(List<message048> messageList)
         {
             this.message048s = messageList;
+            this.wantedData = messageList;
         }
         private void button1_Click(object sender, EventArgs e)
         {
             SaveFileDialog fileSaver = new SaveFileDialog();
             fileSaver.Filter = "Archivo CSV (*.csv) | *.csv";
             fileSaver.ShowDialog();
-            int csvStatus = csvExport(fileSaver.FileName);
+            if (checkBox1.Checked)
+            {
+                wantedData = wantedData.FindAll(item => !item.Grounded);
+            }
+            if (checkBox2.Checked)
+            {
+                wantedData = wantedData.FindAll(item => !item.Purity);
+            }
+            if (checkBox3.Checked)
+            {
+                wantedData = wantedData.FindAll(item => !item.Fixed);
+            }
+            if (checkBox4.Checked)
+            {
+                double minLat = Convert.ToDouble(textBox1.Text);
+                double maxLat = Convert.ToDouble(textBox2.Text);
+                double minLon = Convert.ToDouble(textBox3.Text);
+                double maxLon = Convert.ToDouble(textBox4.Text);
+                wantedData = wantedData.FindAll(item => (Convert.ToDouble(item.LAT) >= minLat)&& (Convert.ToDouble(item.LAT) <= maxLat) && (Convert.ToDouble(item.LON) >= minLon) && (Convert.ToDouble(item.LON) <= maxLon));
+            }
+            int csvStatus = csvExport(fileSaver.FileName, this.wantedData);
+            wantedData = message048s;
+            checkBox1.Checked = false;
+            checkBox2.Checked = false;
+            checkBox3.Checked = false;
+            checkBox4.Checked = false;
 
         }
-        public int csvExport(string path)
+        public int csvExport(string path, List<message048> exportList)
         {
             using (var writer = new StreamWriter(path))
             {
@@ -55,13 +82,13 @@ namespace PGTA_Second_Project
                 ;
                 writer.WriteLine(columnHeaders);
 
-                for (int i = 0; i < this.message048s.Count; i++)
+                for (int i = 0; i < exportList.Count; i++)
                 {
-                    message048 curMes = this.message048s[i];
+                    message048 curMes = exportList[i];
                     string line = curMes.SAC + delimiter + curMes.SIC + delimiter + curMes.timeOfDay + delimiter + Convert.ToString(curMes.timeInSeconds)
                         + delimiter + curMes.LAT + delimiter + curMes.LON + delimiter + curMes.geodesicHeight + delimiter + curMes.TYP + delimiter + curMes.SIM +
                         delimiter + curMes.RDP + delimiter + curMes.SPI + delimiter + curMes.RAB + delimiter + curMes.TST + delimiter + curMes.ERR + delimiter + curMes.XPP +
-                        delimiter + curMes.ME + delimiter + curMes.MI + delimiter + curMes.FOE_FRI + delimiter + curMes.RHO + delimiter + curMes.THETA + delimiter + 
+                        delimiter + curMes.ME + delimiter + curMes.MI + delimiter + curMes.FOE_FRI + delimiter + curMes.RHO + delimiter + curMes.THETA + delimiter +
                         curMes.mode3V + delimiter + curMes.mode3G + delimiter + curMes.mode3squawk + delimiter + curMes.V090 + delimiter + curMes.G090 + delimiter +
                         curMes.flightLevel;
                     writer.WriteLine(line);
@@ -73,14 +100,36 @@ namespace PGTA_Second_Project
 
         private void button2_Click(object sender, EventArgs e)
         {
+            if (checkBox1.Checked)
+            {
+                wantedData = wantedData.FindAll(item => item.Grounded);
+            }
+            if (checkBox2.Checked)
+            {
+                wantedData = wantedData.FindAll(item => item.Purity);
+            }
+            if (checkBox3.Checked)
+            {
+                wantedData = wantedData.FindAll(item => item.Fixed);
+            }
+            if (checkBox4.Checked)
+            {
+                double minLat = Convert.ToDouble(textBox1.Text);
+                double maxLat = Convert.ToDouble(textBox2.Text);
+                double minLon = Convert.ToDouble(textBox3.Text);
+                double maxLon = Convert.ToDouble(textBox4.Text);
+                wantedData = wantedData.FindAll(item => (Convert.ToDouble(item.LAT) >= minLat) && (Convert.ToDouble(item.LAT) <= maxLat) && (Convert.ToDouble(item.LON) >= minLon) && (Convert.ToDouble(item.LON) <= maxLon));
+            }
+            List<message048> simData = wantedData;
+            wantedData = message048s;
+            checkBox1.Checked = false;
+            checkBox2.Checked = false;
+            checkBox3.Checked = false;
+            checkBox4.Checked = false;
             Form3 F3 = new Form3();
-            F3.setData(this.message048s);
+            F3.setData(simData);
             F3.ShowDialog();
         }
 
-        private void gMapControl1_Load(object sender, EventArgs e)
-        {
-            
-        }
     }
 }
