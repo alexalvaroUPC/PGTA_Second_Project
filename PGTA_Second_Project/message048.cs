@@ -196,8 +196,9 @@ namespace PGTA_Second_Project
                         for (int j = 0; j < 8; j++)
                         {
                             usedOctets.Add(fullMessage[byteCount + j]);
-                            byteCount++;
+                            
                         }
+                        byteCount+=8;
                         // Code to be executed for each iteration
                         //byteCount = byteCount + 8;
                     }
@@ -855,12 +856,6 @@ namespace PGTA_Second_Project
                 return '?';
             }
         }
-
-        public int ModeSMB(int octet1, int octet2, int octet3, int octet4, int octet5, int octet6, int octet7, int octet8)
-        {
-            int count = 1;
-            return count;
-        }
         
         public void trackNumber(int octet1, int octet2)
         {
@@ -1304,14 +1299,14 @@ namespace PGTA_Second_Project
                 this.magneticHeading = Convert.ToString(Decimal.Round(Convert.ToDecimal((double)bin2dec(magneticHeadingBits) * 90.0 / 512.0), 6));
 
             if (databits[35] == 1)
-                this.barometricAltitudeRate = Convert.ToString(-bin2dec(twosComplement(magneticHeadingBits)) * 32);
+                this.barometricAltitudeRate = Convert.ToString(-bin2dec(twosComplement(barometricAltitudeRateBits)) * 32);
             else
-                this.barometricAltitudeRate = Convert.ToString(bin2dec(magneticHeadingBits) * 32);
+                this.barometricAltitudeRate = Convert.ToString(bin2dec(barometricAltitudeRateBits) * 32);
 
             if(databits[46] == 1)
-                this.inertialVerticalVelocity = Convert.ToString(-bin2dec(twosComplement(magneticHeadingBits)) * 32);
+                this.inertialVerticalVelocity = Convert.ToString(-bin2dec(twosComplement(inertialVerticalVelocityBits)) * 32);
             else
-                this.inertialVerticalVelocity = Convert.ToString(bin2dec(magneticHeadingBits) * 32);
+                this.inertialVerticalVelocity = Convert.ToString(bin2dec(inertialVerticalVelocityBits) * 32);
 
         }
 
