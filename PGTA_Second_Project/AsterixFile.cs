@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.IO;
-namespace PGTA_Second_Project
+﻿namespace PGTA_Second_Project
 {
     public class AsterixFile
     {
@@ -13,7 +7,7 @@ namespace PGTA_Second_Project
         public List<message048> get048List() { return itemList; }
         public List<message048> byteOperations(string fullFile)
         {
-            
+
             byte[] totalBytes = File.ReadAllBytes(fullFile);
             int i = 0;
             int astLength = totalBytes.Length;
@@ -23,12 +17,13 @@ namespace PGTA_Second_Project
                 List<byte> FSPEC = new List<byte>();
                 List<byte> messageBytes = new List<byte>();
 
-                int dataLength = (totalBytes[i + 1]<<8) | (totalBytes[i + 2]);
+                int dataLength = (totalBytes[i + 1] << 8) | (totalBytes[i + 2]);
 
                 FSPEC.Add(totalBytes[i + 3]);
                 int messageStart = 4;
 
-                if (totalBytes[i+3] % 2 == 1){
+                if (totalBytes[i + 3] % 2 == 1)
+                {
                     FSPEC.Add(totalBytes[i + 4]);
                     messageStart++;
                     if (totalBytes[i + 4] % 2 == 1)
@@ -43,7 +38,7 @@ namespace PGTA_Second_Project
                     }
                 }
 
-                for(int j = i+messageStart; j<i+dataLength; j++)
+                for (int j = i + messageStart; j < i + dataLength; j++)
                 {
                     messageBytes.Add(totalBytes[j]);
                 }

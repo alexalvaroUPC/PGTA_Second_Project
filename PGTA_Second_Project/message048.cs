@@ -1,4 +1,6 @@
-﻿using System;
+﻿using PdfSharp.Charting;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.Eventing.Reader;
 using System.Drawing.Text;
@@ -144,6 +146,8 @@ namespace PGTA_Second_Project
             if (arrayFSPEC1[4] == 1) //Mode-3/A Code in Octal Representation
             {
                 this.mode3squawk = mode3AOctal(fullMessage[byteCount], fullMessage[byteCount + 1]);
+                if (this.mode3squawk == "7777")
+                    this.Fixed = true;
                 byteCount = byteCount + 2;
             }
             if (arrayFSPEC1[5] == 1) //Flight Level in Binary Representation
@@ -339,6 +343,23 @@ namespace PGTA_Second_Project
             this.geodesicHeight = Convert.ToString(coordinates.getGeodesicHeight());
 
             return;
+        }
+
+        public static string bin2hexBDS(int[] array)
+        {
+            // Ensure the array length is a multiple of 4
+            int padding = (4 - (array.Length % 4)) % 4;
+            int[] paddedArray = new int[array.Length + padding];
+            Array.Copy(array, 0, paddedArray, padding, array.Length);
+
+            // Convert the int array to a binary string
+            string binaryString = string.Join("", paddedArray);
+
+            // Convert binary string to integer
+            int value = Convert.ToInt32(binaryString, 2);
+
+            // Convert integer to hexadecimal string
+            return value.ToString("X");
         }
 
         public int[] dec2bin(int decimalNum, int bitNumber)
@@ -1120,19 +1141,40 @@ namespace PGTA_Second_Project
                                               .Concat(octet4bits).Concat(octet5bits)
                                               .Concat(octet6bits).Concat(octet7bits)
                                               .ToArray();
+
                 int[] octet8bits = dec2bin(octet8, 8);
-                int[] octet8bits1 = octet8bits.Take(4).ToArray();
-                double BDS1 = bin2dec(octet8bits1);
-                int[] octet8bits2 = octet8bits.Skip(4).Take(4).ToArray();
-                double BDS2 = bin2dec(octet8bits2);
-                this.BDS += "BDS: " + Convert.ToString(BDS2) + "," + Convert.ToString(BDS1) + "\n";
-                if(BDS1 == 4 || BDS2 == 0)
+                int[] octet8bds1 = octet8bits.Take(4).ToArray();
+                int[] octet8bds2 = octet8bits.Skip(4).Take(4).ToArray();
+                string BDS1 = bin2hexBDS(octet8bds1);
+                string BDS2 = bin2hexBDS(octet8bds2);
+                this.BDS+="BDS: "+ BDS1 + "," + BDS2 + "\n";
+                if (BDS1 == "4" && BDS2 == "0")
+                {
                     BDS4_0(BDSdatabits);
-                if(BDS1 == 5 || BDS2 == 0)
+                }
+                else if (BDS1 == "5" && BDS2 == "0")
+                {
                     BDS5_0(BDSdatabits);
-                if(BDS1 == 6 || BDS2 == 0)
+                }
+                else if (BDS1 == "6" && BDS2 == "0")
+                {
                     BDS6_0(BDSdatabits);
+                }
             }
+        }
+
+        public static (int[], int[]) Split8BitArrayTo4Bit(int[] eightBitArray)
+        {
+            int[] upperNibbles = new int[eightBitArray.Length];
+            int[] lowerNibbles = new int[eightBitArray.Length];
+
+            for (int i = 0; i < eightBitArray.Length; i++)
+            {
+                upperNibbles[i] = (eightBitArray[i] >> 4) & 0xF;
+                lowerNibbles[i] = eightBitArray[i] & 0xF;
+            }
+
+            return (upperNibbles, lowerNibbles);
         }
 
         private void BDS4_0(int[] databits)
