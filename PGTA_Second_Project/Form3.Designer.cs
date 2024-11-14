@@ -38,6 +38,8 @@
             button3 = new Button();
             button4 = new Button();
             button5 = new Button();
+            label2 = new Label();
+            button6 = new Button();
             ((System.ComponentModel.ISupportInitialize)numericUpDown1).BeginInit();
             SuspendLayout();
             // 
@@ -63,7 +65,7 @@
             gMapControl1.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
             gMapControl1.SelectedAreaFillColor = Color.FromArgb(33, 65, 105, 225);
             gMapControl1.ShowTileGridLines = false;
-            gMapControl1.Size = new Size(1920, 1080);
+            gMapControl1.Size = new Size(2160, 1200);
             gMapControl1.TabIndex = 0;
             gMapControl1.Zoom = 2D;
             gMapControl1.Load += gMapControl1_Load;
@@ -75,17 +77,18 @@
             // 
             // button1
             // 
-            button1.Location = new Point(198, 0);
+            button1.Location = new Point(71, -1);
             button1.Name = "button1";
             button1.Size = new Size(155, 58);
             button1.TabIndex = 1;
-            button1.Text = "Start";
+            button1.Text = "(Re)Start";
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
             // 
             // numericUpDown1
             // 
             numericUpDown1.Location = new Point(698, 12);
+            numericUpDown1.Maximum = new decimal(new int[] { 1000, 0, 0, 0 });
             numericUpDown1.Minimum = new decimal(new int[] { 1, 0, 0, 65536 });
             numericUpDown1.Name = "numericUpDown1";
             numericUpDown1.Size = new Size(77, 35);
@@ -104,17 +107,17 @@
             // 
             // button2
             // 
-            button2.Location = new Point(375, 9);
+            button2.Location = new Point(248, 8);
             button2.Name = "button2";
             button2.Size = new Size(116, 41);
             button2.TabIndex = 4;
-            button2.Text = "Stop";
+            button2.Text = "Pause";
             button2.UseVisualStyleBackColor = true;
             button2.Click += button2_Click;
             // 
             // button3
             // 
-            button3.Location = new Point(1084, 10);
+            button3.Location = new Point(1035, 9);
             button3.Name = "button3";
             button3.Size = new Size(175, 40);
             button3.TabIndex = 5;
@@ -124,7 +127,7 @@
             // 
             // button4
             // 
-            button4.Location = new Point(1274, 12);
+            button4.Location = new Point(1216, 12);
             button4.Name = "button4";
             button4.Size = new Size(169, 34);
             button4.TabIndex = 6;
@@ -134,7 +137,7 @@
             // 
             // button5
             // 
-            button5.Location = new Point(1557, 12);
+            button5.Location = new Point(1645, 7);
             button5.Name = "button5";
             button5.Size = new Size(221, 45);
             button5.TabIndex = 7;
@@ -142,11 +145,32 @@
             button5.UseVisualStyleBackColor = true;
             button5.Click += button5_Click;
             // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(1410, 14);
+            label2.Name = "label2";
+            label2.Size = new Size(177, 30);
+            label2.TabIndex = 8;
+            label2.Text = "Time of day (UTC)";
+            // 
+            // button6
+            // 
+            button6.Location = new Point(398, 5);
+            button6.Name = "button6";
+            button6.Size = new Size(113, 48);
+            button6.TabIndex = 9;
+            button6.Text = "Resume";
+            button6.UseVisualStyleBackColor = true;
+            button6.Click += button6_Click;
+            // 
             // Form3
             // 
             AutoScaleDimensions = new SizeF(12F, 30F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1896, 1016);
+            Controls.Add(button6);
+            Controls.Add(label2);
             Controls.Add(button5);
             Controls.Add(button4);
             Controls.Add(button3);
@@ -175,5 +199,7 @@
         private Button button3;
         private Button button4;
         private Button button5;
+        private Label label2;
+        private Button button6;
     }
 }

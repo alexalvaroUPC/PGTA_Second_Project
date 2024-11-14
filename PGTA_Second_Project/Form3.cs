@@ -15,6 +15,8 @@ using System.Xml;
 using PdfSharp;
 using PdfSharp.Drawing;
 using PdfSharp.Pdf;
+using System.Data.SQLite;
+using Microsoft.VisualBasic.Devices;
 namespace PGTA_Second_Project
 {
     public partial class Form3 : Form
@@ -52,25 +54,25 @@ namespace PGTA_Second_Project
         private void button1_Click(object sender, EventArgs e)
         {
             timer1.Start();
-            this.j = firstClock - 1;
+            this.j = -1;
             GMapOverlay markers = new GMapOverlay("markers");
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-
             this.j++;
             for (int i = 0; i < this.aircrafts.Count; i++)
             {
-                Aircraft moveAC = this.aircrafts[i].moveAC(j);
-                double X = moveAC.getLatitude();
-                double Y = moveAC.getLongitude();
-                if (X != 300 && Y != 300)
+                this.aircrafts[i].moveAC();
+                double X = this.aircrafts[i].getLatitude();
+                double Y = this.aircrafts[i].getLongitude();
+                if (X != 400)
                 {
                     aircraftMarkers[i].Position = new PointLatLng(X, Y);
-                    aircraftMarkers[i].ToolTipText = "Squawk: " + aircrafts[i].squawk + "\n" + Convert.ToString((int)aircrafts[i].getHeight()) + " m\n" + Convert.ToString(aircrafts[i].getHeading() + " º");
+                    //aircraftMarkers[i].ToolTipText = "Squawk: " + aircrafts[i].squawk + "\n" + Convert.ToString((int)aircrafts[i].getHeight()) + " m\n" + Convert.ToString(aircrafts[i].getHeading() + " º");
                     markers.Markers.Add(aircraftMarkers[i]);
                 }
+                label2.Text = TimeSpan.FromSeconds(this.firstClock + j).ToString();
 
             }
             gMapControl1.Overlays.Add(markers);
@@ -80,37 +82,56 @@ namespace PGTA_Second_Project
 
         private void Form3_Load(object sender, EventArgs e)
         {
+            message048s = message048s.OrderBy(message048s => message048s.timeInSeconds).ToList();
             this.firstClock = message048s[0].timeInSeconds;
             this.lastClock = message048s.Last().timeInSeconds;
             double currentLat;
             double currentLon;
             double currentHeight;
-            int moveTime;
+            int moveTime = this.firstClock;
             double heading;
+            int timeIndex = 0;
             List<string> neededSquawks = message048s.Where(item => item.mode3squawk != "N/A").Select(item => item.mode3squawk).Distinct().ToList();
             for (int i = 0; i < neededSquawks.Count; i++)
             {
                 Aircraft aircraft = new Aircraft(neededSquawks[i]);
                 this.aircrafts.Add(aircraft);
             }
+            for (int i = 0; i <= (this.lastClock - this.firstClock); i++)
+            {
+                for (int j = 0; j < aircrafts.Count(); j++)
+                {
+                    aircrafts[j].fill400();
+                }
+            }
             for (int k = 0; k < message048s.Count; k++)
             {
+
+                if (moveTime != message048s[k].timeInSeconds)
+                {
+                    timeIndex++;
+                }
+                moveTime = message048s[k].timeInSeconds;
                 int hitIndex = aircrafts.FindIndex(item => item.squawk == message048s[k].mode3squawk);
                 if (hitIndex != -1)
                 {
                     currentLat = Convert.ToDouble(message048s[k].LAT);
                     currentLon = Convert.ToDouble(message048s[k].LON);
                     currentHeight = Convert.ToDouble(message048s[k].geodesicHeight);
-                    moveTime = message048s[k].timeInSeconds;
                     if (message048s[k].Heading != "N/A") { heading = Convert.ToDouble(message048s[k].Heading); } else { heading = 0; }
-                    aircrafts[hitIndex].fillCoordinates(currentLat, currentLon, currentHeight, moveTime, heading);
+                    aircrafts[hitIndex].fillCoordinates(currentLat, currentLon, currentHeight, moveTime, heading, timeIndex);
                 }
+
+            }
+            for (int j = 0; j < aircrafts.Count(); j++)
+            {
+                aircrafts[j].copyToStacks();
             }
             double initialLat = 90;
             double initialLon = 90;
             for (int i = 0; i < this.aircrafts.Count; i++)
             {
-                GMapMarker marker = new GMarkerGoogle(new PointLatLng(initialLat, initialLon), markerIcon);
+                GMapMarker marker = new GMarkerGoogle(new PointLatLng(initialLat, initialLon), GMarkerGoogleType.black_small);
                 marker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
                 marker.ToolTipText = aircrafts[i].squawk;
                 //aircraftMarkers[i].Position = new PointLatLng(initialLat, initialLon);
@@ -143,10 +164,10 @@ namespace PGTA_Second_Project
 
             for (int i = 0; i < this.aircrafts.Count; i++)
             {
-                Aircraft moveAC = this.aircrafts[i].moveAC(j);
-                double X = moveAC.getLatitude();
-                double Y = moveAC.getLongitude();
-                if (X != 300 && Y != 300)
+                aircrafts[i].moveAC();
+                double X = aircrafts[i].getLatitude();
+                double Y = aircrafts[i].getLongitude();
+                if (X != 400 && Y != 400)
                 {
                     aircraftMarkers[i].Position = new PointLatLng(X, Y);
                     markers.Markers.Add(aircraftMarkers[i]);
@@ -155,18 +176,19 @@ namespace PGTA_Second_Project
             }
             gMapControl1.Overlays.Add(markers);
             gMapControl1.Refresh();
+            label2.Text = TimeSpan.FromSeconds(this.firstClock + j).ToString();
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
-            if (j > firstClock)
+            if (j > 1)
             {
                 this.j--;
                 for (int i = 0; i < this.aircrafts.Count; i++)
                 {
-                    Aircraft moveAC = this.aircrafts[i].moveAC(j);
-                    double X = moveAC.getLatitude();
-                    double Y = moveAC.getLongitude();
+                    this.aircrafts[i].moveACback();
+                    double X = this.aircrafts[i].getLatitude();
+                    double Y = this.aircrafts[i].getLongitude();
                     if (X != 300 && Y != 300)
                     {
                         aircraftMarkers[i].Position = new PointLatLng(X, Y);
@@ -176,6 +198,7 @@ namespace PGTA_Second_Project
                 }
                 gMapControl1.Overlays.Add(markers);
                 gMapControl1.Refresh();
+                label2.Text = TimeSpan.FromSeconds(this.firstClock + j).ToString();
             }
         }
 
@@ -186,7 +209,7 @@ namespace PGTA_Second_Project
             fileSaver.ShowDialog();
             Size mapsize = gMapControl1.Size;
             Bitmap mapImage = new Bitmap(mapsize.Width, mapsize.Height);
-            gMapControl1.DrawToBitmap(mapImage, new Rectangle(0,0, mapsize.Width,mapsize.Height));
+            gMapControl1.DrawToBitmap(mapImage, new Rectangle(0, 0, mapsize.Width, mapsize.Height));
             mapImage.Save("savedMap.png", System.Drawing.Imaging.ImageFormat.Png);
             XImage pdfImageMap = XImage.FromFile("savedMap.png");
             DateTime thisDay = DateTime.UtcNow;
@@ -203,10 +226,10 @@ namespace PGTA_Second_Project
             gfx.DrawLine(pen, new XPoint(0, 60), new XPoint(page.Width.Point, 60));
             XRect ImageLocation = new XRect(page.Width / 16, posicionVerticalActual, mapsize.Width / 4, mapsize.Height / 4);
             gfx.DrawImage(pdfImageMap, ImageLocation);
-            posicionVerticalActual += mapsize.Width / 4 + 20;
+            posicionVerticalActual += mapsize.Width / 6 + 20;
             for (int i = 0; i < aircrafts.Count; i++)
             {
-               
+
                 if (aircraftMarkers[i].Position.Lat != 90)
                 {
                     XPoint TextLocation = new XPoint(10, posicionVerticalActual);
@@ -219,11 +242,16 @@ namespace PGTA_Second_Project
                         posicionVerticalActual = 80;
                     }
                 }
-                
+
             }
             pdf.Save(fileSaver.FileName);
             MessageBox.Show("Guardado con éxito");
 
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            timer1.Start();
         }
     }
 }
