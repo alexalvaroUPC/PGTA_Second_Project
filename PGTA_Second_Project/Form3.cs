@@ -44,9 +44,9 @@ namespace PGTA_Second_Project
             gMapControl1.MinZoom = 8;
             gMapControl1.Zoom = 10;
             gMapControl1.MaxZoom = 20;
-            Image image = Image.FromFile("aircraft.png");
-            this.markerIcon = new Bitmap(image, new Size(50, 50));
-            this.markerIcon.MakeTransparent();
+            //Image image = Image.FromFile("aircraft.png");
+            //this.markerIcon = new Bitmap(image, new Size(50, 50));
+            //this.markerIcon.MakeTransparent();
 
 
         }

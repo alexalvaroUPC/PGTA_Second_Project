@@ -69,6 +69,7 @@ namespace PGTA_Second_Project
         public string SUP = "N/A";
         public string TCC = "N/A";
         public string BDS = "N/A";
+        public string BDSex = "N/A";
         public string mcp_fcu_Status = "N/A";
         public string mcp_fcu_SelectedAltitude = "N/A";
         public string fms_Status = "N/A";
@@ -1158,6 +1159,7 @@ namespace PGTA_Second_Project
                 string BDS1 = bin2hexBDS(octet8bds1);
                 string BDS2 = bin2hexBDS(octet8bds2);
                 this.BDS+="BDS: "+ BDS1 + "," + BDS2 + "\n";
+                this.BDS+="BDS: " + BDS1 + "," + BDS2 + "; ";
                 if (BDS1 == "4" && BDS2 == "0")
                 {
                     BDS4_0(BDSdatabits);
