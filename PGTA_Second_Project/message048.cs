@@ -47,7 +47,7 @@ namespace PGTA_Second_Project
         public string flightLevel = "N/A";
         public string V090 = "N/A";
         public string G090 = "N/A";
-        public string CorrectedModeC = "N/A";
+        public string CorrectedModeC = string.Empty;
         public string SRL = "N/A";
         public string SRR = "N/A";
         public string SAM = "N/A";
@@ -331,31 +331,29 @@ namespace PGTA_Second_Project
             coordinates.targetGeocentric2targetGeodesic();
             this.LAT = Convert.ToString(coordinates.getLatitude());
             this.LON = Convert.ToString(coordinates.getLongitude());
-            this.geodesicHeight = Convert.ToString(coordinates.getGeodesicHeight());
-            
-            
+            this.geodesicHeight = Convert.ToString(coordinates.getGeodesicHeight());  
 
             if (this.flightLevel == "N/A")
                 this.Grounded = true;
 
-            if(this.bp == "N/A" || this.bp == "NV" || this.flightLevel == "N/A")
+            if(!(this.bp != "N/A") || !(this.bp != "NV") || !(this.flightLevel != "N/A"))
                 return;
 
-            double fl = Convert.ToDouble(this.flightLevel);
-            double bp = Convert.ToDouble(this.bp);
+            double FL = Convert.ToDouble(this.flightLevel);
+            double BP = Convert.ToDouble(this.bp);
 
-            if (fl>=60.0 || bp<=1013.2)
+            if (FL>=60.0 || BP<=1013.3)
             {
                 this.CorrectedModeC = "";
             }
             else
             {
                 //Using decimal conversion for correction
-                decimal flDecimal = Convert.ToDecimal(fl);
-                decimal bpDecimal = Convert.ToDecimal(bp);
-                decimal correction = Convert.ToDecimal(1013.2) / bpDecimal;
-                decimal correctedModeC = (flDecimal * 100M + bpDecimal - correction * 30M);
-                this.CorrectedModeC = Convert.ToString(Decimal.Round(correctedModeC));
+                decimal flDecimal = Convert.ToDecimal(FL);
+                decimal bpDecimal = Convert.ToDecimal(BP);
+                decimal correction = Convert.ToDecimal(1013.2);
+                decimal correctedModeC = (flDecimal * 100M + (bpDecimal - correction) * 30M);
+                this.CorrectedModeC = Convert.ToString(Decimal.Round(correctedModeC,2));
 
             }
 
