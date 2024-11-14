@@ -47,6 +47,7 @@ namespace PGTA_Second_Project
         public string flightLevel = "N/A";
         public string V090 = "N/A";
         public string G090 = "N/A";
+        public string CorrectedModeC = "N/A";
         public string SRL = "N/A";
         public string SRR = "N/A";
         public string SAM = "N/A";
@@ -67,7 +68,7 @@ namespace PGTA_Second_Project
         public string GHO = "N/A";
         public string SUP = "N/A";
         public string TCC = "N/A";
-        public string BDS = string.Empty;
+        public string BDS = "N/A";
         public string mcp_fcu_Status = "N/A";
         public string mcp_fcu_SelectedAltitude = "N/A";
         public string fms_Status = "N/A";
@@ -183,24 +184,12 @@ namespace PGTA_Second_Project
                     byteCount++;
                     for (int i = 0; i < repetitionFactor; i++)
                     {
-                        /*
-                        int octet1 = fullMessage[byteCount];
-                        int octet2 = fullMessage[byteCount + 1];
-                        int octet3 = fullMessage[byteCount + 2];
-                        int octet4 = fullMessage[byteCount + 3];
-                        int octet5 = fullMessage[byteCount + 4];
-                        int octet6 = fullMessage[byteCount + 5];
-                        int octet7 = fullMessage[byteCount + 6];
-                        int octet8 = fullMessage[byteCount + 7];
-                        */
                         for (int j = 0; j < 8; j++)
                         {
                             usedOctets.Add(fullMessage[byteCount + j]);
-                            
                         }
                         byteCount+=8;
                         // Code to be executed for each iteration
-                        //byteCount = byteCount + 8;
                     }
                     modeSMBdecoding(usedOctets); //byteCount is already updated in loop
                     
@@ -342,6 +331,32 @@ namespace PGTA_Second_Project
             this.LAT = Convert.ToString(coordinates.getLatitude());
             this.LON = Convert.ToString(coordinates.getLongitude());
             this.geodesicHeight = Convert.ToString(coordinates.getGeodesicHeight());
+            
+            
+
+            if (this.flightLevel == "N/A")
+                this.Grounded = true;
+
+            if(this.bp == "N/A" || this.bp == "NV" || this.flightLevel == "N/A")
+                return;
+
+            double fl = Convert.ToDouble(this.flightLevel);
+            double bp = Convert.ToDouble(this.bp);
+
+            if (fl>=60.0 || bp<=1013.2)
+            {
+                this.CorrectedModeC = "";
+            }
+            else
+            {
+                //Using decimal conversion for correction
+                decimal flDecimal = Convert.ToDecimal(fl);
+                decimal bpDecimal = Convert.ToDecimal(bp);
+                decimal correction = Convert.ToDecimal(1013.2) / bpDecimal;
+                decimal correctedModeC = (flDecimal * 100M + bpDecimal - correction * 30M);
+                this.CorrectedModeC = Convert.ToString(Decimal.Round(correctedModeC));
+
+            }
 
             return;
         }
