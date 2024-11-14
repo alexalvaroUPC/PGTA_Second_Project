@@ -64,33 +64,186 @@ namespace PGTA_Second_Project
             using (var writer = new StreamWriter(path))
             {
                 string delimiter = ";";
-                string columnHeaders = "SAC" + delimiter + "SIC" + delimiter + "TIME" + delimiter + "TIME(s)" + delimiter +
-                    "LAT" + delimiter + "LON" + delimiter + "H" + delimiter + "TYP_020" + delimiter + "SIM_020" + delimiter +
-                    "RDP_020" + delimiter + "SPI_020" + delimiter + "RAB_020" + delimiter + "TST_020" + delimiter + "ERR_020" + delimiter +
-                    "XPP_020" + delimiter + "ME_020" + delimiter + "MI_020" + delimiter + "FOE_FRI_020" + delimiter + "RHO" + delimiter +
-                    "THETA" + delimiter + "V_070" + delimiter + "G_070" + delimiter + "MODE 3/A" + delimiter + "V_090" + delimiter +
-                    "G_090" + delimiter + "FL" + delimiter + "MODE C corrected" + delimiter + "SRL_130" + delimiter + "SSR_130" + delimiter +
-                    "SAM_130" + delimiter + "PRL_130" + delimiter + "PAM_130" + delimiter + "RPD_130" + delimiter + "APD_130" + delimiter +
-                    "TA" + delimiter + "TI" + delimiter + "MCP_ALT" + delimiter + "FMS_ALT" + delimiter + "BP" + delimiter + "VNAV" + delimiter +
-                    "ALT_HOLD" + delimiter + "APP" + delimiter + "TARGET_ALT_SOURCE" + delimiter + "RA" + delimiter + "TTA" + delimiter +
-                    "GS" + delimiter + "TAR" + delimiter + "TAS" + delimiter + "HDG" + delimiter + "IAS" + delimiter + "MACH" + delimiter +
-                    "BAR" + delimiter + "IVV" + delimiter + "TN" + delimiter + "X" + delimiter + "Y" + delimiter + "GS_KT" + delimiter +
-                    "HEADING" + delimiter + "CNF_170" + delimiter + "RAD_170" + delimiter + "DOU_170" + delimiter + "MAH_170" + delimiter +
-                    "CDM_170" + delimiter + "TRE_170" + delimiter + "GHO_170" + delimiter + "SUP_170" + delimiter + "TCC_170" + delimiter +
-                    "HEIGHT" + delimiter + "COM_230" + delimiter + "STAT_230" + delimiter + "SI_230" + delimiter + "MSCC_230" + delimiter +
-                    "ARC_230" + delimiter + "AIC_230" + delimiter + "B1A_230" + delimiter + "B1B_230";
-                ;
+                string columnHeaders = "SAC" + delimiter
+                    + "SIC" + delimiter
+                    + "TIME" + delimiter
+                    + "TIME(s)" + delimiter
+                    + "acADRESS" + delimiter
+                    + "acID" + delimiter
+                    + "trackNum" + delimiter
+                    + "LAT" + delimiter
+                    + "LON" + delimiter
+                    + "H" + delimiter
+                    + "TYP" + delimiter
+                    + "SIM" + delimiter
+                    + "RDP" + delimiter
+                    + "SPI" + delimiter
+                    + "RAB" + delimiter
+                    + "TST" + delimiter
+                    + "ERR" + delimiter
+                    + "XPP" + delimiter
+                    + "ME" + delimiter
+                    + "MI" + delimiter
+                    + "FOE_FRI" + delimiter
+                    + "RHO" + delimiter
+                    + "THETA" + delimiter
+                    + "mode3V" + delimiter
+                    + "mode3G" + delimiter
+                    + "mode3squawk" + delimiter
+                    + "V090" + delimiter
+                    + "G090" + delimiter
+                    + "flightLevel" + delimiter
+                    + "CorrectedModeC" + delimiter
+                    + "SRL" + delimiter
+                    + "SRR" + delimiter
+                    + "SAM" + delimiter
+                    + "PRL" + delimiter
+                    + "PAM" + delimiter
+                    + "RPD" + delimiter
+                    + "APD" + delimiter
+                    + "cartesianX" + delimiter
+                    + "cartesianY" + delimiter
+                    + "groundSpeedKT" + delimiter
+                    + "Heading" + delimiter
+                    + "CNF" + delimiter
+                    + "RAD" + delimiter
+                    + "DOU" + delimiter
+                    + "MAH" + delimiter
+                    + "CDM" + delimiter
+                    + "TRE" + delimiter
+                    + "GHO" + delimiter
+                    + "SUP" + delimiter
+                    + "TCC" + delimiter
+                    + "BDS" + delimiter
+                    + "mcp_fcu_Status" + delimiter
+                    + "mcp_fcu_SelectedAltitude" + delimiter
+                    + "fms_Status" + delimiter
+                    + "fms_SelectedAltitude" + delimiter
+                    + "bp_Status" + delimiter
+                    + "bp" + delimiter
+                    + "mcp_fcu_Mode" + delimiter
+                    + "altHoldMode" + delimiter
+                    + "approachMode" + delimiter
+                    + "targetAltitudeStatus" + delimiter
+                    + "targetAltitudeSource" + delimiter
+                    + "groundSpeedStatus" + delimiter
+                    + "groundSpeed" + delimiter
+                    + "trackAngleRateStatus" + delimiter
+                    + "trackAngleRate" + delimiter
+                    + "trueAirspeedStatus" + delimiter
+                    + "trueAirspeed" + delimiter
+                    + "magneticHeadingStatus" + delimiter
+                    + "magneticHeading" + delimiter
+                    + "indicatedAirspeedStatus" + delimiter
+                    + "indicatedAirspeed" + delimiter
+                    + "machNumberStatus" + delimiter
+                    + "machNumber" + delimiter
+                    + "barometricAltitudeRateStatus" + delimiter
+                    + "barometricAltitudeRate" + delimiter
+                    + "inertialVerticalVelocityStatus" + delimiter
+                    + "inertialVerticalVelocity" + delimiter
+                    + "heightMeasured3DRadar" + delimiter
+                    + "COM" + delimiter
+                    + "STAT" + delimiter
+                    + "SI" + delimiter
+                    + "MSSC" + delimiter
+                    + "ARC" + delimiter
+                    + "AIC" + delimiter
+                    + "B1A" + delimiter
+                    + "B1B" + delimiter;
                 writer.WriteLine(columnHeaders);
 
                 for (int i = 0; i < exportList.Count; i++)
                 {
                     message048 curMes = exportList[i];
-                    string line = curMes.SAC + delimiter + curMes.SIC + delimiter + curMes.timeOfDay + delimiter + Convert.ToString(curMes.timeInSeconds)
-                        + delimiter + curMes.LAT + delimiter + curMes.LON + delimiter + curMes.geodesicHeight + delimiter + curMes.TYP + delimiter + curMes.SIM +
-                        delimiter + curMes.RDP + delimiter + curMes.SPI + delimiter + curMes.RAB + delimiter + curMes.TST + delimiter + curMes.ERR + delimiter + curMes.XPP +
-                        delimiter + curMes.ME + delimiter + curMes.MI + delimiter + curMes.FOE_FRI + delimiter + curMes.RHO + delimiter + curMes.THETA + delimiter +
-                        curMes.mode3V + delimiter + curMes.mode3G + delimiter + curMes.mode3squawk + delimiter + curMes.V090 + delimiter + curMes.G090 + delimiter +
-                        curMes.flightLevel;
+                    string line = curMes.SAC + delimiter 
+                        + curMes.SIC + delimiter 
+                        + curMes.timeOfDay + delimiter 
+                        + Convert.ToString(curMes.timeInSeconds) + delimiter 
+                        + curMes.acAddress + delimiter
+                        + curMes.acID + delimiter
+                        + curMes.trackNum + delimiter  
+                        + curMes.LAT + delimiter 
+                        + curMes.LON + delimiter 
+                        + curMes.geodesicHeight + delimiter 
+                        + curMes.TYP + delimiter 
+                        + curMes.SIM + delimiter 
+                        + curMes.RDP + delimiter 
+                        + curMes.SPI + delimiter 
+                        + curMes.RAB + delimiter 
+                        + curMes.TST + delimiter 
+                        + curMes.ERR + delimiter 
+                        + curMes.XPP + delimiter 
+                        + curMes.ME + delimiter 
+                        + curMes.MI + delimiter 
+                        + curMes.FOE_FRI + delimiter 
+                        + curMes.RHO + delimiter 
+                        + curMes.THETA + delimiter 
+                        + curMes.mode3V + delimiter 
+                        + curMes.mode3G + delimiter 
+                        + curMes.mode3squawk + delimiter 
+                        + curMes.V090 + delimiter 
+                        + curMes.G090 + delimiter 
+                        + curMes.flightLevel + delimiter
+                        + curMes.CorrectedModeC+ delimiter
+                        + curMes.SRL + delimiter
+                        + curMes.SRR + delimiter
+                        + curMes.SAM + delimiter
+                        + curMes.PRL + delimiter
+                        + curMes.PAM + delimiter
+                        + curMes.RPD + delimiter
+                        + curMes.APD + delimiter
+                        + curMes.cartesianX + delimiter
+                        + curMes.cartesianY + delimiter
+                        + curMes.groundSpeedKT + delimiter
+                        + curMes.Heading + delimiter
+                        + curMes.CNF + delimiter
+                        + curMes.RAD + delimiter
+                        + curMes.DOU + delimiter
+                        + curMes.MAH + delimiter
+                        + curMes.CDM + delimiter
+                        + curMes.TRE + delimiter
+                        + curMes.GHO + delimiter
+                        + curMes.SUP + delimiter
+                        + curMes.TCC + delimiter
+                        + curMes.BDS + delimiter
+                        + curMes.mcp_fcu_Status + delimiter
+                        + curMes.mcp_fcu_SelectedAltitude + delimiter
+                        + curMes.fms_Status + delimiter
+                        + curMes.fms_SelectedAltitude + delimiter
+                        + curMes.bp_Status + delimiter
+                        + curMes.bp + delimiter
+                        + curMes.mcp_fcu_Mode + delimiter
+                        + curMes.altHoldMode + delimiter
+                        + curMes.approachMode + delimiter
+                        + curMes.targetAltitudeStatus + delimiter
+                        + curMes.targetAltitudeSource + delimiter
+                        + curMes.groundSpeedStatus + delimiter
+                        + curMes.groundSpeed + delimiter
+                        + curMes.trackAngleRateStatus + delimiter
+                        + curMes.trackAngleRate + delimiter
+                        + curMes.trueAirspeedStatus + delimiter
+                        + curMes.trueAirspeed + delimiter
+                        + curMes.magneticHeadingStatus + delimiter
+                        + curMes.magneticHeading + delimiter
+                        + curMes.indicatedAirspeedStatus + delimiter
+                        + curMes.indicatedAirspeed + delimiter
+                        + curMes.machNumberStatus + delimiter
+                        + curMes.machNumber + delimiter
+                        + curMes.barometricAltitudeRateStatus + delimiter
+                        + curMes.barometricAltitudeRate + delimiter
+                        + curMes.inertialVerticalVelocityStatus + delimiter
+                        + curMes.inertialVerticalVelocity + delimiter
+                        + curMes.heightMeasured3DRadar + delimiter
+                        + curMes.COM + delimiter
+                        + curMes.STAT + delimiter
+                        + curMes.SI + delimiter
+                        + curMes.MSSC + delimiter
+                        + curMes.ARC + delimiter
+                        + curMes.AIC + delimiter
+                        + curMes.B1A + delimiter
+                        + curMes.B1B + delimiter;
+
                     writer.WriteLine(line);
                 }
             }
