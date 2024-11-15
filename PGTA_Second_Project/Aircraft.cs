@@ -70,7 +70,7 @@ namespace PGTA_Second_Project
         }
         public void moveACback()
         {
-            double setLat = this.undoAlts.Pop();
+            double setLat = this.undoLats.Pop();
             double setLon = this.undoLons.Pop();
             double setAlt = this.undoAlts.Pop();
             double setHdg = this.undoHdgs.Pop();
@@ -85,6 +85,20 @@ namespace PGTA_Second_Project
         }
         public void copyToStacks()
         {
+            while (stackedLats.Count > 0)
+            {
+                stackedLats.Pop();
+                stackedLons.Pop();
+                stackedAlts.Pop();
+                stackedHdgs.Pop();
+            }
+            while (undoLats.Count > 0)
+            {
+                undoLats.Pop();
+                undoLons.Pop();
+                undoAlts.Pop();
+                undoHdgs.Pop();
+            }
             for (int i = this.latitudes.Count - 1; i >= 0; i--)
             {
                 stackedLats.Push(this.latitudes[i]);
