@@ -17,7 +17,6 @@ namespace PGTA_Second_Project
         private List<double> latitudes = new List<double>();
         private List<double> longitudes = new List<double>();
         private List<double> altitudes = new List<double>();
-        private List<int> timestamps = new List<int>();
         private List<double> headings = new List<double>();
         private Stack<double> stackedLats = new Stack<double>();
         private Stack<double> stackedLons = new Stack<double>();
@@ -33,17 +32,12 @@ namespace PGTA_Second_Project
         {
             this.squawk = squawk;
         }
-        public void fillCoordinates(double currentLatitude, double currentLongitude, double currentHeight, int moveTime, double currentHeading, int listIndex)
+        public void fillCoordinates(double currentLatitude, double currentLongitude, double currentHeight, double currentHeading, int listIndex)
         {
-            //this.latitudes.Add(currentLatitude);
-            //this.longitudes.Add(currentLongitude);
-            //this.altitudes.Add(currentHeight);
-            //this.timestamps.Add(moveTime);
-            //this.headings.Add(currentHeading);
+
             this.latitudes[listIndex] = currentLatitude;
             this.longitudes[listIndex] = currentLongitude;
             this.altitudes[listIndex] = currentHeight;
-            this.timestamps[listIndex] = moveTime;
             this.headings[listIndex] = currentHeading;
         }
         public void fill400()
@@ -51,7 +45,6 @@ namespace PGTA_Second_Project
             this.latitudes.Add(400);
             this.longitudes.Add(400);
             this.altitudes.Add(400);
-            this.timestamps.Add(400);
             this.headings.Add(400);
         }
         public void setPosition(double latitude, double longitude, double height, double heading) {this.lat = latitude; this.lon = longitude; this.height = height; this.heading = heading; }

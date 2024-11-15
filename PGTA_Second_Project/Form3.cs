@@ -17,6 +17,7 @@ using PdfSharp.Drawing;
 using PdfSharp.Pdf;
 using System.Data.SQLite;
 using Microsoft.VisualBasic.Devices;
+using Accord;
 namespace PGTA_Second_Project
 {
     public partial class Form3 : Form
@@ -35,6 +36,8 @@ namespace PGTA_Second_Project
         {
             InitializeComponent();
         }
+<<<<<<< HEAD
+=======
 
         private void gMapControl1_Load(object sender, EventArgs e)
         {
@@ -80,6 +83,7 @@ namespace PGTA_Second_Project
 
         }
 
+>>>>>>> 9e9e7f11044a946d71b0fdfddf08196b7ad95d5e
         private void Form3_Load(object sender, EventArgs e)
         {
             message048s = message048s.OrderBy(message048s => message048s.timeInSeconds).ToList();
@@ -119,7 +123,7 @@ namespace PGTA_Second_Project
                     currentLon = Convert.ToDouble(message048s[k].LON);
                     currentHeight = Convert.ToDouble(message048s[k].geodesicHeight);
                     if (message048s[k].Heading != "N/A") { heading = Convert.ToDouble(message048s[k].Heading); } else { heading = 0; }
-                    aircrafts[hitIndex].fillCoordinates(currentLat, currentLon, currentHeight, moveTime, heading, timeIndex);
+                    aircrafts[hitIndex].fillCoordinates(currentLat, currentLon, currentHeight, heading, timeIndex);
                 }
 
             }
@@ -134,12 +138,41 @@ namespace PGTA_Second_Project
                 GMapMarker marker = new GMarkerGoogle(new PointLatLng(initialLat, initialLon), GMarkerGoogleType.black_small);
                 marker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
                 marker.ToolTipText = aircrafts[i].squawk;
+                marker.ToolTip.Font = new Font("Arial", 12);
+                marker.ToolTip.Fill = new SolidBrush(Color.Transparent);
+                marker.ToolTip.Foreground = new SolidBrush(Color.Black);
                 //aircraftMarkers[i].Position = new PointLatLng(initialLat, initialLon);
                 aircraftMarkers.Add(marker);
             }
+            GMapOverlay markers = new GMapOverlay("markers");
+            Image image = Image.FromFile("aircraft.png");
+            this.markerIcon = new Bitmap(image, new Size(50, 50));
+            this.markerIcon.MakeTransparent();
+
+        }
+        private void gMapControl1_Load(object sender, EventArgs e)
+        {
+            gMapControl1.MapProvider = GMap.NET.MapProviders.BingMapProvider.Instance;
+            GMaps.Instance.Mode = AccessMode.ServerOnly;
+            gMapControl1.Position = new PointLatLng(41.297, 2.078);
+            gMapControl1.MinZoom = 8;
+            gMapControl1.Zoom = 10;
+            gMapControl1.MaxZoom = 20;
+            
 
         }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            timer1.Start();
+            this.j = -1;
+           gMapControl1.Overlays.Add(markers);
+
+        }
+        private void button2_Click(object sender, EventArgs e)
+        {
+            timer1.Stop();
+        }
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
         {
             if (numericUpDown1.Value >= numericUpDown1.Minimum)
@@ -152,10 +185,31 @@ namespace PGTA_Second_Project
                 timer1.Interval = 1000 / (int)numericUpDown1.Value;
             }
         }
-
-        private void button2_Click(object sender, EventArgs e)
+        private void timer1_Tick(object sender, EventArgs e)
         {
-            timer1.Stop();
+            this.j++;
+            for (int i = 0; i < this.aircrafts.Count; i++)
+            {
+                this.aircrafts[i].moveAC();
+                double X = this.aircrafts[i].getLatitude();
+                double Y = this.aircrafts[i].getLongitude();
+                if (X != 400)
+                {
+                    aircraftMarkers[i].Position = new PointLatLng(X, Y);
+                    aircraftMarkers[i].ToolTipText = "Squawk: " + aircrafts[i].squawk + "\n" + Convert.ToString((int)aircrafts[i].getHeight()) + " m\n" + Convert.ToString(aircrafts[i].getHeading() + " º");
+                    
+                }
+                //markers.Markers.Add(aircraftMarkers[i]);
+                label2.Text = TimeSpan.FromSeconds(this.firstClock + j).ToString();
+
+            }
+            markers.Markers.Clear();
+            for(int i = 0; i < aircraftMarkers.Count; i++){
+                markers.Markers.Add(aircraftMarkers[i]);
+            }
+            
+            gMapControl1.Refresh();
+
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -170,35 +224,49 @@ namespace PGTA_Second_Project
                 if (X != 400 && Y != 400)
                 {
                     aircraftMarkers[i].Position = new PointLatLng(X, Y);
-                    markers.Markers.Add(aircraftMarkers[i]);
-                }
+                    aircraftMarkers[i].ToolTipText = "Squawk: " + aircrafts[i].squawk + "\n" + Convert.ToString((int)aircrafts[i].getHeight()) + " m\n" + Convert.ToString(aircrafts[i].getHeading() + " º");
 
+                }
+                //markers.Markers.Add(aircraftMarkers[i]);
             }
-            gMapControl1.Overlays.Add(markers);
-            gMapControl1.Refresh();
+            
             label2.Text = TimeSpan.FromSeconds(this.firstClock + j).ToString();
+            markers.Markers.Clear();
+            for (int i = 0; i < aircraftMarkers.Count; i++)
+            {
+                markers.Markers.Add(aircraftMarkers[i]);
+            }
+
+            gMapControl1.Refresh();
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
             if (j > 1)
-            {
+            { //WHEN AN AIRCRAFT HAS NOT MOVED HOW DO WE MOVE IT BACK
                 this.j--;
                 for (int i = 0; i < this.aircrafts.Count; i++)
                 {
                     this.aircrafts[i].moveACback();
                     double X = this.aircrafts[i].getLatitude();
                     double Y = this.aircrafts[i].getLongitude();
-                    if (X != 300 && Y != 300)
+                    if (X != 400 && Y != 400)
                     {
                         aircraftMarkers[i].Position = new PointLatLng(X, Y);
-                        markers.Markers.Add(aircraftMarkers[i]);
+                        aircraftMarkers[i].ToolTipText = "Squawk: " + aircrafts[i].squawk + "\n" + Convert.ToString((int)aircrafts[i].getHeight()) + " m\n" + Convert.ToString(aircrafts[i].getHeading() + " º");
+                        
                     }
+                    //markers.Markers.Add(aircraftMarkers[i]);
 
                 }
-                gMapControl1.Overlays.Add(markers);
-                gMapControl1.Refresh();
                 label2.Text = TimeSpan.FromSeconds(this.firstClock + j).ToString();
+                markers.Markers.Clear();
+                for (int i = 0; i < aircraftMarkers.Count; i++)
+                {
+                    markers.Markers.Add(aircraftMarkers[i]);
+                }
+
+                gMapControl1.Refresh();
             }
         }
 
