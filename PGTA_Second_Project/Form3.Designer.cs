@@ -31,27 +31,41 @@
             components = new System.ComponentModel.Container();
             gMapControl1 = new GMap.NET.WindowsForms.GMapControl();
             timer1 = new System.Windows.Forms.Timer(components);
-            button1 = new Button();
-            numericUpDown1 = new NumericUpDown();
+            startButton = new Button();
+            speedChange = new NumericUpDown();
             label1 = new Label();
-            button2 = new Button();
-            button3 = new Button();
-            button4 = new Button();
-            button5 = new Button();
+            pauseButton = new Button();
+            stepForwardButton = new Button();
+            stepBackButton = new Button();
+            savePDFbutton = new Button();
             label2 = new Label();
-            button6 = new Button();
-            ((System.ComponentModel.ISupportInitialize)numericUpDown1).BeginInit();
+            resumeButton = new Button();
+            cutoffSelector = new TrackBar();
+            routeView = new DataGridView();
+            RouteColumn = new DataGridViewTextBoxColumn();
+            SquawkColumn = new DataGridViewTextBoxColumn();
+            squawkTextBox = new TextBox();
+            addRouteButton = new Button();
+            label3 = new Label();
+            overButton = new RadioButton();
+            switchFLmode = new GroupBox();
+            underButton = new RadioButton();
+            ((System.ComponentModel.ISupportInitialize)speedChange).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)cutoffSelector).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)routeView).BeginInit();
+            switchFLmode.SuspendLayout();
             SuspendLayout();
             // 
             // gMapControl1
             // 
+            gMapControl1.AutoSize = true;
             gMapControl1.Bearing = 0F;
             gMapControl1.CanDragMap = true;
             gMapControl1.EmptyTileColor = Color.Navy;
             gMapControl1.GrayScaleMode = false;
             gMapControl1.HelperLineOption = GMap.NET.WindowsForms.HelperLineOptions.DontShow;
             gMapControl1.LevelsKeepInMemory = 5;
-            gMapControl1.Location = new Point(84, 64);
+            gMapControl1.Location = new Point(105, 288);
             gMapControl1.MarkersEnabled = true;
             gMapControl1.MaxZoom = 18;
             gMapControl1.MinZoom = 2;
@@ -65,125 +79,240 @@
             gMapControl1.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
             gMapControl1.SelectedAreaFillColor = Color.FromArgb(33, 65, 105, 225);
             gMapControl1.ShowTileGridLines = false;
-            gMapControl1.Size = new Size(2160, 1200);
+            gMapControl1.Size = new Size(2041, 1106);
             gMapControl1.TabIndex = 0;
             gMapControl1.Zoom = 2D;
             gMapControl1.Load += gMapControl1_Load;
+            gMapControl1.MouseClick += gMapControl1_MouseClick;
             // 
             // timer1
             // 
             timer1.Interval = 1000;
             timer1.Tick += timer1_Tick;
             // 
-            // button1
+            // startButton
             // 
-            button1.Location = new Point(71, -1);
-            button1.Name = "button1";
-            button1.Size = new Size(155, 58);
-            button1.TabIndex = 1;
-            button1.Text = "(Re)Start";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
+            startButton.Location = new Point(71, 42);
+            startButton.Name = "startButton";
+            startButton.Size = new Size(155, 58);
+            startButton.TabIndex = 1;
+            startButton.Text = "(Re)Start";
+            startButton.UseVisualStyleBackColor = true;
+            startButton.Click += button1_Click;
             // 
-            // numericUpDown1
+            // speedChange
             // 
-            numericUpDown1.Location = new Point(698, 12);
-            numericUpDown1.Maximum = new decimal(new int[] { 1000, 0, 0, 0 });
-            numericUpDown1.Minimum = new decimal(new int[] { 1, 0, 0, 65536 });
-            numericUpDown1.Name = "numericUpDown1";
-            numericUpDown1.Size = new Size(77, 35);
-            numericUpDown1.TabIndex = 2;
-            numericUpDown1.Value = new decimal(new int[] { 1, 0, 0, 0 });
-            numericUpDown1.ValueChanged += numericUpDown1_ValueChanged;
+            speedChange.Location = new Point(587, 54);
+            speedChange.Maximum = new decimal(new int[] { 50, 0, 0, 0 });
+            speedChange.Minimum = new decimal(new int[] { 1, 0, 0, 65536 });
+            speedChange.Name = "speedChange";
+            speedChange.Size = new Size(77, 35);
+            speedChange.TabIndex = 2;
+            speedChange.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            speedChange.ValueChanged += numericUpDown1_ValueChanged;
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(799, 14);
+            label1.Location = new Point(670, 56);
             label1.Name = "label1";
             label1.Size = new Size(172, 30);
             label1.TabIndex = 3;
             label1.Text = "Simulation speed";
             // 
-            // button2
+            // pauseButton
             // 
-            button2.Location = new Point(248, 8);
-            button2.Name = "button2";
-            button2.Size = new Size(116, 41);
-            button2.TabIndex = 4;
-            button2.Text = "Pause";
-            button2.UseVisualStyleBackColor = true;
-            button2.Click += button2_Click;
+            pauseButton.Location = new Point(246, 42);
+            pauseButton.Name = "pauseButton";
+            pauseButton.Size = new Size(160, 58);
+            pauseButton.TabIndex = 4;
+            pauseButton.Text = "Pause";
+            pauseButton.UseVisualStyleBackColor = true;
+            pauseButton.Click += button2_Click;
             // 
-            // button3
+            // stepForwardButton
             // 
-            button3.Location = new Point(1035, 9);
-            button3.Name = "button3";
-            button3.Size = new Size(175, 40);
-            button3.TabIndex = 5;
-            button3.Text = "Step forward";
-            button3.UseVisualStyleBackColor = true;
-            button3.Click += button3_Click;
+            stepForwardButton.Location = new Point(246, 123);
+            stepForwardButton.Name = "stepForwardButton";
+            stepForwardButton.Size = new Size(160, 51);
+            stepForwardButton.TabIndex = 5;
+            stepForwardButton.Text = "Step forward";
+            stepForwardButton.UseVisualStyleBackColor = true;
+            stepForwardButton.Click += button3_Click;
             // 
-            // button4
+            // stepBackButton
             // 
-            button4.Location = new Point(1216, 12);
-            button4.Name = "button4";
-            button4.Size = new Size(169, 34);
-            button4.TabIndex = 6;
-            button4.Text = "Step back";
-            button4.UseVisualStyleBackColor = true;
-            button4.Click += button4_Click;
+            stepBackButton.Location = new Point(412, 123);
+            stepBackButton.Name = "stepBackButton";
+            stepBackButton.Size = new Size(141, 51);
+            stepBackButton.TabIndex = 6;
+            stepBackButton.Text = "Step back";
+            stepBackButton.UseVisualStyleBackColor = true;
+            stepBackButton.Click += button4_Click;
             // 
-            // button5
+            // savePDFbutton
             // 
-            button5.Location = new Point(1645, 7);
-            button5.Name = "button5";
-            button5.Size = new Size(221, 45);
-            button5.TabIndex = 7;
-            button5.Text = "Guardar instantánea";
-            button5.UseVisualStyleBackColor = true;
-            button5.Click += button5_Click;
+            savePDFbutton.Location = new Point(332, 209);
+            savePDFbutton.Name = "savePDFbutton";
+            savePDFbutton.Size = new Size(221, 45);
+            savePDFbutton.TabIndex = 7;
+            savePDFbutton.Text = "Guardar instantánea";
+            savePDFbutton.UseVisualStyleBackColor = true;
+            savePDFbutton.Click += button5_Click;
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(1410, 14);
+            label2.Location = new Point(71, 133);
             label2.Name = "label2";
             label2.Size = new Size(177, 30);
             label2.TabIndex = 8;
             label2.Text = "Time of day (UTC)";
             // 
-            // button6
+            // resumeButton
             // 
-            button6.Location = new Point(398, 5);
-            button6.Name = "button6";
-            button6.Size = new Size(113, 48);
-            button6.TabIndex = 9;
-            button6.Text = "Resume";
-            button6.UseVisualStyleBackColor = true;
-            button6.Click += button6_Click;
+            resumeButton.Location = new Point(412, 42);
+            resumeButton.Name = "resumeButton";
+            resumeButton.Size = new Size(141, 58);
+            resumeButton.TabIndex = 9;
+            resumeButton.Text = "Resume";
+            resumeButton.UseVisualStyleBackColor = true;
+            resumeButton.Click += button6_Click;
+            // 
+            // cutoffSelector
+            // 
+            cutoffSelector.Location = new Point(2270, 350);
+            cutoffSelector.Maximum = 400;
+            cutoffSelector.Name = "cutoffSelector";
+            cutoffSelector.Orientation = Orientation.Vertical;
+            cutoffSelector.Size = new Size(80, 662);
+            cutoffSelector.TabIndex = 10;
+            cutoffSelector.TickFrequency = 10;
+            cutoffSelector.Value = 400;
+            cutoffSelector.Scroll += cutoffSelector_Scroll;
+            // 
+            // routeView
+            // 
+            routeView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            routeView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            routeView.Columns.AddRange(new DataGridViewColumn[] { RouteColumn, SquawkColumn });
+            routeView.Location = new Point(2627, 580);
+            routeView.MaximumSize = new Size(450, 1000);
+            routeView.MinimumSize = new Size(450, 100);
+            routeView.Name = "routeView";
+            routeView.RowHeadersWidth = 72;
+            routeView.Size = new Size(450, 661);
+            routeView.TabIndex = 11;
+            routeView.CellClick += routeView_CellClick;
+            // 
+            // RouteColumn
+            // 
+            RouteColumn.HeaderText = "Route";
+            RouteColumn.MinimumWidth = 9;
+            RouteColumn.Name = "RouteColumn";
+            RouteColumn.ReadOnly = true;
+            RouteColumn.Width = 175;
+            // 
+            // SquawkColumn
+            // 
+            SquawkColumn.HeaderText = "Squawk";
+            SquawkColumn.MinimumWidth = 9;
+            SquawkColumn.Name = "SquawkColumn";
+            SquawkColumn.ReadOnly = true;
+            SquawkColumn.Width = 175;
+            // 
+            // squawkTextBox
+            // 
+            squawkTextBox.Location = new Point(2627, 470);
+            squawkTextBox.Name = "squawkTextBox";
+            squawkTextBox.Size = new Size(261, 35);
+            squawkTextBox.TabIndex = 12;
+            squawkTextBox.Text = "Type squawk";
+            // 
+            // addRouteButton
+            // 
+            addRouteButton.Location = new Point(2910, 469);
+            addRouteButton.Name = "addRouteButton";
+            addRouteButton.Size = new Size(163, 39);
+            addRouteButton.TabIndex = 13;
+            addRouteButton.Text = "Add to routes";
+            addRouteButton.UseVisualStyleBackColor = true;
+            addRouteButton.Click += addRouteButton_Click;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(2245, 1075);
+            label3.Name = "label3";
+            label3.Size = new Size(105, 30);
+            label3.TabIndex = 14;
+            label3.Text = "Cut-off FL";
+            // 
+            // overButton
+            // 
+            overButton.AutoSize = true;
+            overButton.Location = new Point(39, 48);
+            overButton.Name = "overButton";
+            overButton.Size = new Size(117, 34);
+            overButton.TabIndex = 15;
+            overButton.Text = "See over";
+            overButton.UseVisualStyleBackColor = true;
+            overButton.CheckedChanged += overButton_CheckedChanged;
+            // 
+            // switchFLmode
+            // 
+            switchFLmode.Controls.Add(underButton);
+            switchFLmode.Controls.Add(overButton);
+            switchFLmode.Location = new Point(2245, 1144);
+            switchFLmode.Name = "switchFLmode";
+            switchFLmode.Size = new Size(350, 175);
+            switchFLmode.TabIndex = 16;
+            switchFLmode.TabStop = false;
+            switchFLmode.Text = "Select cut-off behavior";
+            // 
+            // underButton
+            // 
+            underButton.AutoSize = true;
+            underButton.Checked = true;
+            underButton.Location = new Point(39, 100);
+            underButton.Name = "underButton";
+            underButton.Size = new Size(131, 34);
+            underButton.TabIndex = 16;
+            underButton.TabStop = true;
+            underButton.Text = "See under";
+            underButton.UseVisualStyleBackColor = true;
+            underButton.CheckedChanged += underButton_CheckedChanged;
             // 
             // Form3
             // 
             AutoScaleDimensions = new SizeF(12F, 30F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1896, 1016);
-            Controls.Add(button6);
+            ClientSize = new Size(3217, 1528);
+            Controls.Add(switchFLmode);
+            Controls.Add(label3);
+            Controls.Add(addRouteButton);
+            Controls.Add(squawkTextBox);
+            Controls.Add(routeView);
+            Controls.Add(cutoffSelector);
+            Controls.Add(resumeButton);
             Controls.Add(label2);
-            Controls.Add(button5);
-            Controls.Add(button4);
-            Controls.Add(button3);
-            Controls.Add(button2);
+            Controls.Add(savePDFbutton);
+            Controls.Add(stepBackButton);
+            Controls.Add(stepForwardButton);
+            Controls.Add(pauseButton);
             Controls.Add(label1);
-            Controls.Add(numericUpDown1);
-            Controls.Add(button1);
+            Controls.Add(speedChange);
+            Controls.Add(startButton);
             Controls.Add(gMapControl1);
             Name = "Form3";
             Text = "Form3";
             WindowState = FormWindowState.Maximized;
             Load += Form3_Load;
-            ((System.ComponentModel.ISupportInitialize)numericUpDown1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)speedChange).EndInit();
+            ((System.ComponentModel.ISupportInitialize)cutoffSelector).EndInit();
+            ((System.ComponentModel.ISupportInitialize)routeView).EndInit();
+            switchFLmode.ResumeLayout(false);
+            switchFLmode.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -192,14 +321,24 @@
 
         private GMap.NET.WindowsForms.GMapControl gMapControl1;
         private System.Windows.Forms.Timer timer1;
-        private Button button1;
-        private NumericUpDown numericUpDown1;
+        private Button startButton;
+        private NumericUpDown speedChange;
         private Label label1;
-        private Button button2;
-        private Button button3;
-        private Button button4;
-        private Button button5;
+        private Button pauseButton;
+        private Button stepForwardButton;
+        private Button stepBackButton;
+        private Button savePDFbutton;
         private Label label2;
-        private Button button6;
+        private Button resumeButton;
+        private TrackBar cutoffSelector;
+        private DataGridView routeView;
+        private DataGridViewTextBoxColumn RouteColumn;
+        private DataGridViewTextBoxColumn SquawkColumn;
+        private TextBox squawkTextBox;
+        private Button addRouteButton;
+        private Label label3;
+        private RadioButton overButton;
+        private GroupBox switchFLmode;
+        private RadioButton underButton;
     }
 }

@@ -12,27 +12,27 @@ namespace PGTA_Second_Project
         private double lat = 400;
         private double lon = 400;
         private double height = 400;
-        private double heading = 400;
+        private float heading = 400;
         public string squawk;
         private List<double> latitudes = new List<double>();
         private List<double> longitudes = new List<double>();
         private List<double> altitudes = new List<double>();
-        private List<double> headings = new List<double>();
+        private List<float> headings = new List<float>();
         private Stack<double> stackedLats = new Stack<double>();
         private Stack<double> stackedLons = new Stack<double>();
         private Stack<double> stackedAlts = new Stack<double>();
-        private Stack<double> stackedHdgs = new Stack<double>();
+        private Stack<float> stackedHdgs = new Stack<float>();
         private Stack<double> undoLats = new Stack<double>();
         private Stack<double> undoLons = new Stack<double>();
         private Stack<double> undoAlts = new Stack<double>();
-        private Stack<double> undoHdgs = new Stack<double>();
+        private Stack<float> undoHdgs = new Stack<float>();
 
 
         public Aircraft(string squawk)
         {
             this.squawk = squawk;
         }
-        public void fillCoordinates(double currentLatitude, double currentLongitude, double currentHeight, double currentHeading, int listIndex)
+        public void fillCoordinates(double currentLatitude, double currentLongitude, double currentHeight, float currentHeading, int listIndex)
         {
 
             this.latitudes[listIndex] = currentLatitude;
@@ -47,18 +47,18 @@ namespace PGTA_Second_Project
             this.altitudes.Add(400);
             this.headings.Add(400);
         }
-        public void setPosition(double latitude, double longitude, double height, double heading) {this.lat = latitude; this.lon = longitude; this.height = height; this.heading = heading; }
+        public void setPosition(double latitude, double longitude, double height, float heading) {this.lat = latitude; this.lon = longitude; this.height = height; this.heading = heading; }
         public double getLatitude() { return lat; }
         public double getLongitude() { return lon; }
         public double getHeight() { return height; }
-        public double getHeading() { return heading; }
+        public float getHeading() { return heading; }
 
         public void moveAC()
         {
             double setLat = this.stackedLats.Pop();
             double setLon = this.stackedLons.Pop();
             double setAlt = this.stackedAlts.Pop();
-            double setHdg = this.stackedHdgs.Pop();
+            float setHdg = this.stackedHdgs.Pop();
             undoLats.Push(setLat);
             undoLons.Push(setLon);
             undoAlts.Push(setAlt);
@@ -73,7 +73,7 @@ namespace PGTA_Second_Project
             double setLat = this.undoLats.Pop();
             double setLon = this.undoLons.Pop();
             double setAlt = this.undoAlts.Pop();
-            double setHdg = this.undoHdgs.Pop();
+            float setHdg = this.undoHdgs.Pop();
             stackedLats.Push(setLat);
             stackedLons.Push(setLon);
             stackedAlts.Push(setAlt);
