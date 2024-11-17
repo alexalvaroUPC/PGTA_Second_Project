@@ -348,12 +348,12 @@ namespace PGTA_Second_Project
             }
             else
             {
-                //Using decimal conversion for correction
-                decimal flDecimal = Convert.ToDecimal(FL);
-                decimal bpDecimal = Convert.ToDecimal(BP);
-                decimal correction = Convert.ToDecimal(1013.2);
-                decimal correctedModeC = (flDecimal * 100M + (bpDecimal - correction) * 30M);
-                this.CorrectedModeC = Convert.ToString(Decimal.Round(correctedModeC,2));
+                ////Using decimal conversion for correction
+                //decimal flDecimal = Convert.ToDecimal(FL);
+                //decimal bpDecimal = Convert.ToDecimal(BP);
+                double correction = 1013.2;
+                double correctedModeC = (FL * 100 + (BP - correction) * 30);
+                this.CorrectedModeC = Convert.ToString(correctedModeC);
 
             }
 
@@ -441,9 +441,9 @@ namespace PGTA_Second_Project
         {
             double foundTime = 0;
             int fullnumber = (octet1 << 16) | (octet2 << 8) | octet3;
-            int[] fullbits = dec2bin(fullnumber, 24);
-            foundTime = bin2dec(fullbits) / 128;
-            this.timeInSeconds = (int) foundTime;
+            //int[] fullbits = dec2bin(fullnumber, 24);
+            //foundTime = bin2dec(fullbits) / 128;
+            this.timeInSeconds = fullnumber/128;
             TimeSpan formalTime = TimeSpan.FromSeconds(foundTime);
             string timeHHMMSS = formalTime.ToString(@"hh\:mm\:ss\:fff");
             return timeHHMMSS;
@@ -644,24 +644,24 @@ namespace PGTA_Second_Project
 
         public string getRHO(int octet1, int octet2)
         {
-            double foundRHO = 0;
+            //double foundRHO = 0;
             int fullNumber = (octet1 << 8) | octet2;
-            int[] fullBits = dec2bin(fullNumber, 16);
+            //int[] fullBits = dec2bin(fullNumber, 16);
 
-            foundRHO = bin2dec(fullBits) / 256;
-
+            //foundRHO = bin2dec(fullBits) / 256;
+            double foundRHO = (double) fullNumber / 256;
             string RHO = Convert.ToString(foundRHO);
             return RHO;
         }
 
         public string getTHETA(int octet1, int octet2)
         {
-            double foundTHETA = 0;
+            //double foundTHETA = 0;
             int fullNumber = (octet1 << 8) | octet2;
-            int[] fullBits = dec2bin(fullNumber, 16);
+            //int[] fullBits = dec2bin(fullNumber, 16);
 
-            foundTHETA = bin2dec(fullBits)*(360 / Math.Pow(2, 16));
-
+            //foundTHETA = bin2dec(fullBits)*(360 / Math.Pow(2, 16));
+            double foundTHETA = (double) fullNumber * 360/65536;
             string THETA = Convert.ToString(foundTHETA);
             return THETA;
         }
@@ -712,7 +712,8 @@ namespace PGTA_Second_Project
             {
                 this.mode3G = "Garbled code";
             }
-            int[] foundFlightLevel = fullBits.Skip(2).ToArray();
+            //int[] foundFlightLevel = fullBits.Skip(2).ToArray();
+            int[] foundFlightLevel = getBitsFlightLevel(fullBits);
             double foundFlightLevelDouble;
             if (fullBits[2] == 1)
             {
@@ -725,7 +726,15 @@ namespace PGTA_Second_Project
             string flightLevel = Convert.ToString(foundFlightLevelDouble);
             return flightLevel;
         }
-
+        public int[] getBitsFlightLevel(int[] twoOctetBits)
+        {
+            int[] FLbits = new int[14];
+            for(int i = 0; i<14; i++)
+            {
+                FLbits[i] = twoOctetBits[i + 2];
+            }
+            return FLbits;
+        }
         public int radarPlot(int octet1, int octet2, int octet3,
             int octet4, int octet5, int octet6, int octet7, int octet8)
         {
@@ -901,9 +910,9 @@ namespace PGTA_Second_Project
             int headingRaw = (octet3 << 8) | octet4;
 
             // Convert the raw ground speed to knots (assuming a conversion factor of 0.22)
-            double groundSpeedKnots = Math.Round(groundSpeedRaw * 0.22, 4);
+            double groundSpeedKnots = groundSpeedRaw * 0.22;
             // Convert the raw heading to degrees (assuming a full circle is 2^16 units)
-            double headingDegrees = Math.Round(headingRaw * (360.0 / Math.Pow(2.0, 16.0)), 4);
+            double headingDegrees = headingRaw * 360.0 / 65536;
 
             // Store the ground speed and heading as strings
             this.groundSpeedKT = groundSpeedKnots.ToString();
@@ -1129,31 +1138,45 @@ namespace PGTA_Second_Project
 
         private void modeSMBdecoding(List<byte> data)
         {
+            int[] octetsJoined = new int[7];
             for (int i = 0; i < data.Count; i += 8)
-            {
-                int octet1 = data[i];
-                int[] octet1bits = dec2bin(octet1, 8);
-                int octet2 = data[i + 1];
-                int[] octet2bits = dec2bin(octet2, 8);
-                int octet3 = data[i + 2];
-                int[] octet3bits = dec2bin(octet3, 8);
-                int octet4 = data[i + 3];
-                int[] octet4bits = dec2bin(octet4, 8);
-                int octet5 = data[i + 4];
-                int[] octet5bits = dec2bin(octet5, 8);
-                int octet6 = data[i + 5];
-                int[] octet6bits = dec2bin(octet6, 8);
-                int octet7 = data[i + 6];
-                int[] octet7bits = dec2bin(octet7, 8);
+            {      
+                for(int j = 0; j < 7; j++)
+                {
+                    octetsJoined[j] = data[i + j];
+                }
+                //int octet1 = data[i];
+                //int[] octet1bits = dec2bin(octet1, 8);
+                //int octet2 = data[i + 1];
+                //int[] octet2bits = dec2bin(octet2, 8);
+                //int octet3 = data[i + 2];
+                //int[] octet3bits = dec2bin(octet3, 8);
+                //int octet4 = data[i + 3];
+                //int[] octet4bits = dec2bin(octet4, 8);
+                //int octet5 = data[i + 4];
+                //int[] octet5bits = dec2bin(octet5, 8);
+                //int octet6 = data[i + 5];
+                //int[] octet6bits = dec2bin(octet6, 8);
+                //int octet7 = data[i + 6];
+                //int[] octet7bits = dec2bin(octet7, 8);
                 int octet8 = data[i + 7];
-                int[] BDSdatabits = octet1bits.Concat(octet2bits).Concat(octet3bits)
-                                              .Concat(octet4bits).Concat(octet5bits)
-                                              .Concat(octet6bits).Concat(octet7bits)
-                                              .ToArray();
-
+                //int[] BDSdatabits = octet1bits.Concat(octet2bits).Concat(octet3bits)
+                //                              .Concat(octet4bits).Concat(octet5bits)
+                //                              .Concat(octet6bits).Concat(octet7bits)
+                //                              .ToArray();
+                //int BDSdata = (octet1 >> 48) | (octet2 >> 40) | (octet3 >> 32) | (octet4 >> 24) | (octet5 >> 16) | (octet6 >> 8) | octet7;
+                //octetsJoined.Add(octet1);
+                //octetsJoined.Add(octet2);
+                //octetsJoined.Add(octet3);
+                //octetsJoined.Add(octet4);
+                //octetsJoined.Add(octet5);
+                //octetsJoined.Add(octet6);
+                //octetsJoined.Add(octet7);
+                int[] BDSdatabits = joinOctetsBds(octetsJoined);
                 int[] octet8bits = dec2bin(octet8, 8);
-                int[] octet8bds1 = octet8bits.Take(4).ToArray();
-                int[] octet8bds2 = octet8bits.Skip(4).Take(4).ToArray();
+                //int[] octet8bds1 = octet8bits.Take(4).ToArray();
+                //int[] octet8bds2 = octet8bits.Skip(4).Take(4).ToArray();
+                (int[] octet8bds1, int[] octet8bds2) = Split8BitArrayTo4Bit(octet8bits);
                 string BDS1 = bin2hexBDS(octet8bds1);
                 string BDS2 = bin2hexBDS(octet8bds2);
                 this.BDS+="BDS: "+ BDS1 + "," + BDS2 + "\n";
@@ -1172,16 +1195,29 @@ namespace PGTA_Second_Project
                 }
             }
         }
-
+        public int[] joinOctetsBds(int[] octetList)
+        {
+            int[] fullBDSdatabits = new int[56];
+            for(int i = 0; i<7; i++)
+            {
+                int[] octetBits = dec2bin(octetList[i], 8);
+                for (int j= 0; j<8; j++)
+                {
+                    fullBDSdatabits[i*8+j] = octetBits[j];
+                }
+                
+            }
+            return fullBDSdatabits;
+        }
         public static (int[], int[]) Split8BitArrayTo4Bit(int[] eightBitArray)
         {
-            int[] upperNibbles = new int[eightBitArray.Length];
-            int[] lowerNibbles = new int[eightBitArray.Length];
+            int[] upperNibbles = new int[4];
+            int[] lowerNibbles = new int[4];
 
-            for (int i = 0; i < eightBitArray.Length; i++)
+            for (int i = 0; i < 4; i++)
             {
-                upperNibbles[i] = (eightBitArray[i] >> 4) & 0xF;
-                lowerNibbles[i] = eightBitArray[i] & 0xF;
+                upperNibbles[i] = eightBitArray[i];
+                lowerNibbles[i] = eightBitArray[4+i];
             }
 
             return (upperNibbles, lowerNibbles);

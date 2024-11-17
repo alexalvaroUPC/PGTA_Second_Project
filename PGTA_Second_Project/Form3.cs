@@ -39,6 +39,7 @@ namespace PGTA_Second_Project
         List<List<PointLatLng>> pointLists = new List<List<PointLatLng>>();
         List<GMapMarker> aircraftMarkers = new List<GMapMarker>();
         List<string> incursions = new List<string>();
+        List<Aircraft> insursiveAircrafts = new List<Aircraft>();
         int cutOffFL = 400;
         bool seeOver = false;
         public void setData(List<message048> messages) { this.message048s = messages; }
@@ -211,7 +212,7 @@ namespace PGTA_Second_Project
             //markerOverlay.Markers.Clear();
             for (int i = 0; i < aircraftMarkers.Count; i++)
             {
-                if ((this.seeOver && aircrafts[i].getHeight() > this.cutOffFL * 30.48) || (!this.seeOver && aircrafts[i].getHeight() < this.cutOffFL * 30.48))
+                if (((this.seeOver && aircrafts[i].getHeight() > this.cutOffFL * 30.48) || (!this.seeOver && aircrafts[i].getHeight() < this.cutOffFL * 30.48)) && aircrafts[i].getLatitude() != 400)
                 {
                     markerOverlay.Markers.Add(aircraftMarkers[i]);
                     if (this.desiredSquawks.IndexOf(aircrafts[i].squawk) != -1)
@@ -517,10 +518,12 @@ namespace PGTA_Second_Project
         {
             string report = "Aircraft with squawk: " + intruder.squawk + " was present in highlighted area at: " + timeOfDay + " in position: " + location.Position.ToString();
             this.incursions.Add(report);
+            this.insursiveAircrafts.Add(intruder);
         }
 
         private void gMapControl1_MouseClick(object sender, MouseEventArgs e)
         {
+            
             if (e.Button == MouseButtons.Left)
             {
                 PointLatLng clickedPoint = gMapControl1.FromLocalToLatLng((int)e.X, (int)e.Y);
@@ -535,6 +538,7 @@ namespace PGTA_Second_Project
                 {
                     GMapPolygon zonaRegistro = createZone(lat, lon, d1, d2);
                     polygonOverlay.Polygons.Add(zonaRegistro);
+                    gMapControl1.Overlays.Add(polygonOverlay);
                     gMapControl1.Refresh();
                 }
             }
