@@ -444,7 +444,7 @@ namespace PGTA_Second_Project
             //int[] fullbits = dec2bin(fullnumber, 24);
             //foundTime = bin2dec(fullbits) / 128;
             this.timeInSeconds = fullnumber/128;
-            TimeSpan formalTime = TimeSpan.FromSeconds(foundTime);
+            TimeSpan formalTime = TimeSpan.FromSeconds((double)fullnumber/128);
             string timeHHMMSS = formalTime.ToString(@"hh\:mm\:ss\:fff");
             return timeHHMMSS;
         }
