@@ -14,6 +14,7 @@ namespace PGTA_Second_Project
     {
         private int length;
         private List<byte> message;
+        public int messageNumber;
         public string SAC = "N/A";
         public string SIC = "N/A";
         public string timeOfDay = "N/A";
@@ -115,8 +116,9 @@ namespace PGTA_Second_Project
         private int[] fmsBits = new int[12]; // bits 15-26
         private int[] bpBits = new int[12];  // bits 28-39
 
-        public message048(int length, List<byte> FSPEC, List<byte> fullMessage)
+        public message048(int length, List<byte> FSPEC, List<byte> fullMessage, int messageCount)
         {
+            this.messageNumber = messageCount;
             this.length = length;
             this.message = fullMessage;
             int[] arrayFSPEC1 = dec2bin(FSPEC[0], 8);

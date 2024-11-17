@@ -1,6 +1,6 @@
 ﻿namespace PGTA_Second_Project
 {
-    partial class Form2
+    partial class ExportaciónDatos
     {
         /// <summary>
         /// Required designer variable.
@@ -38,6 +38,9 @@
             textBox2 = new TextBox();
             textBox3 = new TextBox();
             textBox4 = new TextBox();
+            message048View = new DataGridView();
+            button3 = new Button();
+            ((System.ComponentModel.ISupportInitialize)message048View).BeginInit();
             SuspendLayout();
             // 
             // button1
@@ -99,6 +102,7 @@
             checkBox4.TabIndex = 6;
             checkBox4.Text = "Delimitate geographic area";
             checkBox4.UseVisualStyleBackColor = true;
+            checkBox4.CheckedChanged += checkBox4_CheckedChanged;
             // 
             // textBox1
             // 
@@ -107,6 +111,7 @@
             textBox1.Size = new Size(207, 35);
             textBox1.TabIndex = 7;
             textBox1.Text = "Minimum latitude";
+            textBox1.Visible = false;
             // 
             // textBox2
             // 
@@ -115,6 +120,7 @@
             textBox2.Size = new Size(207, 35);
             textBox2.TabIndex = 8;
             textBox2.Text = "Maximum latitude";
+            textBox2.Visible = false;
             // 
             // textBox3
             // 
@@ -123,6 +129,7 @@
             textBox3.Size = new Size(207, 35);
             textBox3.TabIndex = 9;
             textBox3.Text = "Minimum longitude";
+            textBox3.Visible = false;
             // 
             // textBox4
             // 
@@ -131,12 +138,34 @@
             textBox4.Size = new Size(207, 35);
             textBox4.TabIndex = 10;
             textBox4.Text = "Maximum longitude";
+            textBox4.Visible = false;
             // 
-            // Form2
+            // message048View
+            // 
+            message048View.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            message048View.Location = new Point(88, 730);
+            message048View.Name = "message048View";
+            message048View.RowHeadersWidth = 72;
+            message048View.Size = new Size(2848, 864);
+            message048View.TabIndex = 11;
+            // 
+            // button3
+            // 
+            button3.Location = new Point(593, 359);
+            button3.Name = "button3";
+            button3.Size = new Size(277, 71);
+            button3.TabIndex = 12;
+            button3.Text = "Actualizar tabla";
+            button3.UseVisualStyleBackColor = true;
+            button3.Click += button3_Click;
+            // 
+            // ExportaciónDatos
             // 
             AutoScaleDimensions = new SizeF(12F, 30F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1639, 752);
+            ClientSize = new Size(3134, 1624);
+            Controls.Add(button3);
+            Controls.Add(message048View);
             Controls.Add(textBox4);
             Controls.Add(textBox3);
             Controls.Add(textBox2);
@@ -147,8 +176,10 @@
             Controls.Add(checkBox1);
             Controls.Add(button2);
             Controls.Add(button1);
-            Name = "Form2";
+            Name = "ExportaciónDatos";
             Text = "Form2";
+            Load += ExportaciónDatos_Load;
+            ((System.ComponentModel.ISupportInitialize)message048View).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -164,5 +195,7 @@
         private TextBox textBox2;
         private TextBox textBox3;
         private TextBox textBox4;
+        private DataGridView message048View;
+        private Button button3;
     }
 }

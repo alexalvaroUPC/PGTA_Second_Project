@@ -43,7 +43,7 @@
                     messageBytes.Add(totalBytes[j]);
                 }
 
-                this.itemList.Add(new message048(dataLength, FSPEC, messageBytes));
+                this.itemList.Add(new message048(dataLength, FSPEC, messageBytes, k+1));
 
                 i = i + dataLength;
 

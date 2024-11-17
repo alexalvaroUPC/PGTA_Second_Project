@@ -10,11 +10,11 @@ using System.Windows.Forms;
 
 namespace PGTA_Second_Project
 {
-    public partial class Form4 : Form
+    public partial class NuevaZonaRegistro : Form
     {
         private double d1 = -1;
         private double d2 = -1;
-        public Form4()
+        public NuevaZonaRegistro()
         {
             InitializeComponent();
         }
@@ -22,9 +22,16 @@ namespace PGTA_Second_Project
         public double getWidth() { return d2; }
         private void button1_Click(object sender, EventArgs e)
         {
-            this.d1 = Convert.ToDouble(textBox2.Text);
-            this.d2 = Convert.ToDouble(textBox1.Text);
-            this.Close();
+            try
+            {
+                this.d1 = Convert.ToDouble(textBox1.Text);
+                this.d2 = Convert.ToDouble(textBox2.Text);
+                this.Close();
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("Porfavor introduzca datos númericos");
+            }
 
         }
 

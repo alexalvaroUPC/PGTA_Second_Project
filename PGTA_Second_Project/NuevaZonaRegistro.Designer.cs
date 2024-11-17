@@ -1,6 +1,6 @@
 ﻿namespace PGTA_Second_Project
 {
-    partial class Form4
+    partial class NuevaZonaRegistro
     {
         /// <summary>
         /// Required designer variable.
@@ -32,23 +32,24 @@
             textBox2 = new TextBox();
             button1 = new Button();
             button2 = new Button();
+            label1 = new Label();
             SuspendLayout();
             // 
             // textBox1
             // 
-            textBox1.Location = new Point(98, 82);
+            textBox1.Location = new Point(139, 134);
             textBox1.Name = "textBox1";
-            textBox1.Size = new Size(264, 35);
+            textBox1.Size = new Size(114, 35);
             textBox1.TabIndex = 0;
-            textBox1.Text = "Distancia horizontal (MN)";
+            textBox1.Text = "Ancho";
             // 
             // textBox2
             // 
-            textBox2.Location = new Point(98, 137);
+            textBox2.Location = new Point(332, 134);
             textBox2.Name = "textBox2";
-            textBox2.Size = new Size(264, 35);
+            textBox2.Size = new Size(114, 35);
             textBox2.TabIndex = 1;
-            textBox2.Text = "Distancia vertical (MN)";
+            textBox2.Text = "Alto";
             // 
             // button1
             // 
@@ -70,11 +71,22 @@
             button2.UseVisualStyleBackColor = true;
             button2.Click += button2_Click;
             // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Segoe UI", 8F);
+            label1.Location = new Point(27, 34);
+            label1.Name = "label1";
+            label1.Size = new Size(540, 25);
+            label1.TabIndex = 4;
+            label1.Text = "Introduzca las dimensiones (MN) de la zona de registro a crear";
+            // 
             // Form4
             // 
             AutoScaleDimensions = new SizeF(12F, 30F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(620, 369);
+            ClientSize = new Size(595, 391);
+            Controls.Add(label1);
             Controls.Add(button2);
             Controls.Add(button1);
             Controls.Add(textBox2);
@@ -91,5 +103,6 @@
         private TextBox textBox2;
         private Button button1;
         private Button button2;
+        private Label label1;
     }
 }

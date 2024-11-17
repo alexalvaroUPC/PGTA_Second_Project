@@ -1,6 +1,6 @@
 ﻿namespace PGTA_Second_Project
 {
-    partial class Form3
+    partial class Simulador
     {
         /// <summary>
         /// Required designer variable.
