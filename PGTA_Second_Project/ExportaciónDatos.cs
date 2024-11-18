@@ -70,7 +70,7 @@ namespace PGTA_Second_Project
                 int csvStatus = csvExport(fileSaver.FileName, this.wantedData);
                 if (csvStatus == 0)
                 {
-                    MessageBox.Show("¡CSV exportado!");
+                    MessageBox.Show("¡CSV exportado! \n Los filtros han sido reiniciados");
                     wantedData = message048s;
                     checkBox1.Checked = false;
                     checkBox2.Checked = false;
@@ -87,8 +87,8 @@ namespace PGTA_Second_Project
         private string[] prepareString(List<message048> dataList)
         {
             string delimiter = ";";
-            string[] dataString = new string[dataList.Count+1];
-            dataString[0] = "Number"+ delimiter
+            string[] dataString = new string[dataList.Count + 1];
+            dataString[0] = "Number" + delimiter
                 + "SAC" + delimiter
                 + "SIC" + delimiter
                 + "TIME" + delimiter
@@ -269,7 +269,7 @@ namespace PGTA_Second_Project
                     + curMes.AIC + delimiter
                     + curMes.B1A + delimiter
                     + curMes.B1B + delimiter;
-                dataString[i+1] = line;
+                dataString[i + 1] = line;
             }
 
             return dataString;
@@ -564,7 +564,7 @@ namespace PGTA_Second_Project
 
             if (showTableFlag)
             {
-                
+
                 string[] dataForGrid = prepareString(this.message048s);
                 fillTable(dataForGrid);
             }
@@ -572,7 +572,7 @@ namespace PGTA_Second_Project
             {
                 button3.Text = "Mostrar tabla";
             }
-            
+
         }
         private void fillTable(string[] dataSource)
         {
@@ -600,6 +600,17 @@ namespace PGTA_Second_Project
             }
 
             message048View.DataSource = dataTable;
+        }
+
+        private void materialRaisedButton1_Click(object sender, EventArgs e)
+        {
+            this.wantedData = this.message048s;
+            string[] dataForGrid = prepareString(this.wantedData);
+            fillTable(dataForGrid);
+            checkBox1.Checked = false;
+            checkBox2.Checked = false;
+            checkBox3.Checked = false;
+            checkBox4.Checked = false;
         }
     }
 }

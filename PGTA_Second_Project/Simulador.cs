@@ -44,7 +44,7 @@ namespace PGTA_Second_Project
         List<string> incursions = new List<string>();
         int cutOffFL = 400;
         bool seeOver = false;
-        public void setData(List<message048> messages) { this.message048s = messages; }
+        public void setData(List<message048> messages) { this.message048s = messages; this.sendBack = messages; }
         public Simulador()
         {
             MaterialSkinManager materialSkinManager = MaterialSkinManager.Instance;
@@ -205,61 +205,77 @@ namespace PGTA_Second_Project
             for (int i = 0; i < this.aircrafts.Count; i++)
             {
                 this.aircrafts[i].moveAC();
-                double X = this.aircrafts[i].getLatitude();
-                double Y = this.aircrafts[i].getLongitude();
+                Aircraft movingAC = this.aircrafts[i];
+                double X = movingAC.getLatitude();
+                double Y = movingAC.getLongitude();
                 if (X != 400)
                 {
-                    if ((this.seeOver && aircrafts[i].getHeight() > this.cutOffFL * 30.48) || (!this.seeOver && aircrafts[i].getHeight() < this.cutOffFL * 30.48))
+                    if ((this.seeOver && movingAC.getHeight() > this.cutOffFL * 30.48) || (!this.seeOver && movingAC.getHeight() < this.cutOffFL * 30.48))
                     {
                         //pointLists[i].Add(new PointLatLng(X, Y));
+                        PointLatLng currentMove = new PointLatLng(X, Y);
                         //routeLists[i] = new GMapRoute(pointLists[i], aircrafts[i].squawk);
-                        aircraftMarkers[i] = new GMarkerGoogle(new PointLatLng(X, Y), RotateImage(markerIcon, aircrafts[i].getHeading()));
+                        aircraftMarkers[i] = new GMarkerGoogle(currentMove, RotateImage(markerIcon, movingAC.getHeading()));
                         aircraftMarkers[i].ToolTipMode = MarkerTooltipMode.OnMouseOver;
-                        aircraftMarkers[i].ToolTipText = aircrafts[i].squawk;
+                        aircraftMarkers[i].ToolTipText = movingAC.squawk;
                         aircraftMarkers[i].ToolTip.Font = new Font("Aptos", 8);
                         aircraftMarkers[i].ToolTip.Fill = new SolidBrush(Color.Transparent);
                         aircraftMarkers[i].ToolTip.Foreground = new SolidBrush(Color.Black);
-                        aircraftMarkers[i].ToolTipText = "Squawk: " + aircrafts[i].squawk + "\n" + Convert.ToString((int)aircrafts[i].getHeight()) + " m\n" + Convert.ToString(aircrafts[i].getHeading() + " º");
+                        aircraftMarkers[i].ToolTipText = "Squawk: " + movingAC.squawk + "\n" + Convert.ToString((int)movingAC.getHeight()) + " m\n" + movingAC.getHeading().ToString() + " º";
+                        routeLists[i].Points.Add(currentMove);
                         if (polygonOverlay.Polygons.Count > 0)
                         {
                             for(int k =0; k < polygonOverlay.Polygons.Count; k++)
                             {
-                                if (!this.aircrafts[i].incursionFlag[k])
+                                if (!movingAC.incursionFlag[k])
                                 {
                                     if (checkIncursion(aircraftMarkers[i], polygonOverlay.Polygons[k]))
                                     {
-                                        logIncursion(this.aircrafts[i], ToDay, aircraftMarkers[i], k);
-                                        this.aircrafts[i].routeFlag[k] = true;
-                                        this.desiredSquawks.Add(this.aircrafts[i].squawk);
+                                        logIncursion(movingAC, ToDay, aircraftMarkers[i], k);
+                                        movingAC.routeFlag[k] = true;
+                                        this.desiredSquawks.Add(movingAC.squawk);
                                         int rowId = routeView.Rows.Add();
 
                                         // Grab the new row!
                                         DataGridViewRow row = routeView.Rows[rowId];
 
                                         // Add the data
-                                        row.Cells["RouteColumn"].Value = Convert.ToString(rowId + 1);
+                                        row.Cells["RouteColumn"].Value = (rowId+1).ToString();
                                         row.Cells["SquawkColumn"].Value = this.aircrafts[i].squawk;
-                                        this.aircrafts[i].incursionFlag[k] = true;
+                                        movingAC.incursionFlag[k] = true;
                                     }
                                 }
-                                
+                                if (movingAC.routeFlag[k])
+                                {
+                                    //routeLists[i].Points.Add(currentMove);// = new GMapRoute(pointLists[i], aircrafts[i].squawk);
+                                    routeLists[i].Stroke = polygonOverlay.Polygons[k].Stroke;
+                                    routeOverlay.Routes.Add(routeLists[i]);
+                                }
+                            
+                                if (this.aircrafts[i].routeFlag[4])
+                                {
+                                    routeLists[i].Stroke = new Pen(Color.Black, 3);
+                                    routeOverlay.Routes.Add(routeLists[i]);
+                                }
+
                             }
                         }
                         markerOverlay.Markers.Add(aircraftMarkers[i]);
-                        for (int j = 0; j < polygonOverlay.Polygons.Count; j++)
-                        {
-                            if (this.aircrafts[i].routeFlag[j])
-                            {
-                                routeLists[i].Points.Add(new PointLatLng(X,Y));// = new GMapRoute(pointLists[i], aircrafts[i].squawk);
-                                routeLists[i].Stroke = polygonOverlay.Polygons[j].Stroke;
-                                routeOverlay.Routes.Add(routeLists[i]);
-                            }
-                        }
-                        if (this.aircrafts[i].routeFlag[4])
-                        {
-                            routeLists[i].Stroke = new Pen(Color.Black, 3);
-                            routeOverlay.Routes.Add(routeLists[i]);
-                        }
+                        //for (int j = 0; j < polygonOverlay.Polygons.Count; j++)
+                        //{
+                        //    if (this.aircrafts[i].routeFlag[j])
+                        //    {
+                        //        routeLists[i].Points.Add(new PointLatLng(X,Y));// = new GMapRoute(pointLists[i], aircrafts[i].squawk);
+                        //        routeLists[i].Stroke = polygonOverlay.Polygons[j].Stroke;
+                        //        routeOverlay.Routes.Add(routeLists[i]);
+                        //    }
+                        //}
+                        //if (this.aircrafts[i].routeFlag[4])
+                        //{
+                        //    routeLists[i].Stroke = new Pen(Color.Black, 3);
+                        //    routeOverlay.Routes.Add(routeLists[i]);
+                        //}
+                        this.aircrafts[i] = movingAC;
                     }
                 }
                
