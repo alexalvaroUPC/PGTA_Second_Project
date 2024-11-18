@@ -50,15 +50,15 @@ namespace PGTA_Second_Project
             resumeButton = new MaterialRaisedButton();
             cutoffSelector = new TrackBar();
             routeView = new DataGridView();
-            RouteColumn = new DataGridViewTextBoxColumn();
-            SquawkColumn = new DataGridViewTextBoxColumn();
-            squawkTextBox = new TextBox();
+            callsignTextBox = new TextBox();
             addRouteButton = new MaterialRaisedButton();
             label3 = new Label();
             overButton = new MaterialRadioButton();
             switchFLmode = new GroupBox();
             underButton = new MaterialRadioButton();
             label4 = new Label();
+            RouteColumn = new DataGridViewTextBoxColumn();
+            CallsignColumn = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)speedChange).BeginInit();
             ((System.ComponentModel.ISupportInitialize)cutoffSelector).BeginInit();
             ((System.ComponentModel.ISupportInitialize)routeView).BeginInit();
@@ -269,7 +269,7 @@ namespace PGTA_Second_Project
             dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
             routeView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             routeView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            routeView.Columns.AddRange(new DataGridViewColumn[] { RouteColumn, SquawkColumn });
+            routeView.Columns.AddRange(new DataGridViewColumn[] { RouteColumn, CallsignColumn });
             dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle3.BackColor = Color.Black;
             dataGridViewCellStyle3.Font = new Font("Segoe UI", 11.1428576F, FontStyle.Bold);
@@ -281,7 +281,7 @@ namespace PGTA_Second_Project
             routeView.GridColor = Color.Lime;
             routeView.Location = new Point(453, 523);
             routeView.Margin = new Padding(4);
-            routeView.MaximumSize = new Size(400, 1200);
+            routeView.MaximumSize = new Size(500, 1200);
             routeView.MinimumSize = new Size(400, 120);
             routeView.Name = "routeView";
             dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
@@ -299,37 +299,21 @@ namespace PGTA_Second_Project
             routeView.RowsDefaultCellStyle = dataGridViewCellStyle5;
             routeView.RowTemplate.DefaultCellStyle.BackColor = Color.Black;
             routeView.RowTemplate.DefaultCellStyle.ForeColor = Color.Lime;
-            routeView.Size = new Size(400, 982);
+            routeView.Size = new Size(432, 982);
             routeView.TabIndex = 11;
             routeView.CellClick += routeView_CellClick;
             // 
-            // RouteColumn
+            // callsignTextBox
             // 
-            RouteColumn.HeaderText = "Route";
-            RouteColumn.MinimumWidth = 9;
-            RouteColumn.Name = "RouteColumn";
-            RouteColumn.ReadOnly = true;
-            RouteColumn.Width = 175;
-            // 
-            // SquawkColumn
-            // 
-            SquawkColumn.HeaderText = "Squawk";
-            SquawkColumn.MinimumWidth = 9;
-            SquawkColumn.Name = "SquawkColumn";
-            SquawkColumn.ReadOnly = true;
-            SquawkColumn.Width = 175;
-            // 
-            // squawkTextBox
-            // 
-            squawkTextBox.BackColor = Color.Lime;
-            squawkTextBox.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            squawkTextBox.ForeColor = Color.Black;
-            squawkTextBox.Location = new Point(487, 465);
-            squawkTextBox.Margin = new Padding(4);
-            squawkTextBox.Name = "squawkTextBox";
-            squawkTextBox.Size = new Size(148, 35);
-            squawkTextBox.TabIndex = 12;
-            squawkTextBox.Text = "Type squawk";
+            callsignTextBox.BackColor = Color.Lime;
+            callsignTextBox.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            callsignTextBox.ForeColor = Color.Black;
+            callsignTextBox.Location = new Point(487, 465);
+            callsignTextBox.Margin = new Padding(4);
+            callsignTextBox.Name = "callsignTextBox";
+            callsignTextBox.Size = new Size(148, 35);
+            callsignTextBox.TabIndex = 12;
+            callsignTextBox.Text = "Type squawk";
             // 
             // addRouteButton
             // 
@@ -427,12 +411,28 @@ namespace PGTA_Second_Project
             label4.TabIndex = 17;
             label4.Text = "Clicking on a route will delete it";
             // 
+            // RouteColumn
+            // 
+            RouteColumn.HeaderText = "Route";
+            RouteColumn.MinimumWidth = 9;
+            RouteColumn.Name = "RouteColumn";
+            RouteColumn.ReadOnly = true;
+            RouteColumn.Width = 175;
+            // 
+            // CallsignColumn
+            // 
+            CallsignColumn.HeaderText = "Callsign";
+            CallsignColumn.MinimumWidth = 9;
+            CallsignColumn.Name = "CallsignColumn";
+            CallsignColumn.ReadOnly = true;
+            CallsignColumn.Width = 175;
+            // 
             // Simulador
             // 
             AutoScaleDimensions = new SizeF(16F, 36F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Black;
-            ClientSize = new Size(5077, 2340);
+            ClientSize = new Size(2884, 1764);
             Controls.Add(label4);
             Controls.Add(switchFLmode);
             Controls.Add(resumeButton);
@@ -443,7 +443,7 @@ namespace PGTA_Second_Project
             Controls.Add(speedChange);
             Controls.Add(label2);
             Controls.Add(label1);
-            Controls.Add(squawkTextBox);
+            Controls.Add(callsignTextBox);
             Controls.Add(routeView);
             Controls.Add(savePDFbutton);
             Controls.Add(pauseButton);
@@ -473,9 +473,7 @@ namespace PGTA_Second_Project
         private NumericUpDown speedChange;
         private TrackBar cutoffSelector;
         private DataGridView routeView;
-        private DataGridViewTextBoxColumn RouteColumn;
-        private DataGridViewTextBoxColumn SquawkColumn;
-        private TextBox squawkTextBox;
+        private TextBox callsignTextBox;
         private GroupBox switchFLmode;
         private MaterialRaisedButton startButton;
         private Label label1;
@@ -490,5 +488,7 @@ namespace PGTA_Second_Project
         private MaterialRadioButton overButton;
         private MaterialRadioButton underButton;
         private Label label4;
+        private DataGridViewTextBoxColumn RouteColumn;
+        private DataGridViewTextBoxColumn CallsignColumn;
     }
 }

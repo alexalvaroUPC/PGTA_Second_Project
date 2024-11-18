@@ -48,7 +48,7 @@ namespace PGTA_Second_Project
         public string flightLevel = "N/A";
         public string V090 = "N/A";
         public string G090 = "N/A";
-        public string CorrectedModeC = string.Empty;
+        public string CorrectedModeC = "N/A";
         public string SRL = "N/A";
         public string SRR = "N/A";
         public string SAM = "N/A";
@@ -346,7 +346,7 @@ namespace PGTA_Second_Project
 
             if (FL>=60.0 || BP<=1013.3)
             {
-                this.CorrectedModeC = "";
+                this.CorrectedModeC = "N/A";
             }
             else
             {

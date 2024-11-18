@@ -499,7 +499,7 @@ namespace PGTA_Second_Project
             Simulador F3 = new Simulador();
             F3.setData(simData);
             F3.ShowDialog();
-            wantedData = F3.getTargetSquawks();
+            wantedData = F3.getTargetCallsigns();
             string[] dataForGrid = prepareString(this.wantedData);
             fillTable(dataForGrid);
             button3.Text = "Actualizar tabla";
