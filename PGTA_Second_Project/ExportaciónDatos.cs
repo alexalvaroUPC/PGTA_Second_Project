@@ -13,7 +13,8 @@ using GMap.NET;
 using System.Diagnostics;
 using static GMap.NET.Entity.OpenStreetMapGraphHopperRouteEntity;
 using System.Reflection.Metadata;
-using Accord;
+using MaterialSkin;
+using MaterialSkin.Controls;
 namespace PGTA_Second_Project
 {
     public partial class ExportaciónDatos : Form
@@ -24,6 +25,8 @@ namespace PGTA_Second_Project
         public ExportaciónDatos()
         {
             InitializeComponent();
+            MaterialSkinManager materialSkinManager = MaterialSkinManager.Instance;
+            materialSkinManager.Theme = MaterialSkinManager.Themes.LIGHT;
         }
         public void setTableFlag(bool status) { this.showTableFlag = status; }
         public void setMessageList(List<message048> messageList)
@@ -469,15 +472,15 @@ namespace PGTA_Second_Project
         {
             if (checkBox1.Checked)
             {
-                wantedData = wantedData.FindAll(item => item.Grounded);
+                wantedData = wantedData.FindAll(item => !item.Grounded);
             }
             if (checkBox2.Checked)
             {
-                wantedData = wantedData.FindAll(item => item.Purity);
+                wantedData = wantedData.FindAll(item => !item.Purity);
             }
             if (checkBox3.Checked)
             {
-                wantedData = wantedData.FindAll(item => item.Fixed);
+                wantedData = wantedData.FindAll(item => !item.Fixed);
             }
             if (checkBox4.Checked)
             {
@@ -496,6 +499,11 @@ namespace PGTA_Second_Project
             Simulador F3 = new Simulador();
             F3.setData(simData);
             F3.ShowDialog();
+            wantedData = F3.getTargetSquawks();
+            string[] dataForGrid = prepareString(this.wantedData);
+            fillTable(dataForGrid);
+            button3.Text = "Actualizar tabla";
+            F3.Close();
         }
 
         private void checkBox4_CheckedChanged(object sender, EventArgs e)
@@ -553,8 +561,10 @@ namespace PGTA_Second_Project
 
         private void ExportaciónDatos_Load(object sender, EventArgs e)
         {
+
             if (showTableFlag)
             {
+                
                 string[] dataForGrid = prepareString(this.message048s);
                 fillTable(dataForGrid);
             }

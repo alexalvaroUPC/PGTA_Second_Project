@@ -20,12 +20,15 @@ using System.Data.SQLite;
 using Microsoft.VisualBasic.Devices;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using MaterialSkin;
+using System.Security.Cryptography.X509Certificates;
 
 namespace PGTA_Second_Project
 {
     public partial class Simulador : Form
     {
         private List<message048> message048s;
+        private List<message048> sendBack = new List<message048>();
         private List<Aircraft> aircrafts = new List<Aircraft>();
         private int j;
         private int firstClock;
@@ -45,6 +48,8 @@ namespace PGTA_Second_Project
         public void setData(List<message048> messages) { this.message048s = messages; }
         public Simulador()
         {
+            MaterialSkinManager materialSkinManager = MaterialSkinManager.Instance;
+            materialSkinManager.Theme = MaterialSkinManager.Themes.DARK;
             InitializeComponent();
         }
 
@@ -54,8 +59,8 @@ namespace PGTA_Second_Project
             gMapControl1.MapProvider = GMap.NET.MapProviders.BingMapProvider.Instance;
             GMaps.Instance.Mode = AccessMode.ServerOnly;
             gMapControl1.Position = new PointLatLng(41.297, 2.078);
-            gMapControl1.MinZoom = 8;
-            gMapControl1.Zoom = 10;
+            gMapControl1.MinZoom = 6;
+            gMapControl1.Zoom = 9;
             gMapControl1.MaxZoom = 20;
             string[] resourceNames = Assembly.GetExecutingAssembly().GetManifestResourceNames();
             Stream imageStream = null;
@@ -76,6 +81,8 @@ namespace PGTA_Second_Project
             if (gMapControl1.Overlays.Count == 0)
             {
                 gMapControl1.Overlays.Add(markerOverlay);
+                gMapControl1.Overlays.Add(routeOverlay);
+                gMapControl1.Overlays.Add(polygonOverlay);
             }
 
 
@@ -191,7 +198,7 @@ namespace PGTA_Second_Project
         }
         private void moveAllForward()
         {
-            routeOverlay.Clear();
+            routeOverlay.Routes.Clear();
             markerOverlay.Markers.Clear();
             this.j++;
             string ToDay = TimeSpan.FromSeconds(this.firstClock + j).ToString();
@@ -205,8 +212,8 @@ namespace PGTA_Second_Project
                 {
                     if ((this.seeOver && aircrafts[i].getHeight() > this.cutOffFL * 30.48) || (!this.seeOver && aircrafts[i].getHeight() < this.cutOffFL * 30.48))
                     {
-                        pointLists[i].Add(new PointLatLng(X, Y));
-                        routeLists[i] = new GMapRoute(pointLists[i], aircrafts[i].squawk);
+                        //pointLists[i].Add(new PointLatLng(X, Y));
+                        //routeLists[i] = new GMapRoute(pointLists[i], aircrafts[i].squawk);
                         aircraftMarkers[i] = new GMarkerGoogle(new PointLatLng(X, Y), RotateImage(markerIcon, aircrafts[i].getHeading()));
                         aircraftMarkers[i].ToolTipMode = MarkerTooltipMode.OnMouseOver;
                         aircraftMarkers[i].ToolTipText = aircrafts[i].squawk;
@@ -218,36 +225,70 @@ namespace PGTA_Second_Project
                         {
                             for(int k =0; k < polygonOverlay.Polygons.Count; k++)
                             {
-                                if(insursiveAircrafts.FindIndex(item=> item.squawk == aircrafts[i].squawk) == -1)
+                                if (!this.aircrafts[i].incursionFlag[k])
                                 {
                                     if (checkIncursion(aircraftMarkers[i], polygonOverlay.Polygons[k]))
                                     {
                                         logIncursion(this.aircrafts[i], ToDay, aircraftMarkers[i], k);
+                                        this.aircrafts[i].routeFlag[k] = true;
+                                        this.desiredSquawks.Add(this.aircrafts[i].squawk);
+                                        int rowId = routeView.Rows.Add();
+
+                                        // Grab the new row!
+                                        DataGridViewRow row = routeView.Rows[rowId];
+
+                                        // Add the data
+                                        row.Cells["RouteColumn"].Value = Convert.ToString(rowId + 1);
+                                        row.Cells["SquawkColumn"].Value = this.aircrafts[i].squawk;
+                                        this.aircrafts[i].incursionFlag[k] = true;
                                     }
                                 }
                                 
                             }
                         }
+                        markerOverlay.Markers.Add(aircraftMarkers[i]);
+                        for (int j = 0; j < polygonOverlay.Polygons.Count; j++)
+                        {
+                            if (this.aircrafts[i].routeFlag[j])
+                            {
+                                routeLists[i].Points.Add(new PointLatLng(X,Y));// = new GMapRoute(pointLists[i], aircrafts[i].squawk);
+                                routeLists[i].Stroke = polygonOverlay.Polygons[j].Stroke;
+                                routeOverlay.Routes.Add(routeLists[i]);
+                            }
+                        }
+                        if (this.aircrafts[i].routeFlag[4])
+                        {
+                            routeLists[i].Stroke = new Pen(Color.Black, 3);
+                            routeOverlay.Routes.Add(routeLists[i]);
+                        }
                     }
                 }
-                //markers.Markers.Add(aircraftMarkers[i]);
                
 
             }
             //routeOverlay.Clear();
             //markerOverlay.Markers.Clear();
-            for (int i = 0; i < aircraftMarkers.Count; i++)
-            {
-                if (((this.seeOver && aircrafts[i].getHeight() > this.cutOffFL * 30.48) || (!this.seeOver && aircrafts[i].getHeight() < this.cutOffFL * 30.48)) && aircrafts[i].getLatitude() != 400)
-                {
-                    markerOverlay.Markers.Add(aircraftMarkers[i]);
-                    if (this.desiredSquawks.IndexOf(aircrafts[i].squawk) != -1)
-                    {
-                        routeLists[i].Stroke = new Pen(Color.Red, 3);
-                        routeOverlay.Routes.Add(routeLists[i]);
-                    }
-                }
-            }
+            //for (int i = 0; i < aircraftMarkers.Count; i++)
+            //{
+            //    if (((this.seeOver && aircrafts[i].getHeight() > this.cutOffFL * 30.48) || (!this.seeOver && aircrafts[i].getHeight() < this.cutOffFL * 30.48)) && aircrafts[i].getLatitude() != 400)
+            //    {
+            //        markerOverlay.Markers.Add(aircraftMarkers[i]);
+            //        for (int j = 0; j < polygonOverlay.Polygons.Count; j++)
+            //        {
+            //            if (this.aircrafts[i].routeFlag[j])
+            //            {
+            //                routeLists[i].Points.Add(new PointLatLng(this.aircrafts[i].getLatitude(), this.aircrafts[i].getLongitude()));// = new GMapRoute(pointLists[i], aircrafts[i].squawk);
+            //                routeLists[i].Stroke =polygonOverlay.Polygons[j].Stroke;
+            //                routeOverlay.Routes.Add(routeLists[i]);
+            //            }
+            //        }
+            //        if (this.aircrafts[i].routeFlag[4])
+            //        {
+            //            routeLists[i].Stroke = new Pen(Color.Black, 3);
+            //            routeOverlay.Routes.Add(routeLists[i]);
+            //        }
+            //    }
+            //}
 
             gMapControl1.Refresh();
         }
@@ -293,7 +334,7 @@ namespace PGTA_Second_Project
                     if ((this.seeOver && aircrafts[i].getHeight() > this.cutOffFL * 30.48) || (!this.seeOver && aircrafts[i].getHeight() < this.cutOffFL * 30.48))
                     {
                         markerOverlay.Markers.Add(aircraftMarkers[i]);
-                        if (this.desiredSquawks.IndexOf(aircrafts[i].squawk) != -1)
+                        if (this.aircrafts[i].routeFlag[4])
                         {
                             routeLists[i].Stroke = new Pen(Color.Red, 3);
                             routeOverlay.Routes.Add(routeLists[i]);
@@ -307,12 +348,25 @@ namespace PGTA_Second_Project
 
         private void button5_Click(object sender, EventArgs e)
         {
+            writePDF();
+            for (int i = 0; i < desiredSquawks.Count; i++)
+            {
+                this.sendBack.AddRange(message048s.FindAll(item => item.mode3squawk == desiredSquawks[i]));
+            }
+            this.Close();
+        }
+        public List<message048> getTargetSquawks() {
+            return this.sendBack;
+        }
+        private void writePDF()
+        {
             SaveFileDialog fileSaver = new SaveFileDialog();
             fileSaver.Filter = "Archivo PDF (*.pdf) | *.pdf";
             fileSaver.ShowDialog();
             Size mapsize = gMapControl1.Size;
-            Bitmap mapImage = new Bitmap(mapsize.Width, mapsize.Height);
-            gMapControl1.DrawToBitmap(mapImage, new Rectangle(0, 0, mapsize.Width, mapsize.Height));
+            Bitmap mapImage = new Bitmap(mapsize.Width/4, mapsize.Height/4);
+            gMapControl1.DrawToBitmap(mapImage, new Rectangle(0, 0, mapsize.Width / 4, mapsize.Height / 4));
+            //Bitmap scaled = new Bitmap(mapImage, new Size(mapImage.Width / 4, mapImage.Height / 4));
             mapImage.Save("savedMap.png", System.Drawing.Imaging.ImageFormat.Png);
             XImage pdfImageMap = XImage.FromFile("savedMap.png");
             DateTime thisDay = DateTime.UtcNow;
@@ -320,9 +374,9 @@ namespace PGTA_Second_Project
             PdfDocument pdf = new PdfDocument();
             PdfPage page = pdf.AddPage();
             XGraphics gfx = XGraphics.FromPdfPage(page);
-            XFont font = new XFont("Aptos", 8, XFontStyleEx.Regular);
-            XFont title = new XFont("Aptos", 20, XFontStyleEx.Bold);
-            XFont subtitulos = new XFont("Aptos", 6, XFontStyleEx.Italic);
+            XFont font = new XFont("Arial", 8, XFontStyleEx.Regular);
+            XFont title = new XFont("Arial", 20, XFontStyleEx.Bold);
+            XFont subtitulos = new XFont("Arial", 6, XFontStyleEx.Italic);
             XPen pen = new XPen(XColor.FromArgb(220, 220, 220), 1.5);
             gfx.DrawString("HOJA DE REGISTRO AÉREO", title, XBrushes.Red, new XPoint(page.Width / 4, 50));
             gfx.DrawString("ICAO | No distribuir | Generado (UTC):" + Convert.ToString(thisDay), subtitulos, XBrushes.Black, new XPoint(4, 20));
@@ -336,7 +390,7 @@ namespace PGTA_Second_Project
                 if (aircraftMarkers[i].Position.Lat != 90)
                 {
                     XPoint TextLocation = new XPoint(10, posicionVerticalActual);
-                    gfx.DrawString(aircraftMarkers[i].ToolTipText.Replace("\n", " | ") + "L"+Math.Round(aircraftMarkers[i].Position.Lat,3).ToString()+" |"+ "L" + Math.Round(aircraftMarkers[i].Position.Lng, 3).ToString(), font, XBrushes.Black, TextLocation);
+                    gfx.DrawString(aircraftMarkers[i].ToolTipText.Replace("\n", " | ") + "L:" + Math.Round(aircraftMarkers[i].Position.Lat, 3).ToString() + "ºN |" + "l:" + Math.Round(aircraftMarkers[i].Position.Lng, 3).ToString() + "ºE", font, XBrushes.Black, TextLocation);
                     posicionVerticalActual += 15;
                     if (posicionVerticalActual >= page.Height - 40)
                     {
@@ -349,7 +403,8 @@ namespace PGTA_Second_Project
             }
             if (this.incursions.Count > 0)
             {
-                title = new XFont("Aptos", 14, XFontStyleEx.BoldItalic);
+                posicionVerticalActual += 15;
+                title = new XFont("Arial", 14, XFontStyleEx.BoldItalic);
                 gfx.DrawString("Incursiones registradas", title, XBrushes.Black, new XPoint(20, posicionVerticalActual));
                 posicionVerticalActual += 15;
                 if (posicionVerticalActual >= page.Height - 40)
@@ -373,9 +428,7 @@ namespace PGTA_Second_Project
             }
             pdf.Save(fileSaver.FileName);
             MessageBox.Show("Guardado con éxito");
-
         }
-
         private void button6_Click(object sender, EventArgs e)
         {
             timer1.Start();
@@ -437,23 +490,38 @@ namespace PGTA_Second_Project
         private void addRouteButton_Click(object sender, EventArgs e)
         {
             this.desiredSquawks.Add(squawkTextBox.Text);
+            int hitIndex = this.aircrafts.FindIndex(item=>item.squawk == squawkTextBox.Text);
+            if (hitIndex != -1)
+            {
+                this.aircrafts[hitIndex].routeFlag[4] = true;
             int rowId = routeView.Rows.Add();
 
-            // Grab the new row!
-            DataGridViewRow row = routeView.Rows[rowId];
+                DataGridViewRow row = routeView.Rows[rowId];
 
-            // Add the data
-            row.Cells["RouteColumn"].Value = Convert.ToString(rowId+1);
-            row.Cells["SquawkColumn"].Value = squawkTextBox.Text;
+                row.Cells["RouteColumn"].Value = Convert.ToString(rowId + 1);
+                row.Cells["SquawkColumn"].Value = squawkTextBox.Text;
+            }
+            else
+            {
+                MessageBox.Show("Squawk not found");
+            }
+            
         }
 
         private void routeView_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0 && routeView.Rows.Count!=0)
             {
                 // Confirm the deletion with a message box
                 if (MessageBox.Show("Se va a borrar la ruta", "Confirmar operación", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
+                    int hitIndex = this.aircrafts.FindIndex(item => item.squawk == desiredSquawks[e.RowIndex]);
+                    this.aircrafts[hitIndex].routeFlag[4] = false;
+                    for (int i = 0; i < 4; i++)
+                    {
+                        this.aircrafts[hitIndex].incursionFlag[i] = false;
+                        this.aircrafts[hitIndex].routeFlag[i] = false;
+                    }
                     this.desiredSquawks.RemoveAt(e.RowIndex);
                     routeView.Rows.RemoveAt(e.RowIndex);
                     routeOverlay.Routes.RemoveAt(e.RowIndex);
@@ -461,7 +529,7 @@ namespace PGTA_Second_Project
                 }
             }
         }
-        public GMapPolygon createZone(double lat, double lon, double distance1, double distance2)
+        public GMapPolygon createZone(double lat, double lon, double distance1, double distance2, int zoneNumber)
         {
             double aEarth = 6371000;
             //BASED ON HAVERSINE FORMULA
@@ -479,8 +547,23 @@ namespace PGTA_Second_Project
             double bottomLat = lat - latDiffRadiansLength * 180 / Math.PI/2;
 
             GMapPolygon rectangle = new GMapPolygon(new List<PointLatLng> { new PointLatLng(topLat, leftLon), new PointLatLng(topLat, rightLon), new PointLatLng(bottomLat, rightLon), new PointLatLng(bottomLat, leftLon), new PointLatLng(topLat, leftLon) }, "Zone");
-            rectangle.Stroke = new Pen(Color.Orange, 2);
-            rectangle.Fill = new SolidBrush(Color.FromArgb(30, Color.Orange));
+            Color zoneColor = Color.Red;
+            if (zoneNumber == 0)
+            {
+                zoneColor = Color.Orange;
+            }
+            else if (zoneNumber == 1)
+            {
+                zoneColor = Color.Green;
+            }
+            else if(zoneNumber == 2)
+            {
+                zoneColor = Color.Blue;
+            }
+            
+                
+            rectangle.Stroke = new Pen(zoneColor, 2);
+            rectangle.Fill = new SolidBrush(Color.FromArgb(30, zoneColor));
             return rectangle;
         }
         public bool checkIncursion(GMapMarker location, GMapPolygon checkArea)
@@ -500,7 +583,8 @@ namespace PGTA_Second_Project
         }
         private void logIncursion(Aircraft intruder, string timeOfDay, GMapMarker location, int zoneNumber)
         {
-            string report = "Aircraft with squawk: " + intruder.squawk + " was present in highlighted area #"+zoneNumber+1+" at: " + timeOfDay + " in position: L" + Math.Round(location.Position.Lat,3).ToString()+" | l"+Math.Round(location.Position.Lng,3).ToString();
+            int cleanZoneNumber = zoneNumber + 1;
+            string report = "Aircraft with squawk: " + intruder.squawk + " entered highlighted area #"+cleanZoneNumber+" at: " + timeOfDay + " in position: L: " + Math.Round(location.Position.Lat,3).ToString()+"ºN | l: "+Math.Round(location.Position.Lng,3).ToString()+"ºE";
             this.incursions.Add(report);
             this.insursiveAircrafts.Add(intruder);
         }
@@ -508,7 +592,7 @@ namespace PGTA_Second_Project
         private void gMapControl1_MouseClick(object sender, MouseEventArgs e)
         {
             
-            if (e.Button == MouseButtons.Left)
+            if (e.Button == MouseButtons.Left && polygonOverlay.Polygons.Count<4)
             {
                 PointLatLng clickedPoint = gMapControl1.FromLocalToLatLng((int)e.X, (int)e.Y);
                 double lat = clickedPoint.Lat;
@@ -524,10 +608,30 @@ namespace PGTA_Second_Project
                     {
                         gMapControl1.Overlays.Add(polygonOverlay);
                     }
-                    GMapPolygon zonaRegistro = createZone(lat, lon, d1, d2);
+                    GMapPolygon zonaRegistro = createZone(lat, lon, d1, d2, polygonOverlay.Polygons.Count);
                     polygonOverlay.Polygons.Add(zonaRegistro);
                     gMapControl1.Refresh();
                 }
+            }
+            else if(e.Button == MouseButtons.Right)
+            {
+                if(polygonOverlay.Polygons.Count > 0)
+                {
+                    PointLatLng clickedPoint = gMapControl1.FromLocalToLatLng((int)e.X, (int)e.Y);
+                    GMapMarker markerTemp = new GMarkerGoogle(clickedPoint, GMarkerGoogleType.black_small);
+                    for (int i = 0; i < polygonOverlay.Polygons.Count; i++)
+                    {
+                        if (checkIncursion(markerTemp, polygonOverlay.Polygons[i]))
+                        {
+                            polygonOverlay.Polygons.RemoveAt(i);
+                            break;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Solo se permiten 4 zonas de registro. Puede eliminar existentes con el botón derecho");
             }
         }
     }

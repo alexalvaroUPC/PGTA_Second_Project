@@ -1,4 +1,8 @@
-﻿namespace PGTA_Second_Project
+﻿using MaterialSkin;
+using MaterialSkin.Controls;
+using System.Windows.Forms;
+
+namespace PGTA_Second_Project
 {
     partial class ExportaciónDatos
     {
@@ -28,18 +32,18 @@
         /// </summary>
         private void InitializeComponent()
         {
-            button1 = new Button();
-            button2 = new Button();
-            checkBox1 = new CheckBox();
-            checkBox2 = new CheckBox();
-            checkBox3 = new CheckBox();
-            checkBox4 = new CheckBox();
+            button1 = new MaterialRaisedButton();
+            button2 = new MaterialRaisedButton();
+            checkBox1 = new MaterialCheckBox();
+            checkBox2 = new MaterialCheckBox();
+            checkBox3 = new MaterialCheckBox();
+            checkBox4 = new MaterialCheckBox();
             textBox1 = new TextBox();
             textBox2 = new TextBox();
             textBox3 = new TextBox();
             textBox4 = new TextBox();
             message048View = new DataGridView();
-            button3 = new Button();
+            button3 = new MaterialRaisedButton();
             ((System.ComponentModel.ISupportInitialize)message048View).BeginInit();
             SuspendLayout();
             // 

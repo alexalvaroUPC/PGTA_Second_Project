@@ -14,6 +14,8 @@ namespace PGTA_Second_Project
         private double height = 400;
         private float heading = 400;
         public string squawk;
+        public bool[] routeFlag = new bool[5];
+        public bool[] incursionFlag = new bool[4];
         private List<double> latitudes = new List<double>();
         private List<double> longitudes = new List<double>();
         private List<double> altitudes = new List<double>();
@@ -31,6 +33,11 @@ namespace PGTA_Second_Project
         public Aircraft(string squawk)
         {
             this.squawk = squawk;
+            for (int i = 0; i < 4; i++)
+            {
+                this.routeFlag[i] = false;
+                this.incursionFlag[i] = false;
+            }
         }
         public void fillCoordinates(double currentLatitude, double currentLongitude, double currentHeight, float currentHeading, int listIndex)
         {

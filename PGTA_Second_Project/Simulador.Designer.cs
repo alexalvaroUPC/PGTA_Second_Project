@@ -1,4 +1,7 @@
-﻿namespace PGTA_Second_Project
+﻿using MaterialSkin;
+using MaterialSkin.Controls;
+
+namespace PGTA_Second_Project
 {
     partial class Simulador
     {
@@ -29,27 +32,33 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
             gMapControl1 = new GMap.NET.WindowsForms.GMapControl();
             timer1 = new System.Windows.Forms.Timer(components);
-            startButton = new Button();
+            startButton = new MaterialRaisedButton();
             speedChange = new NumericUpDown();
             label1 = new Label();
-            pauseButton = new Button();
-            stepForwardButton = new Button();
-            stepBackButton = new Button();
-            savePDFbutton = new Button();
+            pauseButton = new MaterialRaisedButton();
+            stepForwardButton = new MaterialRaisedButton();
+            stepBackButton = new MaterialRaisedButton();
+            savePDFbutton = new MaterialRaisedButton();
             label2 = new Label();
-            resumeButton = new Button();
+            resumeButton = new MaterialRaisedButton();
             cutoffSelector = new TrackBar();
             routeView = new DataGridView();
             RouteColumn = new DataGridViewTextBoxColumn();
             SquawkColumn = new DataGridViewTextBoxColumn();
             squawkTextBox = new TextBox();
-            addRouteButton = new Button();
+            addRouteButton = new MaterialRaisedButton();
             label3 = new Label();
-            overButton = new RadioButton();
+            overButton = new MaterialRadioButton();
             switchFLmode = new GroupBox();
-            underButton = new RadioButton();
+            underButton = new MaterialRadioButton();
+            label4 = new Label();
             ((System.ComponentModel.ISupportInitialize)speedChange).BeginInit();
             ((System.ComponentModel.ISupportInitialize)cutoffSelector).BeginInit();
             ((System.ComponentModel.ISupportInitialize)routeView).BeginInit();
@@ -62,10 +71,12 @@
             gMapControl1.Bearing = 0F;
             gMapControl1.CanDragMap = true;
             gMapControl1.EmptyTileColor = Color.Navy;
+            gMapControl1.ForeColor = Color.Lime;
             gMapControl1.GrayScaleMode = false;
             gMapControl1.HelperLineOption = GMap.NET.WindowsForms.HelperLineOptions.DontShow;
             gMapControl1.LevelsKeepInMemory = 5;
-            gMapControl1.Location = new Point(105, 288);
+            gMapControl1.Location = new Point(913, 41);
+            gMapControl1.Margin = new Padding(4);
             gMapControl1.MarkersEnabled = true;
             gMapControl1.MaxZoom = 18;
             gMapControl1.MinZoom = 2;
@@ -79,7 +90,7 @@
             gMapControl1.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
             gMapControl1.SelectedAreaFillColor = Color.FromArgb(33, 65, 105, 225);
             gMapControl1.ShowTileGridLines = false;
-            gMapControl1.Size = new Size(2041, 1106);
+            gMapControl1.Size = new Size(2914, 1553);
             gMapControl1.TabIndex = 0;
             gMapControl1.Zoom = 2D;
             gMapControl1.Load += gMapControl1_Load;
@@ -92,17 +103,27 @@
             // 
             // startButton
             // 
-            startButton.Location = new Point(71, 42);
+            startButton.BackColor = Color.White;
+            startButton.Depth = 0;
+            startButton.ForeColor = Color.Lime;
+            startButton.Location = new Point(68, 24);
+            startButton.Margin = new Padding(4);
+            startButton.MouseState = MouseState.HOVER;
             startButton.Name = "startButton";
-            startButton.Size = new Size(155, 58);
+            startButton.Primary = true;
+            startButton.Size = new Size(173, 78);
             startButton.TabIndex = 1;
             startButton.Text = "(Re)Start";
-            startButton.UseVisualStyleBackColor = true;
+            startButton.UseVisualStyleBackColor = false;
             startButton.Click += button1_Click;
             // 
             // speedChange
             // 
-            speedChange.Location = new Point(587, 54);
+            speedChange.BackColor = Color.Black;
+            speedChange.BorderStyle = BorderStyle.FixedSingle;
+            speedChange.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            speedChange.ForeColor = Color.Lime;
+            speedChange.Location = new Point(82, 146);
             speedChange.Maximum = new decimal(new int[] { 50, 0, 0, 0 });
             speedChange.Minimum = new decimal(new int[] { 1, 0, 0, 65536 });
             speedChange.Name = "speedChange";
@@ -114,94 +135,171 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(670, 56);
+            label1.BackColor = Color.Black;
+            label1.Font = new Font("Segoe UI", 11.1428576F, FontStyle.Bold);
+            label1.ForeColor = Color.Lime;
+            label1.Location = new Point(189, 143);
+            label1.Margin = new Padding(4, 0, 4, 0);
             label1.Name = "label1";
-            label1.Size = new Size(172, 30);
+            label1.Size = new Size(239, 37);
             label1.TabIndex = 3;
             label1.Text = "Simulation speed";
             // 
             // pauseButton
             // 
-            pauseButton.Location = new Point(246, 42);
+            pauseButton.BackColor = Color.White;
+            pauseButton.Depth = 0;
+            pauseButton.ForeColor = Color.Lime;
+            pauseButton.Location = new Point(259, 24);
+            pauseButton.Margin = new Padding(4);
+            pauseButton.MouseState = MouseState.HOVER;
             pauseButton.Name = "pauseButton";
-            pauseButton.Size = new Size(160, 58);
+            pauseButton.Primary = true;
+            pauseButton.Size = new Size(132, 78);
             pauseButton.TabIndex = 4;
             pauseButton.Text = "Pause";
-            pauseButton.UseVisualStyleBackColor = true;
+            pauseButton.UseVisualStyleBackColor = false;
             pauseButton.Click += button2_Click;
             // 
             // stepForwardButton
             // 
-            stepForwardButton.Location = new Point(246, 123);
+            stepForwardButton.BackColor = Color.White;
+            stepForwardButton.Depth = 0;
+            stepForwardButton.ForeColor = Color.Lime;
+            stepForwardButton.Location = new Point(487, 210);
+            stepForwardButton.Margin = new Padding(4);
+            stepForwardButton.MouseState = MouseState.HOVER;
             stepForwardButton.Name = "stepForwardButton";
-            stepForwardButton.Size = new Size(160, 51);
+            stepForwardButton.Primary = true;
+            stepForwardButton.Size = new Size(132, 78);
             stepForwardButton.TabIndex = 5;
             stepForwardButton.Text = "Step forward";
-            stepForwardButton.UseVisualStyleBackColor = true;
+            stepForwardButton.UseVisualStyleBackColor = false;
             stepForwardButton.Click += button3_Click;
             // 
             // stepBackButton
             // 
-            stepBackButton.Location = new Point(412, 123);
+            stepBackButton.BackColor = Color.White;
+            stepBackButton.Depth = 0;
+            stepBackButton.ForeColor = Color.Lime;
+            stepBackButton.Location = new Point(627, 210);
+            stepBackButton.Margin = new Padding(4);
+            stepBackButton.MouseState = MouseState.HOVER;
             stepBackButton.Name = "stepBackButton";
-            stepBackButton.Size = new Size(141, 51);
+            stepBackButton.Primary = true;
+            stepBackButton.Size = new Size(132, 78);
             stepBackButton.TabIndex = 6;
             stepBackButton.Text = "Step back";
-            stepBackButton.UseVisualStyleBackColor = true;
+            stepBackButton.UseVisualStyleBackColor = false;
             stepBackButton.Click += button4_Click;
             // 
             // savePDFbutton
             // 
-            savePDFbutton.Location = new Point(332, 209);
+            savePDFbutton.BackColor = Color.Lime;
+            savePDFbutton.Depth = 0;
+            savePDFbutton.ForeColor = Color.Lime;
+            savePDFbutton.Location = new Point(573, 24);
+            savePDFbutton.Margin = new Padding(4);
+            savePDFbutton.MouseState = MouseState.HOVER;
             savePDFbutton.Name = "savePDFbutton";
-            savePDFbutton.Size = new Size(221, 45);
+            savePDFbutton.Primary = true;
+            savePDFbutton.Size = new Size(195, 78);
             savePDFbutton.TabIndex = 7;
             savePDFbutton.Text = "Guardar instantánea";
-            savePDFbutton.UseVisualStyleBackColor = true;
+            savePDFbutton.UseVisualStyleBackColor = false;
             savePDFbutton.Click += button5_Click;
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(71, 133);
+            label2.BackColor = Color.Black;
+            label2.Font = new Font("Segoe UI", 11.1428576F, FontStyle.Bold);
+            label2.ForeColor = Color.Lime;
+            label2.Location = new Point(520, 143);
+            label2.Margin = new Padding(4, 0, 4, 0);
             label2.Name = "label2";
-            label2.Size = new Size(177, 30);
+            label2.Size = new Size(248, 37);
             label2.TabIndex = 8;
             label2.Text = "Time of day (UTC)";
             // 
             // resumeButton
             // 
-            resumeButton.Location = new Point(412, 42);
+            resumeButton.BackColor = Color.White;
+            resumeButton.Depth = 0;
+            resumeButton.ForeColor = Color.Lime;
+            resumeButton.Location = new Point(399, 24);
+            resumeButton.Margin = new Padding(4);
+            resumeButton.MouseState = MouseState.HOVER;
             resumeButton.Name = "resumeButton";
-            resumeButton.Size = new Size(141, 58);
+            resumeButton.Primary = true;
+            resumeButton.Size = new Size(132, 78);
             resumeButton.TabIndex = 9;
             resumeButton.Text = "Resume";
-            resumeButton.UseVisualStyleBackColor = true;
+            resumeButton.UseVisualStyleBackColor = false;
             resumeButton.Click += button6_Click;
             // 
             // cutoffSelector
             // 
-            cutoffSelector.Location = new Point(2270, 350);
-            cutoffSelector.Maximum = 400;
+            cutoffSelector.BackColor = Color.Black;
+            cutoffSelector.Location = new Point(68, 292);
+            cutoffSelector.Margin = new Padding(4);
+            cutoffSelector.Maximum = 500;
             cutoffSelector.Name = "cutoffSelector";
             cutoffSelector.Orientation = Orientation.Vertical;
-            cutoffSelector.Size = new Size(80, 662);
+            cutoffSelector.Size = new Size(80, 794);
             cutoffSelector.TabIndex = 10;
             cutoffSelector.TickFrequency = 10;
-            cutoffSelector.Value = 400;
+            cutoffSelector.Value = 500;
             cutoffSelector.Scroll += cutoffSelector_Scroll;
             // 
             // routeView
             // 
+            dataGridViewCellStyle1.BackColor = Color.Black;
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 11.1428576F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle1.ForeColor = Color.Lime;
+            routeView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             routeView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            routeView.BackgroundColor = Color.Black;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = Color.Black;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 11.1428576F, FontStyle.Bold);
+            dataGridViewCellStyle2.ForeColor = Color.Lime;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+            routeView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             routeView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             routeView.Columns.AddRange(new DataGridViewColumn[] { RouteColumn, SquawkColumn });
-            routeView.Location = new Point(2627, 580);
-            routeView.MaximumSize = new Size(450, 1000);
-            routeView.MinimumSize = new Size(450, 100);
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = Color.Black;
+            dataGridViewCellStyle3.Font = new Font("Segoe UI", 11.1428576F, FontStyle.Bold);
+            dataGridViewCellStyle3.ForeColor = Color.Lime;
+            dataGridViewCellStyle3.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
+            routeView.DefaultCellStyle = dataGridViewCellStyle3;
+            routeView.GridColor = Color.Lime;
+            routeView.Location = new Point(453, 523);
+            routeView.Margin = new Padding(4);
+            routeView.MaximumSize = new Size(400, 1200);
+            routeView.MinimumSize = new Size(400, 120);
             routeView.Name = "routeView";
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = Color.Black;
+            dataGridViewCellStyle4.Font = new Font("Segoe UI", 11.1428576F, FontStyle.Bold);
+            dataGridViewCellStyle4.ForeColor = Color.Lime;
+            dataGridViewCellStyle4.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.True;
+            routeView.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
             routeView.RowHeadersWidth = 72;
-            routeView.Size = new Size(450, 661);
+            dataGridViewCellStyle5.BackColor = Color.Black;
+            dataGridViewCellStyle5.Font = new Font("Segoe UI", 11.1428576F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle5.ForeColor = Color.Lime;
+            routeView.RowsDefaultCellStyle = dataGridViewCellStyle5;
+            routeView.RowTemplate.DefaultCellStyle.BackColor = Color.Black;
+            routeView.RowTemplate.DefaultCellStyle.ForeColor = Color.Lime;
+            routeView.Size = new Size(400, 982);
             routeView.TabIndex = 11;
             routeView.CellClick += routeView_CellClick;
             // 
@@ -223,37 +321,58 @@
             // 
             // squawkTextBox
             // 
-            squawkTextBox.Location = new Point(2627, 470);
+            squawkTextBox.BackColor = Color.Lime;
+            squawkTextBox.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            squawkTextBox.ForeColor = Color.Black;
+            squawkTextBox.Location = new Point(487, 465);
+            squawkTextBox.Margin = new Padding(4);
             squawkTextBox.Name = "squawkTextBox";
-            squawkTextBox.Size = new Size(261, 35);
+            squawkTextBox.Size = new Size(148, 35);
             squawkTextBox.TabIndex = 12;
             squawkTextBox.Text = "Type squawk";
             // 
             // addRouteButton
             // 
-            addRouteButton.Location = new Point(2910, 469);
+            addRouteButton.BackColor = Color.White;
+            addRouteButton.Depth = 0;
+            addRouteButton.ForeColor = Color.Lime;
+            addRouteButton.Location = new Point(660, 447);
+            addRouteButton.Margin = new Padding(4);
+            addRouteButton.MouseState = MouseState.HOVER;
             addRouteButton.Name = "addRouteButton";
-            addRouteButton.Size = new Size(163, 39);
+            addRouteButton.Primary = true;
+            addRouteButton.Size = new Size(176, 68);
             addRouteButton.TabIndex = 13;
             addRouteButton.Text = "Add to routes";
-            addRouteButton.UseVisualStyleBackColor = true;
+            addRouteButton.UseVisualStyleBackColor = false;
             addRouteButton.Click += addRouteButton_Click;
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(2245, 1075);
+            label3.BackColor = Color.Black;
+            label3.Font = new Font("Segoe UI", 11.1428576F, FontStyle.Bold);
+            label3.ForeColor = Color.Lime;
+            label3.Location = new Point(36, 210);
+            label3.Margin = new Padding(4, 0, 4, 0);
             label3.Name = "label3";
-            label3.Size = new Size(105, 30);
+            label3.Size = new Size(205, 37);
             label3.TabIndex = 14;
-            label3.Text = "Cut-off FL";
+            label3.Text = "Cut-off FL: 500";
             // 
             // overButton
             // 
             overButton.AutoSize = true;
-            overButton.Location = new Point(39, 48);
+            overButton.Depth = 0;
+            overButton.Font = new Font("Roboto", 10F);
+            overButton.ForeColor = Color.Lime;
+            overButton.Location = new Point(52, 58);
+            overButton.Margin = new Padding(0);
+            overButton.MouseLocation = new Point(-1, -1);
+            overButton.MouseState = MouseState.HOVER;
             overButton.Name = "overButton";
-            overButton.Size = new Size(117, 34);
+            overButton.Ripple = true;
+            overButton.Size = new Size(125, 30);
             overButton.TabIndex = 15;
             overButton.Text = "See over";
             overButton.UseVisualStyleBackColor = true;
@@ -261,11 +380,16 @@
             // 
             // switchFLmode
             // 
+            switchFLmode.BackColor = Color.Black;
             switchFLmode.Controls.Add(underButton);
             switchFLmode.Controls.Add(overButton);
-            switchFLmode.Location = new Point(2245, 1144);
+            switchFLmode.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            switchFLmode.ForeColor = Color.Lime;
+            switchFLmode.Location = new Point(156, 292);
+            switchFLmode.Margin = new Padding(4);
             switchFLmode.Name = "switchFLmode";
-            switchFLmode.Size = new Size(350, 175);
+            switchFLmode.Padding = new Padding(4);
+            switchFLmode.Size = new Size(239, 162);
             switchFLmode.TabIndex = 16;
             switchFLmode.TabStop = false;
             switchFLmode.Text = "Select cut-off behavior";
@@ -274,37 +398,62 @@
             // 
             underButton.AutoSize = true;
             underButton.Checked = true;
-            underButton.Location = new Point(39, 100);
+            underButton.Depth = 0;
+            underButton.Font = new Font("Roboto", 10F);
+            underButton.ForeColor = Color.Lime;
+            underButton.Location = new Point(52, 120);
+            underButton.Margin = new Padding(0);
+            underButton.MouseLocation = new Point(-1, -1);
+            underButton.MouseState = MouseState.HOVER;
             underButton.Name = "underButton";
-            underButton.Size = new Size(131, 34);
+            underButton.Ripple = true;
+            underButton.Size = new Size(140, 30);
             underButton.TabIndex = 16;
             underButton.TabStop = true;
             underButton.Text = "See under";
             underButton.UseVisualStyleBackColor = true;
             underButton.CheckedChanged += underButton_CheckedChanged;
             // 
-            // Form3
+            // label4
             // 
-            AutoScaleDimensions = new SizeF(12F, 30F);
+            label4.AutoSize = true;
+            label4.BackColor = Color.Black;
+            label4.Font = new Font("Segoe UI", 8.142858F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label4.ForeColor = Color.Lime;
+            label4.Location = new Point(129, 610);
+            label4.Margin = new Padding(4, 0, 4, 0);
+            label4.Name = "label4";
+            label4.Size = new Size(316, 28);
+            label4.TabIndex = 17;
+            label4.Text = "Clicking on a route will delete it";
+            // 
+            // Simulador
+            // 
+            AutoScaleDimensions = new SizeF(16F, 36F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(3217, 1528);
+            BackColor = Color.Black;
+            ClientSize = new Size(5077, 2340);
+            Controls.Add(label4);
             Controls.Add(switchFLmode);
-            Controls.Add(label3);
+            Controls.Add(resumeButton);
+            Controls.Add(gMapControl1);
+            Controls.Add(cutoffSelector);
+            Controls.Add(startButton);
             Controls.Add(addRouteButton);
+            Controls.Add(speedChange);
+            Controls.Add(label2);
+            Controls.Add(label1);
             Controls.Add(squawkTextBox);
             Controls.Add(routeView);
-            Controls.Add(cutoffSelector);
-            Controls.Add(resumeButton);
-            Controls.Add(label2);
             Controls.Add(savePDFbutton);
-            Controls.Add(stepBackButton);
-            Controls.Add(stepForwardButton);
             Controls.Add(pauseButton);
-            Controls.Add(label1);
-            Controls.Add(speedChange);
-            Controls.Add(startButton);
-            Controls.Add(gMapControl1);
-            Name = "Form3";
+            Controls.Add(label3);
+            Controls.Add(stepForwardButton);
+            Controls.Add(stepBackButton);
+            Font = new Font("Segoe UI", 11.1428576F, FontStyle.Bold);
+            ForeColor = Color.Lime;
+            Margin = new Padding(4);
+            Name = "Simulador";
             Text = "Form3";
             WindowState = FormWindowState.Maximized;
             Load += Form3_Load;
@@ -321,24 +470,25 @@
 
         private GMap.NET.WindowsForms.GMapControl gMapControl1;
         private System.Windows.Forms.Timer timer1;
-        private Button startButton;
         private NumericUpDown speedChange;
-        private Label label1;
-        private Button pauseButton;
-        private Button stepForwardButton;
-        private Button stepBackButton;
-        private Button savePDFbutton;
-        private Label label2;
-        private Button resumeButton;
         private TrackBar cutoffSelector;
         private DataGridView routeView;
         private DataGridViewTextBoxColumn RouteColumn;
         private DataGridViewTextBoxColumn SquawkColumn;
         private TextBox squawkTextBox;
-        private Button addRouteButton;
-        private Label label3;
-        private RadioButton overButton;
         private GroupBox switchFLmode;
-        private RadioButton underButton;
+        private MaterialRaisedButton startButton;
+        private Label label1;
+        private MaterialRaisedButton pauseButton;
+        private MaterialRaisedButton stepForwardButton;
+        private MaterialRaisedButton stepBackButton;
+        private MaterialRaisedButton savePDFbutton;
+        private Label label2;
+        private MaterialRaisedButton resumeButton;
+        private MaterialRaisedButton addRouteButton;
+        private Label label3;
+        private MaterialRadioButton overButton;
+        private MaterialRadioButton underButton;
+        private Label label4;
     }
 }
