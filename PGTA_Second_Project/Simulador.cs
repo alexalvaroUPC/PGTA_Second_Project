@@ -42,7 +42,6 @@ namespace PGTA_Second_Project
         List<List<PointLatLng>> pointLists = new List<List<PointLatLng>>();
         List<GMapMarker> aircraftMarkers = new List<GMapMarker>();
         List<string> incursions = new List<string>();
-        List<Aircraft> insursiveAircrafts = new List<Aircraft>();
         int cutOffFL = 400;
         bool seeOver = false;
         public void setData(List<message048> messages) { this.message048s = messages; }
@@ -365,7 +364,7 @@ namespace PGTA_Second_Project
             fileSaver.ShowDialog();
             Size mapsize = gMapControl1.Size;
             Bitmap mapImage = new Bitmap(mapsize.Width/4, mapsize.Height/4);
-            gMapControl1.DrawToBitmap(mapImage, new Rectangle(0, 0, mapsize.Width / 4, mapsize.Height / 4));
+            gMapControl1.DrawToBitmap(mapImage, new Rectangle(0, 0, mapsize.Width, mapsize.Height));
             //Bitmap scaled = new Bitmap(mapImage, new Size(mapImage.Width / 4, mapImage.Height / 4));
             mapImage.Save("savedMap.png", System.Drawing.Imaging.ImageFormat.Png);
             XImage pdfImageMap = XImage.FromFile("savedMap.png");
@@ -586,7 +585,6 @@ namespace PGTA_Second_Project
             int cleanZoneNumber = zoneNumber + 1;
             string report = "Aircraft with squawk: " + intruder.squawk + " entered highlighted area #"+cleanZoneNumber+" at: " + timeOfDay + " in position: L: " + Math.Round(location.Position.Lat,3).ToString()+"ºN | l: "+Math.Round(location.Position.Lng,3).ToString()+"ºE";
             this.incursions.Add(report);
-            this.insursiveAircrafts.Add(intruder);
         }
 
         private void gMapControl1_MouseClick(object sender, MouseEventArgs e)
