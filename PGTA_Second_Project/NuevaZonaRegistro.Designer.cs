@@ -37,37 +37,41 @@
             // 
             // textBox1
             // 
-            textBox1.Location = new Point(139, 134);
+            textBox1.Location = new Point(81, 67);
+            textBox1.Margin = new Padding(2, 2, 2, 2);
             textBox1.Name = "textBox1";
-            textBox1.Size = new Size(114, 35);
+            textBox1.Size = new Size(68, 23);
             textBox1.TabIndex = 0;
-            textBox1.Text = "Ancho";
+            textBox1.Text = "Width";
             // 
             // textBox2
             // 
-            textBox2.Location = new Point(332, 134);
+            textBox2.Location = new Point(194, 67);
+            textBox2.Margin = new Padding(2, 2, 2, 2);
             textBox2.Name = "textBox2";
-            textBox2.Size = new Size(114, 35);
+            textBox2.Size = new Size(68, 23);
             textBox2.TabIndex = 1;
-            textBox2.Text = "Alto";
+            textBox2.Text = "Height";
             // 
             // button1
             // 
-            button1.Location = new Point(332, 234);
+            button1.Location = new Point(194, 117);
+            button1.Margin = new Padding(2, 2, 2, 2);
             button1.Name = "button1";
-            button1.Size = new Size(155, 51);
+            button1.Size = new Size(90, 26);
             button1.TabIndex = 2;
-            button1.Text = "Aceptar";
+            button1.Text = "Accept";
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
             // 
             // button2
             // 
-            button2.Location = new Point(98, 234);
+            button2.Location = new Point(57, 117);
+            button2.Margin = new Padding(2, 2, 2, 2);
             button2.Name = "button2";
-            button2.Size = new Size(155, 51);
+            button2.Size = new Size(90, 26);
             button2.TabIndex = 3;
-            button2.Text = "Cancelar";
+            button2.Text = "Cancel";
             button2.UseVisualStyleBackColor = true;
             button2.Click += button2_Click;
             // 
@@ -75,23 +79,25 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 8F);
-            label1.Location = new Point(27, 34);
+            label1.Location = new Point(16, 17);
+            label1.Margin = new Padding(2, 0, 2, 0);
             label1.Name = "label1";
-            label1.Size = new Size(540, 25);
+            label1.Size = new Size(312, 13);
             label1.TabIndex = 4;
-            label1.Text = "Introduzca las dimensiones (MN) de la zona de registro a crear";
+            label1.Text = "Introduce the desired dimensions for the register area (NM)";
             // 
-            // Form4
+            // NuevaZonaRegistro
             // 
-            AutoScaleDimensions = new SizeF(12F, 30F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(595, 391);
+            ClientSize = new Size(347, 196);
             Controls.Add(label1);
             Controls.Add(button2);
             Controls.Add(button1);
             Controls.Add(textBox2);
             Controls.Add(textBox1);
-            Name = "Form4";
+            Margin = new Padding(2, 2, 2, 2);
+            Name = "NuevaZonaRegistro";
             Text = "Form4";
             ResumeLayout(false);
             PerformLayout();

@@ -32,11 +32,11 @@ namespace PGTA_Second_Project
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle7 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle9 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle10 = new DataGridViewCellStyle();
             gMapControl1 = new GMap.NET.WindowsForms.GMapControl();
             timer1 = new System.Windows.Forms.Timer(components);
             startButton = new MaterialRaisedButton();
@@ -50,6 +50,8 @@ namespace PGTA_Second_Project
             resumeButton = new MaterialRaisedButton();
             cutoffSelector = new TrackBar();
             routeView = new DataGridView();
+            RouteColumn = new DataGridViewTextBoxColumn();
+            CallsignColumn = new DataGridViewTextBoxColumn();
             callsignTextBox = new TextBox();
             addRouteButton = new MaterialRaisedButton();
             label3 = new Label();
@@ -57,8 +59,6 @@ namespace PGTA_Second_Project
             switchFLmode = new GroupBox();
             underButton = new MaterialRadioButton();
             label4 = new Label();
-            RouteColumn = new DataGridViewTextBoxColumn();
-            CallsignColumn = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)speedChange).BeginInit();
             ((System.ComponentModel.ISupportInitialize)cutoffSelector).BeginInit();
             ((System.ComponentModel.ISupportInitialize)routeView).BeginInit();
@@ -127,7 +127,7 @@ namespace PGTA_Second_Project
             speedChange.Maximum = new decimal(new int[] { 50, 0, 0, 0 });
             speedChange.Minimum = new decimal(new int[] { 1, 0, 0, 65536 });
             speedChange.Name = "speedChange";
-            speedChange.Size = new Size(77, 35);
+            speedChange.Size = new Size(77, 23);
             speedChange.TabIndex = 2;
             speedChange.Value = new decimal(new int[] { 1, 0, 0, 0 });
             speedChange.ValueChanged += numericUpDown1_ValueChanged;
@@ -138,10 +138,10 @@ namespace PGTA_Second_Project
             label1.BackColor = Color.Black;
             label1.Font = new Font("Segoe UI", 11.1428576F, FontStyle.Bold);
             label1.ForeColor = Color.Lime;
-            label1.Location = new Point(189, 143);
+            label1.Location = new Point(171, 149);
             label1.Margin = new Padding(4, 0, 4, 0);
             label1.Name = "label1";
-            label1.Size = new Size(239, 37);
+            label1.Size = new Size(129, 20);
             label1.TabIndex = 3;
             label1.Text = "Simulation speed";
             // 
@@ -205,7 +205,7 @@ namespace PGTA_Second_Project
             savePDFbutton.Primary = true;
             savePDFbutton.Size = new Size(195, 78);
             savePDFbutton.TabIndex = 7;
-            savePDFbutton.Text = "Guardar instantánea";
+            savePDFbutton.Text = "INSTANT SAVE";
             savePDFbutton.UseVisualStyleBackColor = false;
             savePDFbutton.Click += button5_Click;
             // 
@@ -215,10 +215,10 @@ namespace PGTA_Second_Project
             label2.BackColor = Color.Black;
             label2.Font = new Font("Segoe UI", 11.1428576F, FontStyle.Bold);
             label2.ForeColor = Color.Lime;
-            label2.Location = new Point(520, 143);
+            label2.Location = new Point(557, 177);
             label2.Margin = new Padding(4, 0, 4, 0);
             label2.Name = "label2";
-            label2.Size = new Size(248, 37);
+            label2.Size = new Size(136, 20);
             label2.TabIndex = 8;
             label2.Text = "Time of day (UTC)";
             // 
@@ -246,7 +246,7 @@ namespace PGTA_Second_Project
             cutoffSelector.Maximum = 500;
             cutoffSelector.Name = "cutoffSelector";
             cutoffSelector.Orientation = Orientation.Vertical;
-            cutoffSelector.Size = new Size(80, 794);
+            cutoffSelector.Size = new Size(45, 794);
             cutoffSelector.TabIndex = 10;
             cutoffSelector.TickFrequency = 10;
             cutoffSelector.Value = 500;
@@ -254,54 +254,70 @@ namespace PGTA_Second_Project
             // 
             // routeView
             // 
-            dataGridViewCellStyle1.BackColor = Color.Black;
-            dataGridViewCellStyle1.Font = new Font("Segoe UI", 11.1428576F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle1.ForeColor = Color.Lime;
-            routeView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle6.BackColor = Color.Black;
+            dataGridViewCellStyle6.Font = new Font("Segoe UI", 11.1428576F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle6.ForeColor = Color.Lime;
+            routeView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle6;
             routeView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             routeView.BackgroundColor = Color.Black;
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = Color.Black;
-            dataGridViewCellStyle2.Font = new Font("Segoe UI", 11.1428576F, FontStyle.Bold);
-            dataGridViewCellStyle2.ForeColor = Color.Lime;
-            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
-            routeView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle7.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle7.BackColor = Color.Black;
+            dataGridViewCellStyle7.Font = new Font("Segoe UI", 11.1428576F, FontStyle.Bold);
+            dataGridViewCellStyle7.ForeColor = Color.Lime;
+            dataGridViewCellStyle7.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle7.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle7.WrapMode = DataGridViewTriState.True;
+            routeView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
             routeView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             routeView.Columns.AddRange(new DataGridViewColumn[] { RouteColumn, CallsignColumn });
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = Color.Black;
-            dataGridViewCellStyle3.Font = new Font("Segoe UI", 11.1428576F, FontStyle.Bold);
-            dataGridViewCellStyle3.ForeColor = Color.Lime;
-            dataGridViewCellStyle3.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
-            routeView.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle8.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle8.BackColor = Color.Black;
+            dataGridViewCellStyle8.Font = new Font("Segoe UI", 11.1428576F, FontStyle.Bold);
+            dataGridViewCellStyle8.ForeColor = Color.Lime;
+            dataGridViewCellStyle8.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle8.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle8.WrapMode = DataGridViewTriState.False;
+            routeView.DefaultCellStyle = dataGridViewCellStyle8;
             routeView.GridColor = Color.Lime;
             routeView.Location = new Point(453, 523);
             routeView.Margin = new Padding(4);
             routeView.MaximumSize = new Size(500, 1200);
             routeView.MinimumSize = new Size(400, 120);
             routeView.Name = "routeView";
-            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = Color.Black;
-            dataGridViewCellStyle4.Font = new Font("Segoe UI", 11.1428576F, FontStyle.Bold);
-            dataGridViewCellStyle4.ForeColor = Color.Lime;
-            dataGridViewCellStyle4.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.True;
-            routeView.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle9.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle9.BackColor = Color.Black;
+            dataGridViewCellStyle9.Font = new Font("Segoe UI", 11.1428576F, FontStyle.Bold);
+            dataGridViewCellStyle9.ForeColor = Color.Lime;
+            dataGridViewCellStyle9.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle9.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle9.WrapMode = DataGridViewTriState.True;
+            routeView.RowHeadersDefaultCellStyle = dataGridViewCellStyle9;
             routeView.RowHeadersWidth = 72;
-            dataGridViewCellStyle5.BackColor = Color.Black;
-            dataGridViewCellStyle5.Font = new Font("Segoe UI", 11.1428576F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle5.ForeColor = Color.Lime;
-            routeView.RowsDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle10.BackColor = Color.Black;
+            dataGridViewCellStyle10.Font = new Font("Segoe UI", 11.1428576F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle10.ForeColor = Color.Lime;
+            routeView.RowsDefaultCellStyle = dataGridViewCellStyle10;
             routeView.RowTemplate.DefaultCellStyle.BackColor = Color.Black;
             routeView.RowTemplate.DefaultCellStyle.ForeColor = Color.Lime;
             routeView.Size = new Size(432, 982);
             routeView.TabIndex = 11;
             routeView.CellClick += routeView_CellClick;
+            // 
+            // RouteColumn
+            // 
+            RouteColumn.HeaderText = "Route";
+            RouteColumn.MinimumWidth = 9;
+            RouteColumn.Name = "RouteColumn";
+            RouteColumn.ReadOnly = true;
+            RouteColumn.Width = 175;
+            // 
+            // CallsignColumn
+            // 
+            CallsignColumn.HeaderText = "Callsign";
+            CallsignColumn.MinimumWidth = 9;
+            CallsignColumn.Name = "CallsignColumn";
+            CallsignColumn.ReadOnly = true;
+            CallsignColumn.Width = 175;
             // 
             // callsignTextBox
             // 
@@ -311,7 +327,7 @@ namespace PGTA_Second_Project
             callsignTextBox.Location = new Point(487, 465);
             callsignTextBox.Margin = new Padding(4);
             callsignTextBox.Name = "callsignTextBox";
-            callsignTextBox.Size = new Size(148, 35);
+            callsignTextBox.Size = new Size(148, 23);
             callsignTextBox.TabIndex = 12;
             callsignTextBox.Text = "Type squawk";
             // 
@@ -337,10 +353,10 @@ namespace PGTA_Second_Project
             label3.BackColor = Color.Black;
             label3.Font = new Font("Segoe UI", 11.1428576F, FontStyle.Bold);
             label3.ForeColor = Color.Lime;
-            label3.Location = new Point(36, 210);
+            label3.Location = new Point(36, 228);
             label3.Margin = new Padding(4, 0, 4, 0);
             label3.Name = "label3";
-            label3.Size = new Size(205, 37);
+            label3.Size = new Size(114, 20);
             label3.TabIndex = 14;
             label3.Text = "Cut-off FL: 500";
             // 
@@ -356,7 +372,7 @@ namespace PGTA_Second_Project
             overButton.MouseState = MouseState.HOVER;
             overButton.Name = "overButton";
             overButton.Ripple = true;
-            overButton.Size = new Size(125, 30);
+            overButton.Size = new Size(82, 30);
             overButton.TabIndex = 15;
             overButton.Text = "See over";
             overButton.UseVisualStyleBackColor = true;
@@ -391,7 +407,7 @@ namespace PGTA_Second_Project
             underButton.MouseState = MouseState.HOVER;
             underButton.Name = "underButton";
             underButton.Ripple = true;
-            underButton.Size = new Size(140, 30);
+            underButton.Size = new Size(91, 30);
             underButton.TabIndex = 16;
             underButton.TabStop = true;
             underButton.Text = "See under";
@@ -407,32 +423,16 @@ namespace PGTA_Second_Project
             label4.Location = new Point(129, 610);
             label4.Margin = new Padding(4, 0, 4, 0);
             label4.Name = "label4";
-            label4.Size = new Size(316, 28);
+            label4.Size = new Size(171, 13);
             label4.TabIndex = 17;
             label4.Text = "Clicking on a route will delete it";
             // 
-            // RouteColumn
-            // 
-            RouteColumn.HeaderText = "Route";
-            RouteColumn.MinimumWidth = 9;
-            RouteColumn.Name = "RouteColumn";
-            RouteColumn.ReadOnly = true;
-            RouteColumn.Width = 175;
-            // 
-            // CallsignColumn
-            // 
-            CallsignColumn.HeaderText = "Callsign";
-            CallsignColumn.MinimumWidth = 9;
-            CallsignColumn.Name = "CallsignColumn";
-            CallsignColumn.ReadOnly = true;
-            CallsignColumn.Width = 175;
-            // 
             // Simulador
             // 
-            AutoScaleDimensions = new SizeF(16F, 36F);
+            AutoScaleDimensions = new SizeF(9F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Black;
-            ClientSize = new Size(2884, 1764);
+            ClientSize = new Size(2884, 1061);
             Controls.Add(label4);
             Controls.Add(switchFLmode);
             Controls.Add(resumeButton);
