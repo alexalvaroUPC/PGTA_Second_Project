@@ -159,7 +159,7 @@ namespace PGTA_Second_Project
                 this.flightLevel = getFlightLevel(fullMessage[byteCount], fullMessage[byteCount + 1]);
                 byteCount = byteCount + 2;
             }
-            if (arrayFSPEC1[6] == 1) //Radial Plot Characteristics
+            if (arrayFSPEC1[6] == 1) //Radar Plot Characteristics
             {
                 int count = radarPlot(fullMessage[byteCount], fullMessage[byteCount + 1], 
                     fullMessage[byteCount + 2], fullMessage[byteCount + 3], fullMessage[byteCount + 4],
