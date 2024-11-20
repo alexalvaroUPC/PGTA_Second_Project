@@ -37,6 +37,7 @@ namespace PGTA_Second_Project
             DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Simulador));
             gMapControl1 = new GMap.NET.WindowsForms.GMapControl();
             timer1 = new System.Windows.Forms.Timer(components);
             startButton = new MaterialRaisedButton();
@@ -50,6 +51,8 @@ namespace PGTA_Second_Project
             resumeButton = new MaterialRaisedButton();
             cutoffSelector = new TrackBar();
             routeView = new DataGridView();
+            RouteColumn = new DataGridViewTextBoxColumn();
+            CallsignColumn = new DataGridViewTextBoxColumn();
             callsignTextBox = new TextBox();
             addRouteButton = new MaterialRaisedButton();
             label3 = new Label();
@@ -57,8 +60,6 @@ namespace PGTA_Second_Project
             switchFLmode = new GroupBox();
             underButton = new MaterialRadioButton();
             label4 = new Label();
-            RouteColumn = new DataGridViewTextBoxColumn();
-            CallsignColumn = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)speedChange).BeginInit();
             ((System.ComponentModel.ISupportInitialize)cutoffSelector).BeginInit();
             ((System.ComponentModel.ISupportInitialize)routeView).BeginInit();
@@ -75,8 +76,8 @@ namespace PGTA_Second_Project
             gMapControl1.GrayScaleMode = false;
             gMapControl1.HelperLineOption = GMap.NET.WindowsForms.HelperLineOptions.DontShow;
             gMapControl1.LevelsKeepInMemory = 5;
-            gMapControl1.Location = new Point(913, 41);
-            gMapControl1.Margin = new Padding(4);
+            gMapControl1.Location = new Point(796, 38);
+            gMapControl1.Margin = new Padding(4, 4, 10, 10);
             gMapControl1.MarkersEnabled = true;
             gMapControl1.MaxZoom = 18;
             gMapControl1.MinZoom = 2;
@@ -90,7 +91,7 @@ namespace PGTA_Second_Project
             gMapControl1.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
             gMapControl1.SelectedAreaFillColor = Color.FromArgb(33, 65, 105, 225);
             gMapControl1.ShowTileGridLines = false;
-            gMapControl1.Size = new Size(2914, 1553);
+            gMapControl1.Size = new Size(2400, 1500);
             gMapControl1.TabIndex = 0;
             gMapControl1.Zoom = 2D;
             gMapControl1.Load += gMapControl1_Load;
@@ -241,7 +242,7 @@ namespace PGTA_Second_Project
             // cutoffSelector
             // 
             cutoffSelector.BackColor = Color.Black;
-            cutoffSelector.Location = new Point(68, 292);
+            cutoffSelector.Location = new Point(56, 280);
             cutoffSelector.Margin = new Padding(4);
             cutoffSelector.Maximum = 500;
             cutoffSelector.Name = "cutoffSelector";
@@ -279,7 +280,7 @@ namespace PGTA_Second_Project
             dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
             routeView.DefaultCellStyle = dataGridViewCellStyle3;
             routeView.GridColor = Color.Lime;
-            routeView.Location = new Point(453, 523);
+            routeView.Location = new Point(232, 567);
             routeView.Margin = new Padding(4);
             routeView.MaximumSize = new Size(500, 1200);
             routeView.MinimumSize = new Size(400, 120);
@@ -303,12 +304,28 @@ namespace PGTA_Second_Project
             routeView.TabIndex = 11;
             routeView.CellClick += routeView_CellClick;
             // 
+            // RouteColumn
+            // 
+            RouteColumn.HeaderText = "Route";
+            RouteColumn.MinimumWidth = 9;
+            RouteColumn.Name = "RouteColumn";
+            RouteColumn.ReadOnly = true;
+            RouteColumn.Width = 175;
+            // 
+            // CallsignColumn
+            // 
+            CallsignColumn.HeaderText = "Callsign";
+            CallsignColumn.MinimumWidth = 9;
+            CallsignColumn.Name = "CallsignColumn";
+            CallsignColumn.ReadOnly = true;
+            CallsignColumn.Width = 175;
+            // 
             // callsignTextBox
             // 
             callsignTextBox.BackColor = Color.Lime;
             callsignTextBox.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             callsignTextBox.ForeColor = Color.Black;
-            callsignTextBox.Location = new Point(487, 465);
+            callsignTextBox.Location = new Point(280, 480);
             callsignTextBox.Margin = new Padding(4);
             callsignTextBox.Name = "callsignTextBox";
             callsignTextBox.Size = new Size(148, 35);
@@ -320,7 +337,7 @@ namespace PGTA_Second_Project
             addRouteButton.BackColor = Color.White;
             addRouteButton.Depth = 0;
             addRouteButton.ForeColor = Color.Lime;
-            addRouteButton.Location = new Point(660, 447);
+            addRouteButton.Location = new Point(488, 463);
             addRouteButton.Margin = new Padding(4);
             addRouteButton.MouseState = MouseState.HOVER;
             addRouteButton.Name = "addRouteButton";
@@ -369,7 +386,7 @@ namespace PGTA_Second_Project
             switchFLmode.Controls.Add(overButton);
             switchFLmode.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             switchFLmode.ForeColor = Color.Lime;
-            switchFLmode.Location = new Point(156, 292);
+            switchFLmode.Location = new Point(144, 264);
             switchFLmode.Margin = new Padding(4);
             switchFLmode.Name = "switchFLmode";
             switchFLmode.Padding = new Padding(4);
@@ -404,28 +421,12 @@ namespace PGTA_Second_Project
             label4.BackColor = Color.Black;
             label4.Font = new Font("Segoe UI", 8.142858F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label4.ForeColor = Color.Lime;
-            label4.Location = new Point(129, 610);
+            label4.Location = new Point(294, 535);
             label4.Margin = new Padding(4, 0, 4, 0);
             label4.Name = "label4";
             label4.Size = new Size(316, 28);
             label4.TabIndex = 17;
             label4.Text = "Clicking on a route will delete it";
-            // 
-            // RouteColumn
-            // 
-            RouteColumn.HeaderText = "Route";
-            RouteColumn.MinimumWidth = 9;
-            RouteColumn.Name = "RouteColumn";
-            RouteColumn.ReadOnly = true;
-            RouteColumn.Width = 175;
-            // 
-            // CallsignColumn
-            // 
-            CallsignColumn.HeaderText = "Callsign";
-            CallsignColumn.MinimumWidth = 9;
-            CallsignColumn.Name = "CallsignColumn";
-            CallsignColumn.ReadOnly = true;
-            CallsignColumn.Width = 175;
             // 
             // Simulador
             // 
@@ -452,9 +453,10 @@ namespace PGTA_Second_Project
             Controls.Add(stepBackButton);
             Font = new Font("Segoe UI", 11.1428576F, FontStyle.Bold);
             ForeColor = Color.Lime;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(4);
             Name = "Simulador";
-            Text = "Form3";
+            Text = "Simulador";
             WindowState = FormWindowState.Maximized;
             Load += Form3_Load;
             ((System.ComponentModel.ISupportInitialize)speedChange).EndInit();

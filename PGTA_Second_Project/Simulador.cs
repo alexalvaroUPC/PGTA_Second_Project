@@ -44,7 +44,7 @@ namespace PGTA_Second_Project
         List<string> incursions = new List<string>();
         int cutOffFL = 400;
         bool seeOver = false;
-        public void setData(List<message048> messages) { this.message048s = messages; this.sendBack = messages; }
+        public void setData(List<message048> messages) { this.message048s = messages; }
         public Simulador()
         {
             MaterialSkinManager materialSkinManager = MaterialSkinManager.Instance;
@@ -261,13 +261,14 @@ namespace PGTA_Second_Project
                                     routeOverlay.Routes.Add(routeLists[i]);
                                 }
                             
-                                if (this.aircrafts[i].routeFlag[4])
-                                {
-                                    routeLists[i].Stroke = new Pen(Color.Black, 3);
-                                    routeOverlay.Routes.Add(routeLists[i]);
-                                }
+                                
 
                             }
+                        }
+                        if (this.aircrafts[i].routeFlag[4])
+                        {
+                            routeLists[i].Stroke = new Pen(Color.Black, 3);
+                            routeOverlay.Routes.Add(routeLists[i]);
                         }
                         markerOverlay.Markers.Add(aircraftMarkers[i]);
                         //for (int j = 0; j < polygonOverlay.Polygons.Count; j++)
@@ -373,9 +374,14 @@ namespace PGTA_Second_Project
         private void button5_Click(object sender, EventArgs e)
         {
             writePDF();
+            if (desiredcallsigns.Count == 0)
+            {
+                this.sendBack = this.message048s;
+            }
             for (int i = 0; i < desiredcallsigns.Count; i++)
             {
-                this.sendBack.AddRange(message048s.FindAll(item => item.acID == desiredcallsigns[i]));
+                List<message048> wantedMessages = message048s.FindAll(item => item.acID == desiredcallsigns[i]);
+                this.sendBack.AddRange(wantedMessages);
             }
             this.Close();
         }
@@ -513,12 +519,13 @@ namespace PGTA_Second_Project
 
         private void addRouteButton_Click(object sender, EventArgs e)
         {
-            this.desiredcallsigns.Add(callsignTextBox.Text);
+            
             int hitIndex = this.aircrafts.FindIndex(item=>item.callsign == callsignTextBox.Text);
             if (hitIndex != -1)
             {
+                this.desiredcallsigns.Add(callsignTextBox.Text);
                 this.aircrafts[hitIndex].routeFlag[4] = true;
-            int rowId = routeView.Rows.Add();
+                int rowId = routeView.Rows.Add();
 
                 DataGridViewRow row = routeView.Rows[rowId];
 

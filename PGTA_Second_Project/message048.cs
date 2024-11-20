@@ -855,7 +855,7 @@ namespace PGTA_Second_Project
             }
 
             // Set the aircraft ID
-            this.acID = aircraftIDBuilder.ToString();
+            this.acID = aircraftIDBuilder.ToString().TrimEnd();
         }
 
         private char DecodeChar(int value)

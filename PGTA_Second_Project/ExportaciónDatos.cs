@@ -175,7 +175,7 @@ namespace PGTA_Second_Project
                 + "ARC" + delimiter
                 + "AIC" + delimiter
                 + "B1A" + delimiter
-                + "B1B" + delimiter;
+                + "B1B";
 
 
             for (int i = 0; i < dataList.Count; i++)
@@ -268,7 +268,7 @@ namespace PGTA_Second_Project
                     + curMes.ARC + delimiter
                     + curMes.AIC + delimiter
                     + curMes.B1A + delimiter
-                    + curMes.B1B + delimiter;
+                    + curMes.B1B;
                 dataString[i + 1] = line;
             }
 
