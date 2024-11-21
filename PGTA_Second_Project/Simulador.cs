@@ -22,6 +22,8 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using MaterialSkin;
 using System.Security.Cryptography.X509Certificates;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Tab;
+using PdfSharp.UniversalAccessibility.Drawing;
 
 namespace PGTA_Second_Project
 {
@@ -107,7 +109,8 @@ namespace PGTA_Second_Project
 
         private void Form3_Load(object sender, EventArgs e)
         {
-            message048s = message048s.OrderBy(message048s => message048s.timeInSeconds).ToList();
+            this.message048s = this.message048s.OrderBy(message048s => message048s.timeInSeconds).ToList();
+            this.sendBack.AddRange(this.message048s);
             this.firstClock = message048s[0].timeInSeconds;
             this.lastClock = message048s.Last().timeInSeconds;
             double currentLat;
@@ -169,15 +172,12 @@ namespace PGTA_Second_Project
                 marker.ToolTip.Font = new Font("Aptos", 8);
                 marker.ToolTip.Fill = new SolidBrush(Color.Transparent);
                 marker.ToolTip.Foreground = new SolidBrush(Color.Black);
-                //aircraftMarkers[i].Position = new PointLatLng(initialLat, initialLon);
                 this.pointLists.Add(new List<PointLatLng>());
                 GMapRoute newRoute = new GMapRoute(pointLists[i], aircrafts[i].callsign);
                 routeLists.Add(newRoute);
                 aircraftMarkers.Add(marker);
 
             }
-            //GMapOverlay markers = new GMapOverlay("markers");
-
 
         }
 
@@ -220,9 +220,7 @@ namespace PGTA_Second_Project
                 {
                     if ((this.seeOver && FL > this.cutOffFL) || (!this.seeOver && FL < this.cutOffFL))
                     {
-                        //pointLists[i].Add(new PointLatLng(X, Y));
                         PointLatLng currentMove = new PointLatLng(X, Y);
-                        //routeLists[i] = new GMapRoute(pointLists[i], aircrafts[i].callsign);
                         aircraftMarkers[i] = new GMarkerGoogle(currentMove, RotateImage(markerIcon, movingAC.getHeading()));
                         aircraftMarkers[i].Offset = new Point(-13, -13);
                         aircraftMarkers[i].ToolTipMode = MarkerTooltipMode.OnMouseOver;
@@ -242,27 +240,21 @@ namespace PGTA_Second_Project
                                     {
                                         logIncursion(movingAC, ToDay, aircraftMarkers[i], k);
                                         movingAC.routeFlag[k] = true;
+                                        movingAC.incursionFlag[k] = true;
                                         this.desiredcallsigns.Add(movingAC.callsign);
                                         int rowId = routeView.Rows.Add();
 
-                                        // Grab the new row!
                                         DataGridViewRow row = routeView.Rows[rowId];
-
-                                        // Add the data
                                         row.Cells["RouteColumn"].Value = (rowId+1).ToString();
                                         row.Cells["callsignColumn"].Value = this.aircrafts[i].callsign;
-                                        movingAC.incursionFlag[k] = true;
+                                        
                                     }
                                 }
                                 if (movingAC.routeFlag[k])
                                 {
-                                    //routeLists[i].Points.Add(currentMove);// = new GMapRoute(pointLists[i], aircrafts[i].callsign);
                                     routeLists[i].Stroke = polygonOverlay.Polygons[k].Stroke;
                                     routeOverlay.Routes.Add(routeLists[i]);
-                                }
-                            
-                                
-
+                                }                                                           
                             }
                         }
                         if (this.aircrafts[i].routeFlag[4])
@@ -271,49 +263,11 @@ namespace PGTA_Second_Project
                             routeOverlay.Routes.Add(routeLists[i]);
                         }
                         markerOverlay.Markers.Add(aircraftMarkers[i]);
-                        //for (int j = 0; j < polygonOverlay.Polygons.Count; j++)
-                        //{
-                        //    if (this.aircrafts[i].routeFlag[j])
-                        //    {
-                        //        routeLists[i].Points.Add(new PointLatLng(X,Y));// = new GMapRoute(pointLists[i], aircrafts[i].callsign);
-                        //        routeLists[i].Stroke = polygonOverlay.Polygons[j].Stroke;
-                        //        routeOverlay.Routes.Add(routeLists[i]);
-                        //    }
-                        //}
-                        //if (this.aircrafts[i].routeFlag[4])
-                        //{
-                        //    routeLists[i].Stroke = new Pen(Color.Black, 3);
-                        //    routeOverlay.Routes.Add(routeLists[i]);
-                        //}
                         this.aircrafts[i] = movingAC;
                     }
                 }
-               
-
             }
-            //routeOverlay.Clear();
-            //markerOverlay.Markers.Clear();
-            //for (int i = 0; i < aircraftMarkers.Count; i++)
-            //{
-            //    if (((this.seeOver && aircrafts[i].getHeight() > this.cutOffFL * 30.48) || (!this.seeOver && aircrafts[i].getHeight() < this.cutOffFL * 30.48)) && aircrafts[i].getLatitude() != 400)
-            //    {
-            //        markerOverlay.Markers.Add(aircraftMarkers[i]);
-            //        for (int j = 0; j < polygonOverlay.Polygons.Count; j++)
-            //        {
-            //            if (this.aircrafts[i].routeFlag[j])
-            //            {
-            //                routeLists[i].Points.Add(new PointLatLng(this.aircrafts[i].getLatitude(), this.aircrafts[i].getLongitude()));// = new GMapRoute(pointLists[i], aircrafts[i].callsign);
-            //                routeLists[i].Stroke =polygonOverlay.Polygons[j].Stroke;
-            //                routeOverlay.Routes.Add(routeLists[i]);
-            //            }
-            //        }
-            //        if (this.aircrafts[i].routeFlag[4])
-            //        {
-            //            routeLists[i].Stroke = new Pen(Color.Black, 3);
-            //            routeOverlay.Routes.Add(routeLists[i]);
-            //        }
-            //    }
-            //}
+
 
             gMapControl1.Refresh();
         }
@@ -326,47 +280,39 @@ namespace PGTA_Second_Project
         {
             if (j > 1)
             {
+                
                 routeOverlay.Clear();
                 markerOverlay.Markers.Clear();
                 this.j--;
+                string ToDay = TimeSpan.FromSeconds(this.firstClock + j).ToString();
+                label2.Text = ToDay;
                 for (int i = 0; i < this.aircrafts.Count; i++)
                 {
                     this.aircrafts[i].moveACback();
-                    double X = this.aircrafts[i].getLatitude();
-                    double Y = this.aircrafts[i].getLongitude();
-                    if (X != 400 && Y != 400)
+                    Aircraft movingAC = this.aircrafts[i];
+                    double X = movingAC.getLatitude();
+                    double Y = movingAC.getLongitude();
+                    double FL = Convert.ToDouble(movingAC.getFL());
+                    if (X != 400)
                     {
-                        pointLists[i].Add(new PointLatLng(X, Y));
-                        routeLists[i] = new GMapRoute(pointLists[i], aircrafts[i].callsign);
-                        aircraftMarkers[i] = new GMarkerGoogle(new PointLatLng(X, Y), RotateImage(markerIcon, aircrafts[i].getHeading()));
-                        aircraftMarkers[i].ToolTipMode = MarkerTooltipMode.OnMouseOver;
-                        aircraftMarkers[i].ToolTipText = aircrafts[i].callsign;
-                        aircraftMarkers[i].ToolTip.Font = new Font("Aptos", 8);
-                        aircraftMarkers[i].ToolTip.Fill = new SolidBrush(Color.Transparent);
-                        aircraftMarkers[i].ToolTip.Foreground = new SolidBrush(Color.Black);
-                        aircraftMarkers[i].ToolTipText = "callsign: " + aircrafts[i].callsign + "\n" + Convert.ToString((int)aircrafts[i].getHeight()) + " m\n" + Convert.ToString(aircrafts[i].getHeading() + " º");
-
-
-
-                    }
-                    //markers.Markers.Add(aircraftMarkers[i]);
-
-                }
-                label2.Text = TimeSpan.FromSeconds(this.firstClock + j).ToString();
-                //markerOverlay.Markers.Clear();
-                for (int i = 0; i < aircraftMarkers.Count; i++)
-                {
-                    if ((this.seeOver && aircrafts[i].getHeight() > this.cutOffFL * 30.48) || (!this.seeOver && aircrafts[i].getHeight() < this.cutOffFL * 30.48))
-                    {
-                        markerOverlay.Markers.Add(aircraftMarkers[i]);
-                        if (this.aircrafts[i].routeFlag[4])
+                        if ((this.seeOver && FL > this.cutOffFL) || (!this.seeOver && FL < this.cutOffFL))
                         {
-                            routeLists[i].Stroke = new Pen(Color.Red, 3);
-                            routeOverlay.Routes.Add(routeLists[i]);
+                            PointLatLng currentMove = new PointLatLng(X, Y);
+                            aircraftMarkers[i] = new GMarkerGoogle(currentMove, RotateImage(markerIcon, movingAC.getHeading()));
+                            aircraftMarkers[i].Offset = new Point(-13, -13);
+                            aircraftMarkers[i].ToolTipMode = MarkerTooltipMode.OnMouseOver;
+                            aircraftMarkers[i].ToolTipText = movingAC.callsign;
+                            aircraftMarkers[i].ToolTip.Font = new Font("Arial", 8, FontStyle.Bold);
+                            aircraftMarkers[i].ToolTip.Fill = new SolidBrush(Color.Transparent);
+                            aircraftMarkers[i].ToolTip.Foreground = new SolidBrush(Color.Black);
+                            aircraftMarkers[i].ToolTipText = movingAC.callsign + "\n" + "FL: " + movingAC.getFL() + " \n Heading: " + movingAC.getHeading().ToString() + " º";
+                            markerOverlay.Markers.Add(aircraftMarkers[i]);
+                            this.aircrafts[i] = movingAC;
+
                         }
+
                     }
                 }
-
                 gMapControl1.Refresh();
             }
         }
@@ -374,14 +320,14 @@ namespace PGTA_Second_Project
         private void button5_Click(object sender, EventArgs e)
         {
             writePDF();
-            if (desiredcallsigns.Count == 0)
+            if (desiredcallsigns.Count > 0)
             {
-                this.sendBack = this.message048s;
-            }
-            for (int i = 0; i < desiredcallsigns.Count; i++)
-            {
-                List<message048> wantedMessages = message048s.FindAll(item => item.acID == desiredcallsigns[i]);
-                this.sendBack.AddRange(wantedMessages);
+                this.sendBack.Clear();
+                for (int i = 0; i < desiredcallsigns.Count; i++)
+                {
+                    List<message048> wantedMessages = this.message048s.FindAll(item => item.acID == desiredcallsigns[i]);
+                    this.sendBack.AddRange(wantedMessages);
+                }
             }
             this.Close();
         }
@@ -392,35 +338,53 @@ namespace PGTA_Second_Project
         {
             SaveFileDialog fileSaver = new SaveFileDialog();
             fileSaver.Filter = "Archivo PDF (*.pdf) | *.pdf";
-            fileSaver.ShowDialog();
-            Size mapsize = gMapControl1.Size;
-            Bitmap mapImage = new Bitmap(mapsize.Width, mapsize.Height);
-            gMapControl1.DrawToBitmap(mapImage, new Rectangle(0, 0, mapsize.Width, mapsize.Height));
-            //Bitmap scaled = new Bitmap(mapImage, new Size(mapImage.Width / 4, mapImage.Height / 4));
-            mapImage.Save("savedMap.png", System.Drawing.Imaging.ImageFormat.Png);
-            XImage pdfImageMap = XImage.FromFile("savedMap.png");
-            DateTime thisDay = DateTime.UtcNow;
-            int posicionVerticalActual = 80;
-            PdfDocument pdf = new PdfDocument();
-            PdfPage page = pdf.AddPage();
-            XGraphics gfx = XGraphics.FromPdfPage(page);
-            XFont font = new XFont("Arial", 8, XFontStyleEx.Regular);
-            XFont title = new XFont("Arial", 20, XFontStyleEx.Bold);
-            XFont subtitulos = new XFont("Arial", 6, XFontStyleEx.Italic);
-            XPen pen = new XPen(XColor.FromArgb(220, 220, 220), 1.5);
-            gfx.DrawString("HOJA DE REGISTRO AÉREO", title, XBrushes.Red, new XPoint(page.Width / 4, 50));
-            gfx.DrawString("ICAO | No distribuir | Generado (UTC):" + Convert.ToString(thisDay), subtitulos, XBrushes.Black, new XPoint(4, 20));
-            gfx.DrawLine(pen, new XPoint(0, 60), new XPoint(page.Width.Point, 60));
-            XRect ImageLocation = new XRect(page.Width / 16, posicionVerticalActual, page.Width-2*page.Width/16, (page.Width - 3*page.Width / 16)*mapsize.Height/mapsize.Width);
-            gfx.DrawImage(pdfImageMap, ImageLocation);
-            posicionVerticalActual += (int)ImageLocation.Height + 40;
-            for (int i = 0; i < aircrafts.Count; i++)
+            if(fileSaver.ShowDialog() == DialogResult.OK)
             {
-
-                if (aircraftMarkers[i].Position.Lat != 90)
+                Size mapsize = gMapControl1.Size;
+                Bitmap mapImage = new Bitmap(mapsize.Width, mapsize.Height);
+                gMapControl1.DrawToBitmap(mapImage, new Rectangle(0, 0, mapsize.Width, mapsize.Height));
+                MemoryStream imageStream = new MemoryStream();
+                //mapImage.Save("savedMap.png", System.Drawing.Imaging.ImageFormat.Png);
+                mapImage.Save(imageStream, System.Drawing.Imaging.ImageFormat.Png);
+                //XImage pdfImageMap = XImage.From("savedMap.png");
+                XImage pdfImage = XImage.FromStream(imageStream);
+                DateTime thisDay = DateTime.UtcNow;
+                int posicionVerticalActual = 80;
+                PdfDocument pdf = new PdfDocument();
+                PdfPage page = pdf.AddPage();
+                XGraphics gfx = XGraphics.FromPdfPage(page);
+                XFont font = new XFont("Arial", 8, XFontStyleEx.Regular);
+                XFont title = new XFont("Arial", 20, XFontStyleEx.Bold);
+                XFont subtitulos = new XFont("Arial", 6, XFontStyleEx.Italic);
+                XPen pen = new XPen(XColor.FromArgb(220, 220, 220), 1.5);
+                gfx.DrawString("HOJA DE REGISTRO AÉREO", title, XBrushes.Red, new XPoint(page.Width / 4, 50));
+                gfx.DrawString("ICAO | No distribuir | Generado (UTC):" + Convert.ToString(thisDay), subtitulos, XBrushes.Black, new XPoint(4, 20));
+                gfx.DrawLine(pen, new XPoint(0, 60), new XPoint(page.Width.Point, 60));
+                XRect ImageLocation = new XRect(page.Width / 16, posicionVerticalActual, page.Width - 2 * page.Width / 16, (page.Width - 3 * page.Width / 16) * mapsize.Height / mapsize.Width);
+                gfx.DrawImage(pdfImage, ImageLocation);
+                posicionVerticalActual += (int)ImageLocation.Height + 40;
+                for (int i = 0; i < aircrafts.Count; i++)
                 {
-                    XPoint TextLocation = new XPoint(10, posicionVerticalActual);
-                    gfx.DrawString(aircraftMarkers[i].ToolTipText.Replace("\n", " | ") + "L:" + Math.Round(aircraftMarkers[i].Position.Lat, 3).ToString() + "ºN |" + "l:" + Math.Round(aircraftMarkers[i].Position.Lng, 3).ToString() + "ºE", font, XBrushes.Black, TextLocation);
+
+                    if (aircraftMarkers[i].Position.Lat != 90)
+                    {
+                        XPoint TextLocation = new XPoint(10, posicionVerticalActual);
+                        gfx.DrawString(aircraftMarkers[i].ToolTipText.Replace("\n", " | ") + "L:" + Math.Round(aircraftMarkers[i].Position.Lat, 3).ToString() + "ºN |" + "l:" + Math.Round(aircraftMarkers[i].Position.Lng, 3).ToString() + "ºE", font, XBrushes.Black, TextLocation);
+                        posicionVerticalActual += 15;
+                        if (posicionVerticalActual >= page.Height - 40)
+                        {
+                            page = pdf.AddPage();
+                            gfx = XGraphics.FromPdfPage(page);
+                            posicionVerticalActual = 80;
+                        }
+                    }
+
+                }
+                if (this.incursions.Count > 0)
+                {
+                    posicionVerticalActual += 15;
+                    title = new XFont("Arial", 14, XFontStyleEx.BoldItalic);
+                    gfx.DrawString("Incursiones registradas", title, XBrushes.Black, new XPoint(20, posicionVerticalActual));
                     posicionVerticalActual += 15;
                     if (posicionVerticalActual >= page.Height - 40)
                     {
@@ -428,36 +392,26 @@ namespace PGTA_Second_Project
                         gfx = XGraphics.FromPdfPage(page);
                         posicionVerticalActual = 80;
                     }
-                }
-
-            }
-            if (this.incursions.Count > 0)
-            {
-                posicionVerticalActual += 15;
-                title = new XFont("Arial", 14, XFontStyleEx.BoldItalic);
-                gfx.DrawString("Incursiones registradas", title, XBrushes.Black, new XPoint(20, posicionVerticalActual));
-                posicionVerticalActual += 15;
-                if (posicionVerticalActual >= page.Height - 40)
-                {
-                    page = pdf.AddPage();
-                    gfx = XGraphics.FromPdfPage(page);
-                    posicionVerticalActual = 80;
-                }
-                for (int i = 0; i < this.incursions.Count; i++)
-                {
-                    XPoint TextLocation = new XPoint(10, posicionVerticalActual);
-                    gfx.DrawString(this.incursions[i], font, XBrushes.Black, TextLocation);
-                    posicionVerticalActual += 15;
-                    if (posicionVerticalActual >= page.Height - 40)
+                    for (int i = 0; i < this.incursions.Count; i++)
                     {
-                        page = pdf.AddPage();
-                        gfx = XGraphics.FromPdfPage(page);
-                        posicionVerticalActual = 80;
+                        XPoint TextLocation = new XPoint(10, posicionVerticalActual);
+                        gfx.DrawString(this.incursions[i], font, XBrushes.Black, TextLocation);
+                        posicionVerticalActual += 15;
+                        if (posicionVerticalActual >= page.Height - 40)
+                        {
+                            page = pdf.AddPage();
+                            gfx = XGraphics.FromPdfPage(page);
+                            posicionVerticalActual = 80;
+                        }
                     }
                 }
+                pdf.Save(fileSaver.FileName);
+                MessageBox.Show("Guardado con éxito");
+                mapImage.Dispose();
+                imageStream.Close();
+                gfx.Dispose();
             }
-            pdf.Save(fileSaver.FileName);
-            MessageBox.Show("Guardado con éxito");
+            
         }
         private void button6_Click(object sender, EventArgs e)
         {

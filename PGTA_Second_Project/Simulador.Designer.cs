@@ -128,7 +128,7 @@ namespace PGTA_Second_Project
             speedChange.Maximum = new decimal(new int[] { 50, 0, 0, 0 });
             speedChange.Minimum = new decimal(new int[] { 1, 0, 0, 65536 });
             speedChange.Name = "speedChange";
-            speedChange.Size = new Size(77, 35);
+            speedChange.Size = new Size(77, 23);
             speedChange.TabIndex = 2;
             speedChange.Value = new decimal(new int[] { 1, 0, 0, 0 });
             speedChange.ValueChanged += numericUpDown1_ValueChanged;
@@ -142,7 +142,7 @@ namespace PGTA_Second_Project
             label1.Location = new Point(189, 143);
             label1.Margin = new Padding(4, 0, 4, 0);
             label1.Name = "label1";
-            label1.Size = new Size(239, 37);
+            label1.Size = new Size(129, 20);
             label1.TabIndex = 3;
             label1.Text = "Simulation speed";
             // 
@@ -219,7 +219,7 @@ namespace PGTA_Second_Project
             label2.Location = new Point(520, 143);
             label2.Margin = new Padding(4, 0, 4, 0);
             label2.Name = "label2";
-            label2.Size = new Size(248, 37);
+            label2.Size = new Size(136, 20);
             label2.TabIndex = 8;
             label2.Text = "Time of day (UTC)";
             // 
@@ -247,7 +247,7 @@ namespace PGTA_Second_Project
             cutoffSelector.Maximum = 500;
             cutoffSelector.Name = "cutoffSelector";
             cutoffSelector.Orientation = Orientation.Vertical;
-            cutoffSelector.Size = new Size(80, 794);
+            cutoffSelector.Size = new Size(45, 794);
             cutoffSelector.TabIndex = 10;
             cutoffSelector.TickFrequency = 10;
             cutoffSelector.Value = 500;
@@ -259,6 +259,7 @@ namespace PGTA_Second_Project
             dataGridViewCellStyle1.Font = new Font("Segoe UI", 11.1428576F, FontStyle.Regular, GraphicsUnit.Point, 0);
             dataGridViewCellStyle1.ForeColor = Color.Lime;
             routeView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            routeView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             routeView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             routeView.BackgroundColor = Color.Black;
             dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
@@ -283,7 +284,7 @@ namespace PGTA_Second_Project
             routeView.Location = new Point(232, 567);
             routeView.Margin = new Padding(4);
             routeView.MaximumSize = new Size(500, 1200);
-            routeView.MinimumSize = new Size(400, 120);
+            routeView.MinimumSize = new Size(0, 120);
             routeView.Name = "routeView";
             dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle4.BackColor = Color.Black;
@@ -300,7 +301,7 @@ namespace PGTA_Second_Project
             routeView.RowsDefaultCellStyle = dataGridViewCellStyle5;
             routeView.RowTemplate.DefaultCellStyle.BackColor = Color.Black;
             routeView.RowTemplate.DefaultCellStyle.ForeColor = Color.Lime;
-            routeView.Size = new Size(432, 982);
+            routeView.Size = new Size(233, 982);
             routeView.TabIndex = 11;
             routeView.CellClick += routeView_CellClick;
             // 
@@ -310,7 +311,7 @@ namespace PGTA_Second_Project
             RouteColumn.MinimumWidth = 9;
             RouteColumn.Name = "RouteColumn";
             RouteColumn.ReadOnly = true;
-            RouteColumn.Width = 175;
+            RouteColumn.Width = 76;
             // 
             // CallsignColumn
             // 
@@ -318,7 +319,7 @@ namespace PGTA_Second_Project
             CallsignColumn.MinimumWidth = 9;
             CallsignColumn.Name = "CallsignColumn";
             CallsignColumn.ReadOnly = true;
-            CallsignColumn.Width = 175;
+            CallsignColumn.Width = 88;
             // 
             // callsignTextBox
             // 
@@ -328,7 +329,7 @@ namespace PGTA_Second_Project
             callsignTextBox.Location = new Point(280, 480);
             callsignTextBox.Margin = new Padding(4);
             callsignTextBox.Name = "callsignTextBox";
-            callsignTextBox.Size = new Size(148, 35);
+            callsignTextBox.Size = new Size(148, 23);
             callsignTextBox.TabIndex = 12;
             callsignTextBox.Text = "Type squawk";
             // 
@@ -357,7 +358,7 @@ namespace PGTA_Second_Project
             label3.Location = new Point(36, 210);
             label3.Margin = new Padding(4, 0, 4, 0);
             label3.Name = "label3";
-            label3.Size = new Size(205, 37);
+            label3.Size = new Size(114, 20);
             label3.TabIndex = 14;
             label3.Text = "Cut-off FL: 500";
             // 
@@ -373,7 +374,7 @@ namespace PGTA_Second_Project
             overButton.MouseState = MouseState.HOVER;
             overButton.Name = "overButton";
             overButton.Ripple = true;
-            overButton.Size = new Size(125, 30);
+            overButton.Size = new Size(82, 30);
             overButton.TabIndex = 15;
             overButton.Text = "See over";
             overButton.UseVisualStyleBackColor = true;
@@ -408,7 +409,7 @@ namespace PGTA_Second_Project
             underButton.MouseState = MouseState.HOVER;
             underButton.Name = "underButton";
             underButton.Ripple = true;
-            underButton.Size = new Size(140, 30);
+            underButton.Size = new Size(91, 30);
             underButton.TabIndex = 16;
             underButton.TabStop = true;
             underButton.Text = "See under";
@@ -424,16 +425,16 @@ namespace PGTA_Second_Project
             label4.Location = new Point(294, 535);
             label4.Margin = new Padding(4, 0, 4, 0);
             label4.Name = "label4";
-            label4.Size = new Size(316, 28);
+            label4.Size = new Size(171, 13);
             label4.TabIndex = 17;
             label4.Text = "Clicking on a route will delete it";
             // 
             // Simulador
             // 
-            AutoScaleDimensions = new SizeF(16F, 36F);
+            AutoScaleDimensions = new SizeF(9F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Black;
-            ClientSize = new Size(2884, 1764);
+            ClientSize = new Size(2884, 1421);
             Controls.Add(label4);
             Controls.Add(switchFLmode);
             Controls.Add(resumeButton);
