@@ -34,7 +34,7 @@ To set up this project on your local machine, follow these steps:
 In order to install this application as a standalone version:
 1. Download the setup file
 	```bash
-	Find it inside the DecoderASTERIX048 folder with file name: DecoderASTERIX048.msi or setup.exe
+	Find it inside the DecoderASTERIX048 folder with file name: DecoderASTERIX048.msi
 	```
 2. Open the downloaded file
 3. Follow the steps through the installation
