@@ -48,6 +48,7 @@ Once the file is decoded, the display shows the data analysis window, here (filt
 ```
 	a. Export a CSV 
 	b. Display the data to be used in a table
+		i. You can scroll horizontally by holding down alt/ctrl on your keyboard while scrolling your mouse wheel.
 	c. Initialize the simulator using the (filtered) data
 	d. Note that the option of resetting the data to the unfiltered version is always possible
 ```
