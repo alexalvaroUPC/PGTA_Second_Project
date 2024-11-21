@@ -42,7 +42,7 @@ namespace PGTA_Second_Project
             // 
             button1.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
             button1.Location = new Point(343, 204);
-            button1.Margin = new Padding(2, 2, 2, 2);
+            button1.Margin = new Padding(2);
             button1.Name = "button1";
             button1.Size = new Size(146, 22);
             button1.TabIndex = 0;
@@ -55,7 +55,7 @@ namespace PGTA_Second_Project
             checkBox1.AutoSize = true;
             checkBox1.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
             checkBox1.Location = new Point(208, 170);
-            checkBox1.Margin = new Padding(2, 2, 2, 2);
+            checkBox1.Margin = new Padding(2);
             checkBox1.Name = "checkBox1";
             checkBox1.Size = new Size(397, 19);
             checkBox1.TabIndex = 1;
@@ -89,7 +89,7 @@ namespace PGTA_Second_Project
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI", 8.142858F, FontStyle.Italic, GraphicsUnit.Point, 0);
-            label2.Location = new Point(379, 394);
+            label2.Location = new Point(189, 378);
             label2.Margin = new Padding(2, 0, 2, 0);
             label2.Name = "label2";
             label2.Size = new Size(445, 13);
@@ -108,7 +108,7 @@ namespace PGTA_Second_Project
             Controls.Add(checkBox1);
             Controls.Add(button1);
             Icon = (Icon)resources.GetObject("$this.Icon");
-            Margin = new Padding(2, 2, 2, 2);
+            Margin = new Padding(2);
             Name = "Inicio";
             Text = "Selección de archivo";
             ResumeLayout(false);

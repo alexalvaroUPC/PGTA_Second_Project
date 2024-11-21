@@ -186,6 +186,9 @@ namespace PGTA_Second_Project
             // message048View
             // 
             message048View.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            message048View.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+            message048View.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
+            message048View.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
             message048View.Location = new Point(30, 296);
             message048View.Margin = new Padding(4, 3, 4, 3);
             message048View.Name = "message048View";

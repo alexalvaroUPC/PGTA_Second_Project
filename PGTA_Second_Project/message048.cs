@@ -1141,39 +1141,17 @@ namespace PGTA_Second_Project
         private void modeSMBdecoding(List<byte> data)
         {
             int[] octetsJoined = new int[7];
+            this.BDS = string.Empty;
+            this.BDSex = string.Empty;
             for (int i = 0; i < data.Count; i += 8)
             {      
                 for(int j = 0; j < 7; j++)
                 {
                     octetsJoined[j] = data[i + j];
                 }
-                //int octet1 = data[i];
-                //int[] octet1bits = dec2bin(octet1, 8);
-                //int octet2 = data[i + 1];
-                //int[] octet2bits = dec2bin(octet2, 8);
-                //int octet3 = data[i + 2];
-                //int[] octet3bits = dec2bin(octet3, 8);
-                //int octet4 = data[i + 3];
-                //int[] octet4bits = dec2bin(octet4, 8);
-                //int octet5 = data[i + 4];
-                //int[] octet5bits = dec2bin(octet5, 8);
-                //int octet6 = data[i + 5];
-                //int[] octet6bits = dec2bin(octet6, 8);
-                //int octet7 = data[i + 6];
-                //int[] octet7bits = dec2bin(octet7, 8);
+
                 int octet8 = data[i + 7];
-                //int[] BDSdatabits = octet1bits.Concat(octet2bits).Concat(octet3bits)
-                //                              .Concat(octet4bits).Concat(octet5bits)
-                //                              .Concat(octet6bits).Concat(octet7bits)
-                //                              .ToArray();
-                //int BDSdata = (octet1 >> 48) | (octet2 >> 40) | (octet3 >> 32) | (octet4 >> 24) | (octet5 >> 16) | (octet6 >> 8) | octet7;
-                //octetsJoined.Add(octet1);
-                //octetsJoined.Add(octet2);
-                //octetsJoined.Add(octet3);
-                //octetsJoined.Add(octet4);
-                //octetsJoined.Add(octet5);
-                //octetsJoined.Add(octet6);
-                //octetsJoined.Add(octet7);
+
                 int[] BDSdatabits = joinOctetsBds(octetsJoined);
                 int[] octet8bits = dec2bin(octet8, 8);
                 //int[] octet8bds1 = octet8bits.Take(4).ToArray();
@@ -1182,7 +1160,7 @@ namespace PGTA_Second_Project
                 string BDS1 = bin2hexBDS(octet8bds1);
                 string BDS2 = bin2hexBDS(octet8bds2);
                 this.BDS+="BDS: "+ BDS1 + "," + BDS2 + "\n";
-                this.BDS+="BDS: " + BDS1 + "," + BDS2 + "; ";
+                this.BDSex+="BDS: " + BDS1 + "," + BDS2 + " | ";
                 if (BDS1 == "4" && BDS2 == "0")
                 {
                     BDS4_0(BDSdatabits);

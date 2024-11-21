@@ -232,7 +232,7 @@ namespace PGTA_Second_Project
                     + curMes.GHO + delimiter
                     + curMes.SUP + delimiter
                     + curMes.TCC + delimiter
-                    + curMes.BDSex + delimiter
+                    + curMes.BDS + delimiter
                     + curMes.mcp_fcu_Status + delimiter
                     + curMes.mcp_fcu_SelectedAltitude + delimiter
                     + curMes.fms_Status + delimiter
