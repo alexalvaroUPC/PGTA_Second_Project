@@ -41,10 +41,10 @@ namespace PGTA_Second_Project
             // button1
             // 
             button1.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            button1.Location = new Point(588, 408);
-            button1.Margin = new Padding(4);
+            button1.Location = new Point(343, 204);
+            button1.Margin = new Padding(2, 2, 2, 2);
             button1.Name = "button1";
-            button1.Size = new Size(250, 44);
+            button1.Size = new Size(146, 22);
             button1.TabIndex = 0;
             button1.Text = "Seleccionar archivo";
             button1.UseVisualStyleBackColor = true;
@@ -54,9 +54,10 @@ namespace PGTA_Second_Project
             // 
             checkBox1.AutoSize = true;
             checkBox1.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            checkBox1.Location = new Point(357, 341);
+            checkBox1.Location = new Point(208, 170);
+            checkBox1.Margin = new Padding(2, 2, 2, 2);
             checkBox1.Name = "checkBox1";
-            checkBox1.Size = new Size(721, 34);
+            checkBox1.Size = new Size(397, 19);
             checkBox1.TabIndex = 1;
             checkBox1.Text = "Mostrar datos en tabla (ralentizará la operación para archivos pesados)";
             checkBox1.UseVisualStyleBackColor = true;
@@ -65,18 +66,20 @@ namespace PGTA_Second_Project
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI Black", 14.1428576F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(282, 85);
+            label1.Location = new Point(164, 42);
+            label1.Margin = new Padding(2, 0, 2, 0);
             label1.Name = "label1";
-            label1.Size = new Size(919, 45);
+            label1.Size = new Size(530, 25);
             label1.TabIndex = 2;
             label1.Text = "Bienvenido/a al decodificador de ASTERIX Categoría 48";
             // 
             // linkLabel1
             // 
             linkLabel1.AutoSize = true;
-            linkLabel1.Location = new Point(480, 526);
+            linkLabel1.Location = new Point(280, 263);
+            linkLabel1.Margin = new Padding(2, 0, 2, 0);
             linkLabel1.Name = "linkLabel1";
-            linkLabel1.Size = new Size(426, 30);
+            linkLabel1.Size = new Size(244, 15);
             linkLabel1.TabIndex = 3;
             linkLabel1.TabStop = true;
             linkLabel1.Text = "Consultar información, manual de uso y más";
@@ -86,25 +89,26 @@ namespace PGTA_Second_Project
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI", 8.142858F, FontStyle.Italic, GraphicsUnit.Point, 0);
-            label2.Location = new Point(836, 781);
+            label2.Location = new Point(379, 394);
+            label2.Margin = new Padding(2, 0, 2, 0);
             label2.Name = "label2";
-            label2.Size = new Size(490, 28);
+            label2.Size = new Size(445, 13);
             label2.TabIndex = 4;
-            label2.Text = "Álex Álvaro, Santiago Barrios, Aleix Balust. EETAC 2024";
+            label2.Text = "Álvaro Cerón, Pol Mas, Galder Bilbao, Álex Álvaro, Santiago Barrios, Aleix Balust. EETAC 2024";
             // 
             // Inicio
             // 
-            AutoScaleDimensions = new SizeF(12F, 30F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
-            ClientSize = new Size(1431, 833);
+            ClientSize = new Size(835, 416);
             Controls.Add(label2);
             Controls.Add(linkLabel1);
             Controls.Add(label1);
             Controls.Add(checkBox1);
             Controls.Add(button1);
             Icon = (Icon)resources.GetObject("$this.Icon");
-            Margin = new Padding(4);
+            Margin = new Padding(2, 2, 2, 2);
             Name = "Inicio";
             Text = "Selección de archivo";
             ResumeLayout(false);

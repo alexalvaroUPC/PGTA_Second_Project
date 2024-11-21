@@ -43,6 +43,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
         "Release"
         {
@@ -59,6 +67,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
     }
     "Deployable"
@@ -180,7 +196,7 @@
         "ARPHELPLINK" = "8:"
         "Title" = "8:DecoderASTERIX048"
         "Subject" = "8:"
-        "ARPCONTACT" = "8:Alex Álvaro, Santiago Barrios, Aleix Balust"
+        "ARPCONTACT" = "8:Álvaro Cerón, Pol Mas, Galder Bilbao, Alex Álvaro, Santiago Barrios, Aleix Balust"
         "Keywords" = "8:"
         "ARPCOMMENTS" = "8:Decoding for ASTERIX category 048 messages"
         "ARPURLINFOABOUT" = "8:eetac.upc.edu"
