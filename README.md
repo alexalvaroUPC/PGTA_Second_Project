@@ -31,7 +31,7 @@ To set up this project on your local machine, follow these steps:
 
 ## Installation as a standalone application
 
-In order to install sthis application as a standalone version:
+In order to install this application as a standalone version:
 1. Download the setup file
 	```bash
 	Find it inside the DecoderASTERIX048 folder with file name: AST048_Decoder_setup.exe
