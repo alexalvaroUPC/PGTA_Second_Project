@@ -95,7 +95,7 @@ This project was developed as part of the PGTA (Planificación y Gestión del Tr
 
 For more information about ASTERIX and its applications in air traffic management, please refer to the official Eurocontrol documentation.
 
-Citations:
+## Citations:
 [1] https://github.com/alexalvaroUPC/PGTA_Second_Project
-[2] https://www.atenea.upc.edu (PGTA course, coordinate transformations folder, SASSC-TRANSLIB-SRD-98-0154-D.pdf)
-[3] https://en.wikipedia.org/wiki/World_Geodetic_System#WGS84 (user for semi-minor axis, excentricity)
+[2] https://www.atenea.upc.edu (PGTA course, coordinate transformations folder, SASSC-TRANSLIB-SRD-98-0154-D.pdf)(used also for semi-major axis, radar location (geodesic coordinates, terrain elevation and antenna height)
+[3] https://en.wikipedia.org/wiki/World_Geodetic_System#WGS84 (used for semi-minor axis, excentricity)
