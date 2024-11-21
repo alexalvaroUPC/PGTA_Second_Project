@@ -1,4 +1,4 @@
-lo# ASTERIX CAT048 Decoder
+# ASTERIX CAT048 Decoder
 
 This project implements an ASTERIX CAT048 decoder, designed to interpret and process ASTERIX (All Purpose Structured Eurocontrol Surveillance Information Exchange) Category 048 messages.
 
