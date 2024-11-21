@@ -1,4 +1,4 @@
-# ASTERIX CAT048 Decoder
+lo# ASTERIX CAT048 Decoder
 
 This project implements an ASTERIX CAT048 decoder, designed to interpret and process ASTERIX (All Purpose Structured Eurocontrol Surveillance Information Exchange) Category 048 messages.
 
@@ -84,10 +84,6 @@ The transformations to WGS84 geodesic coordinates are based on the ARTAS transfo
 ## Contributing
 
 Contributions to improve the ASTERIX CAT048 decoder are welcome. Please feel free to submit pull requests or open issues to discuss potential enhancements.
-
-## License
-
-[Include license information here, if available]
 
 ## Acknowledgments
 
